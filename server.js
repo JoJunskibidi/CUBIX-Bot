@@ -1,3 +1,4 @@
+```javascript
 const express = require("express");
 
 const app = express();
@@ -11,7 +12,7 @@ app.get("/", (req, res) => {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CUBIX</title>
+    <title>CUBIX CITY</title>
 
     <style>
         * {
@@ -26,7 +27,6 @@ app.get("/", (req, res) => {
             color: white;
             display: flex;
             justify-content: center;
-            align-items: center;
         }
 
         .game {
@@ -39,7 +39,6 @@ app.get("/", (req, res) => {
 
         h1 {
             text-align: center;
-            margin-top: 10px;
         }
 
         .stats {
@@ -48,6 +47,7 @@ app.get("/", (req, res) => {
             padding: 18px;
             margin: 20px 0;
             text-align: center;
+            line-height: 1.8;
         }
 
         .menu {
@@ -56,6 +56,7 @@ app.get("/", (req, res) => {
         }
 
         button {
+            width: 100%;
             border: none;
             border-radius: 12px;
             padding: 17px;
@@ -98,15 +99,10 @@ app.get("/", (req, res) => {
     </div>
 
     <div class="menu">
-
         <button onclick="showJobs()">💼 Jobs</button>
-
         <button onclick="showShop()">🏪 Shop</button>
-
         <button onclick="daily()">🎁 Daily Reward</button>
-
         <button onclick="profile()">👤 Profil</button>
-
     </div>
 
     <div id="content" class="content">
@@ -123,34 +119,26 @@ let xp = 0;
 let level = 1;
 
 function updateStats() {
-
     document.getElementById("coins").textContent = coins;
     document.getElementById("xp").textContent = xp;
     document.getElementById("level").textContent = level;
-
 }
 
 function addXP(amount) {
-
     xp += amount;
 
     if (xp >= 100) {
-
         xp -= 100;
         level++;
 
         alert("🎉 Level Up! Du bist jetzt Level " + level);
-
     }
 
     updateStats();
-
 }
 
 function showJobs() {
-
     document.getElementById("content").innerHTML = `
-
         <h2>💼 Jobs</h2>
 
         <div class="job">
@@ -170,27 +158,19 @@ function showJobs() {
             💰 +100 Coins<br><br>
             <button onclick="work(100, 50)">Arbeiten</button>
         </div>
-
     `;
-
 }
 
 function work(money, experience) {
-
     coins += money;
-
     addXP(experience);
 
     alert("💼 Job erledigt! +" + money + " Coins");
-
     updateStats();
-
 }
 
 function showShop() {
-
     document.getElementById("content").innerHTML = `
-
         <h2>🏪 Shop</h2>
 
         <div class="job">
@@ -204,53 +184,37 @@ function showShop() {
             💰 150 Coins<br><br>
             <button onclick="buy(150, 'Kopfhörer')">Kaufen</button>
         </div>
-
     `;
-
 }
 
 function buy(price, item) {
-
     if (coins < price) {
-
         alert("❌ Du hast nicht genug Coins!");
-
         return;
-
     }
 
     coins -= price;
 
     alert("✅ Du hast " + item + " gekauft!");
-
     updateStats();
-
 }
 
 function daily() {
-
     coins += 100;
-
     addXP(20);
 
     alert("🎁 Daily Reward: +100 Coins!");
-
     updateStats();
-
 }
 
 function profile() {
-
     document.getElementById("content").innerHTML = `
-
         <h2>👤 Dein Profil</h2>
 
         <p>💰 Coins: ${coins}</p>
         <p>⭐ Level: ${level}</p>
         <p>⚡ XP: ${xp} / 100</p>
-
     `;
-
 }
 
 </script>
@@ -260,7 +224,6 @@ function profile() {
     `);
 });
 
-// WhatsApp Webhook
 app.get("/webhook", (req, res) => {
     res.send("Webhook erreichbar!");
 });
@@ -268,5 +231,6 @@ app.get("/webhook", (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log(`CUBIX läuft auf Port ${PORT}`);
+    console.log("CUBIX läuft auf Port " + PORT);
 });
+```
