@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -17,15 +18,14 @@ body {
     min-height: 100vh;
     font-family: Arial, Helvetica, sans-serif;
     background:
-        radial-gradient(circle at top, #263b66 0%, #111827 45%, #080b12 100%);
-    color: white;
+        radial-gradient(circle at top, #3b0a0a 0%, #160505 35%, #050505 80%);
+    color: #fff;
 }
 
 button {
-    border: 0;
-    cursor: pointer;
+    border: none;
     color: white;
-    font-size: 16px;
+    cursor: pointer;
     font-weight: bold;
 }
 
@@ -34,28 +34,30 @@ button {
     max-width: 900px;
     min-height: 100vh;
     margin: auto;
-    padding: 20px;
+    padding: 18px;
 }
 
 .header {
-    background: rgba(17, 24, 39, .92);
-    border: 1px solid #374151;
+    background: rgba(10, 10, 10, .96);
+    border: 1px solid #571414;
     border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 15px;
+    padding: 22px;
+    margin-bottom: 14px;
+    box-shadow: 0 10px 35px rgba(0,0,0,.45);
 }
 
 .logo {
     text-align: center;
-    font-size: 34px;
+    font-size: 36px;
     font-weight: 900;
-    margin-bottom: 15px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 18px rgba(220, 38, 38, .4);
 }
 
 .subtitle {
     text-align: center;
-    color: #9ca3af;
-    margin-bottom: 20px;
+    color: #999;
+    margin: 8px 0 20px;
 }
 
 .stats {
@@ -65,64 +67,65 @@ button {
 }
 
 .stat {
-    background: #111827;
+    background: #090909;
+    border: 1px solid #351010;
     border-radius: 14px;
     padding: 13px;
     text-align: center;
 }
 
 .stat-title {
+    color: #999;
     font-size: 12px;
-    color: #9ca3af;
 }
 
 .stat-value {
+    margin-top: 5px;
     font-size: 20px;
     font-weight: bold;
-    margin-top: 5px;
 }
 
 .xp-bar {
     height: 8px;
-    background: #374151;
+    margin-top: 8px;
+    background: #2b1111;
     border-radius: 20px;
     overflow: hidden;
-    margin-top: 8px;
 }
 
 .xp-progress {
     height: 100%;
     width: 0%;
-    background: #60a5fa;
+    background: #b91c1c;
     transition: width .3s;
 }
 
 .menu {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 15px;
+    gap: 9px;
+    margin-bottom: 14px;
 }
 
 .menu button {
-    background: #1f2937;
-    border: 1px solid #374151;
-    border-radius: 14px;
-    padding: 15px 10px;
+    padding: 15px 8px;
+    border-radius: 13px;
+    background: #100909;
+    border: 1px solid #4a1212;
     transition: .15s;
 }
 
 .menu button:hover {
+    background: #250b0b;
     transform: translateY(-2px);
-    background: #374151;
 }
 
 .content {
-    background: rgba(17, 24, 39, .95);
-    border: 1px solid #374151;
+    background: rgba(8, 8, 8, .97);
+    border: 1px solid #4a1212;
     border-radius: 20px;
     padding: 22px;
-    min-height: 420px;
+    min-height: 430px;
 }
 
 h2 {
@@ -130,11 +133,11 @@ h2 {
 }
 
 .card {
-    background: #1f2937;
-    border: 1px solid #374151;
+    background: #120909;
+    border: 1px solid #451111;
     border-radius: 15px;
     padding: 18px;
-    margin: 10px 0;
+    margin: 11px 0;
 }
 
 .card h3 {
@@ -144,29 +147,92 @@ h2 {
 .action {
     width: 100%;
     padding: 13px;
-    border-radius: 10px;
-    background: #2563eb;
     margin-top: 10px;
+    border-radius: 10px;
+    background: #991b1b;
 }
 
 .action:hover {
-    background: #1d4ed8;
-}
-
-.green {
-    background: #15803d;
-}
-
-.green:hover {
-    background: #166534;
-}
-
-.red {
     background: #b91c1c;
 }
 
+.green {
+    background: #166534;
+}
+
+.green:hover {
+    background: #15803d;
+}
+
 .gray {
-    background: #4b5563;
+    background: #3f3f46;
+}
+
+.red {
+    background: #7f1d1d;
+}
+
+.home-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.big-card {
+    background: #120909;
+    border: 1px solid #451111;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.big-card button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    background: #2a0d0d;
+}
+
+.inventory {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.item {
+    padding: 16px;
+    background: #120909;
+    border: 1px solid #451111;
+    border-radius: 12px;
+}
+
+.online {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 20px;
+    background: #092b16;
+    color: #6ee7a0;
+    font-weight: bold;
+}
+
+.admin {
+    border: 1px solid #7f1d1d;
+    border-radius: 15px;
+    padding: 5px;
+}
+
+.admin-title {
+    color: #ef4444;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border: 1px solid #571414;
+    background: #080808;
+    color: white;
+    font-size: 16px;
 }
 
 .warning {
@@ -181,69 +247,15 @@ h2 {
     color: #f87171;
 }
 
-.home-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-
-.big-card {
-    padding: 22px;
-    background: #1f2937;
-    border-radius: 15px;
-    border: 1px solid #374151;
-}
-
-.big-card button {
-    margin-top: 10px;
-    width: 100%;
-    padding: 13px;
-    border-radius: 10px;
-    background: #374151;
-}
-
-.inventory {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-}
-
-.item {
-    background: #1f2937;
-    border-radius: 12px;
-    padding: 15px;
-    border: 1px solid #374151;
-}
-
-.admin {
-    border: 1px solid #ef4444;
-}
-
-.admin-title {
-    color: #f87171;
-}
-
-input {
-    width: 100%;
-    padding: 13px;
-    border-radius: 10px;
-    border: 1px solid #4b5563;
-    background: #111827;
-    color: white;
-    font-size: 16px;
-    margin: 8px 0;
-}
-
-.online {
-    display: inline-block;
-    padding: 7px 12px;
-    border-radius: 20px;
-    background: #14532d;
-    color: #86efac;
-    font-weight: bold;
-}
-
 @media(max-width: 650px) {
+
+    .app {
+        padding: 10px;
+    }
+
+    .logo {
+        font-size: 29px;
+    }
 
     .stats {
         grid-template-columns: 1fr;
@@ -264,6 +276,7 @@ input {
 }
 
 </style>
+
 </head>
 
 <body>
@@ -272,10 +285,10 @@ input {
 
 <div class="header">
 
-    <div class="logo">🎮 CUBIX CITY</div>
+    <div class="logo">🔥 CUBIX CITY</div>
 
     <div class="subtitle">
-        Deine eigene kleine virtuelle Stadt
+        Deine Stadt. Dein Charakter. Dein Fortschritt.
     </div>
 
     <div class="stats">
@@ -291,14 +304,18 @@ input {
         </div>
 
         <div class="stat">
+
             <div class="stat-title">⚡ XP</div>
+
             <div class="stat-value">
-                <span id="xp">0</span> / <span id="xpNeeded">100</span>
+                <span id="xp">0</span> /
+                <span id="xpNeeded">100</span>
             </div>
 
             <div class="xp-bar">
                 <div class="xp-progress" id="xpProgress"></div>
             </div>
+
         </div>
 
     </div>
@@ -323,10 +340,13 @@ input {
 <script>
 
 // =====================================================
-// SPIELDATEN
+// SPIELER
 // =====================================================
 
-let player = JSON.parse(localStorage.getItem("cubixPlayer")) || {
+let player = JSON.parse(
+    localStorage.getItem("cubixPlayer")
+) || {
+
     coins: 250,
     xp: 0,
     level: 1,
@@ -334,9 +354,11 @@ let player = JSON.parse(localStorage.getItem("cubixPlayer")) || {
     lastDaily: null,
     inventory: [],
     jobs: {}
+
 };
 
-let adminPassword = sessionStorage.getItem("cubixAdmin") || null;
+let adminPassword =
+    sessionStorage.getItem("cubixAdmin") || null;
 
 
 // =====================================================
@@ -344,31 +366,14 @@ let adminPassword = sessionStorage.getItem("cubixAdmin") || null;
 // =====================================================
 
 function save() {
-    localStorage.setItem("cubixPlayer", JSON.stringify(player));
+
+    localStorage.setItem(
+        "cubixPlayer",
+        JSON.stringify(player)
+    );
+
     updateStats();
-}
 
-
-// =====================================================
-// STATS
-// =====================================================
-
-function xpNeeded() {
-    return 100 + ((player.level - 1) * 50);
-}
-
-function updateStats() {
-
-    document.getElementById("coins").textContent = player.coins;
-    document.getElementById("level").textContent = player.level;
-    document.getElementById("xp").textContent = player.xp;
-    document.getElementById("xpNeeded").textContent = xpNeeded();
-
-    const percentage =
-        Math.min(100, (player.xp / xpNeeded()) * 100);
-
-    document.getElementById("xpProgress").style.width =
-        percentage + "%";
 }
 
 
@@ -376,25 +381,62 @@ function updateStats() {
 // XP
 // =====================================================
 
+function xpNeeded() {
+
+    return 100 + ((player.level - 1) * 50);
+
+}
+
+function updateStats() {
+
+    document.getElementById("coins").textContent =
+        player.coins;
+
+    document.getElementById("level").textContent =
+        player.level;
+
+    document.getElementById("xp").textContent =
+        player.xp;
+
+    document.getElementById("xpNeeded").textContent =
+        xpNeeded();
+
+    document.getElementById("xpProgress").style.width =
+        Math.min(
+            100,
+            player.xp / xpNeeded() * 100
+        ) + "%";
+
+}
+
 function addXP(amount) {
 
     player.xp += amount;
 
-    let leveledUp = false;
+    let levelUps = 0;
 
     while (player.xp >= xpNeeded()) {
 
         player.xp -= xpNeeded();
         player.level++;
 
-        leveledUp = true;
+        levelUps++;
+
     }
 
-    if (leveledUp) {
-        alert("🎉 LEVEL UP!\n\nDu bist jetzt Level " + player.level + "!");
+    if (levelUps > 0) {
+
+        alert(
+            "🔥 LEVEL UP!\n\n" +
+            "Du bist jetzt Level " +
+            player.level +
+            "!"
+        );
+
     }
 
     save();
+
 }
 
 
@@ -406,46 +448,75 @@ function home() {
 
     document.getElementById("content").innerHTML = `
 
-        <h2>🏠 Willkommen in CUBIX CITY!</h2>
+        <h2>🏠 Willkommen in CUBIX CITY</h2>
 
         <p>
-            Verdiene Coins, sammle XP, kaufe Gegenstände
-            und baue deinen Charakter auf.
+            Verdiene Coins, sammle XP und baue deine
+            Sammlung auf.
         </p>
 
         <div class="home-grid">
 
             <div class="big-card">
-                <h3>💼 Arbeiten</h3>
-                <p>Verdiene Coins durch verschiedene Jobs.</p>
-                <button onclick="jobs()">Jobs öffnen</button>
+
+                <h3>💼 Jobs</h3>
+
+                <p>
+                    Arbeite und verdiene Geld.
+                </p>
+
+                <button onclick="jobs()">
+                    Jobs öffnen
+                </button>
+
             </div>
 
             <div class="big-card">
-                <h3>🎁 Daily Reward</h3>
-                <p>Hole dir jeden Tag deine Belohnung.</p>
-                <button onclick="daily()">Daily öffnen</button>
+
+                <h3>🎁 Daily</h3>
+
+                <p>
+                    Hole dir jeden Tag deine Belohnung.
+                </p>
+
+                <button onclick="daily()">
+                    Daily öffnen
+                </button>
+
             </div>
 
             <div class="big-card">
+
                 <h3>🏪 Shop</h3>
-                <p>Gib deine Coins für Gegenstände aus.</p>
-                <button onclick="shop()">Shop öffnen</button>
+
+                <p>
+                    Kaufe Items für deine Sammlung.
+                </p>
+
+                <button onclick="shop()">
+                    Shop öffnen
+                </button>
+
             </div>
 
             <div class="big-card">
+
                 <h3>👥 CUBIX CITY</h3>
+
                 <p>
                     <span class="online" id="onlineCount">
-                        Online...
+                        🟢 Lade...
                     </span>
                 </p>
+
             </div>
 
         </div>
+
     `;
 
     updateOnline();
+
 }
 
 
@@ -495,8 +566,13 @@ const jobList = [
 
 function jobs() {
 
-    let html = `<h2>💼 Jobs</h2>
-    <p>Jeder Job besitzt einen kleinen Cooldown.</p>`;
+    let html = `
+        <h2>💼 Jobs</h2>
+
+        <p>
+            Je besser der Job, desto länger der Cooldown.
+        </p>
+    `;
 
     jobList.forEach(job => {
 
@@ -504,7 +580,11 @@ function jobs() {
             player.jobs[job.id] || 0;
 
         const remaining =
-            Math.max(0, job.cooldown - (Date.now() - last));
+            Math.max(
+                0,
+                job.cooldown -
+                (Date.now() - last)
+            );
 
         const seconds =
             Math.ceil(remaining / 1000);
@@ -524,34 +604,52 @@ function jobs() {
 
             ${
                 remaining > 0
+
                 ?
+
                 `<button class="action gray" disabled>
                     ⏳ Noch ${seconds} Sekunden
                 </button>`
+
                 :
-                `<button class="action"
+
+                `<button
+                    class="action"
                     onclick="work('${job.id}')">
                     Arbeiten
                 </button>`
             }
 
         </div>
+
         `;
+
     });
 
-    document.getElementById("content").innerHTML = html;
+    document.getElementById("content").innerHTML =
+        html;
+
 }
 
 function work(id) {
 
-    const job = jobList.find(x => x.id === id);
+    const job =
+        jobList.find(x => x.id === id);
 
     if (!job) return;
 
-    const last = player.jobs[id] || 0;
+    const last =
+        player.jobs[id] || 0;
 
-    if (Date.now() - last < job.cooldown) {
-        alert("⏳ Dieser Job ist noch nicht bereit.");
+    if (
+        Date.now() - last <
+        job.cooldown
+    ) {
+
+        alert(
+            "⏳ Dieser Job ist noch nicht bereit."
+        );
+
         return;
     }
 
@@ -572,6 +670,7 @@ function work(id) {
     );
 
     jobs();
+
 }
 
 
@@ -592,24 +691,26 @@ function daily() {
 
             <div class="card">
 
-                <h3>Schon abgeholt! 😴</h3>
+                <h3>😴 Schon abgeholt!</h3>
 
                 <p>
-                    Du hast deine heutige Belohnung
+                    Deine heutige Belohnung hast du
                     bereits eingesammelt.
                 </p>
 
                 <p class="warning">
-                    🔥 Aktuelle Streak: ${player.streak}
+                    🔥 Streak: ${player.streak}
                 </p>
 
             </div>
+
         `;
 
         return;
     }
 
     player.lastDaily = today;
+
     player.streak++;
 
     const reward =
@@ -628,7 +729,7 @@ function daily() {
         <div class="card">
 
             <h3 class="success">
-                🎉 Belohnung abgeholt!
+                🎉 Belohnung erhalten!
             </h3>
 
             <p>
@@ -644,7 +745,9 @@ function daily() {
             </p>
 
         </div>
+
     `;
+
 }
 
 
@@ -657,7 +760,7 @@ const shopItems = [
     {
         name: "🥤 Energy Drink",
         price: 50,
-        description: "Ein kleiner Boost für deinen Charakter."
+        description: "Ein kleiner Boost."
     },
 
     {
@@ -673,15 +776,15 @@ const shopItems = [
     },
 
     {
-        name: "💻 Gaming PC",
-        price: 750,
-        description: "Das ultimative Setup."
+        name: "🚲 Fahrrad",
+        price: 500,
+        description: "Schneller durch die Stadt."
     },
 
     {
-        name: "🚲 Fahrrad",
-        price: 500,
-        description: "Schneller durch CUBIX CITY."
+        name: "💻 Gaming PC",
+        price: 750,
+        description: "Das ultimative Setup."
     },
 
     {
@@ -696,7 +799,7 @@ function shop() {
 
     let html = `
         <h2>🏪 CUBIX Shop</h2>
-        <p>Coins ausgeben und deine Sammlung erweitern.</p>
+        <p>Erweitere deine Sammlung.</p>
     `;
 
     shopItems.forEach((item, index) => {
@@ -710,7 +813,9 @@ function shop() {
             <p>${item.description}</p>
 
             <p>
-                💰 <strong>${item.price} Coins</strong>
+                💰 <strong>
+                    ${item.price} Coins
+                </strong>
             </p>
 
             <button
@@ -720,19 +825,26 @@ function shop() {
             </button>
 
         </div>
+
         `;
+
     });
 
-    document.getElementById("content").innerHTML = html;
+    document.getElementById("content").innerHTML =
+        html;
+
 }
 
 function buy(index) {
 
-    const item = shopItems[index];
+    const item =
+        shopItems[index];
 
     if (player.coins < item.price) {
 
-        alert("❌ Du hast nicht genug Coins.");
+        alert(
+            "❌ Du hast nicht genug Coins."
+        );
 
         return;
     }
@@ -748,12 +860,13 @@ function buy(index) {
     alert(
         "🛍️ Gekauft!\n\n" +
         item.name +
-        "\n\n- " +
+        "\n\n-" +
         item.price +
         " Coins"
     );
 
     shop();
+
 }
 
 
@@ -763,17 +876,24 @@ function buy(index) {
 
 function inventory() {
 
-    if (player.inventory.length === 0) {
+    if (
+        player.inventory.length === 0
+    ) {
 
         document.getElementById("content").innerHTML = `
 
             <h2>🎒 Inventar</h2>
 
             <div class="card">
+
                 Dein Inventar ist noch leer.
+
                 <br><br>
+
                 Besuche den Shop!
+
             </div>
+
         `;
 
         return;
@@ -781,6 +901,7 @@ function inventory() {
 
     let html = `
         <h2>🎒 Dein Inventar</h2>
+
         <div class="inventory">
     `;
 
@@ -791,11 +912,14 @@ function inventory() {
                 ${item}
             </div>
         `;
+
     });
 
     html += `</div>`;
 
-    document.getElementById("content").innerHTML = html;
+    document.getElementById("content").innerHTML =
+        html;
+
 }
 
 
@@ -813,35 +937,41 @@ function profile() {
 
             <h3>📊 Statistiken</h3>
 
-            <p>💰 Coins: ${player.coins}</p>
-
-            <p>⭐ Level: ${player.level}</p>
-
-            <p>⚡ XP: ${player.xp} / ${xpNeeded()}</p>
-
-            <p>🔥 Daily Streak: ${player.streak}</p>
-
-            <p>🎒 Items: ${player.inventory.length}</p>
-
-        </div>
-
-        <div class="card">
-
-            <h3>💡 Fortschritt</h3>
+            <p>
+                💰 Coins:
+                ${player.coins}
+            </p>
 
             <p>
-                Arbeite Jobs, hole deine Daily-Belohnung
-                und sammle XP.
+                ⭐ Level:
+                ${player.level}
+            </p>
+
+            <p>
+                ⚡ XP:
+                ${player.xp} /
+                ${xpNeeded()}
+            </p>
+
+            <p>
+                🔥 Daily Streak:
+                ${player.streak}
+            </p>
+
+            <p>
+                🎒 Items:
+                ${player.inventory.length}
             </p>
 
         </div>
 
     `;
+
 }
 
 
 // =====================================================
-// ONLINE SPIELER
+// ONLINE
 // =====================================================
 
 const playerId =
@@ -863,11 +993,12 @@ async function heartbeat() {
                 method: "POST",
 
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type":
+                        "application/json"
                 },
 
                 body: JSON.stringify({
-                    playerId: playerId
+                    playerId
                 })
 
             });
@@ -876,20 +1007,27 @@ async function heartbeat() {
             await response.json();
 
         const element =
-            document.getElementById("onlineCount");
+            document.getElementById(
+                "onlineCount"
+            );
 
         if (element) {
 
             element.textContent =
-                "🟢 " + data.online + " Spieler online";
+                "🟢 " +
+                data.online +
+                " Spieler online";
 
         }
 
     } catch (error) {
 
-        console.log("Heartbeat nicht verfügbar.");
+        console.log(
+            "Online-System momentan nicht erreichbar."
+        );
 
     }
+
 }
 
 async function updateOnline() {
@@ -903,12 +1041,16 @@ async function updateOnline() {
             await response.json();
 
         const element =
-            document.getElementById("onlineCount");
+            document.getElementById(
+                "onlineCount"
+            );
 
         if (element) {
 
             element.textContent =
-                "🟢 " + data.online + " Spieler online";
+                "🟢 " +
+                data.online +
+                " Spieler online";
 
         }
 
@@ -916,19 +1058,22 @@ async function updateOnline() {
 
 }
 
-setInterval(heartbeat, 30000);
+setInterval(
+    heartbeat,
+    30000
+);
 
 heartbeat();
 
 
 // =====================================================
-// ADMIN
+// ADMIN LOGIN
 // =====================================================
 
 function adminLogin() {
 
     const password =
-        prompt("🔐 Admin-Passwort:");
+        prompt("👑 Admin-Passwort:");
 
     if (!password) return;
 
@@ -937,14 +1082,16 @@ function adminLogin() {
         method: "POST",
 
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type":
+                "application/json"
         },
 
         body: JSON.stringify({
-            password: password
+            password
         })
 
     })
+
     .then(response => {
 
         if (!response.ok) {
@@ -954,11 +1101,13 @@ function adminLogin() {
         return response.json();
 
     })
+
     .then(data => {
 
         if (data.success) {
 
-            adminPassword = password;
+            adminPassword =
+                password;
 
             sessionStorage.setItem(
                 "cubixAdmin",
@@ -970,12 +1119,21 @@ function adminLogin() {
         }
 
     })
+
     .catch(() => {
 
-        alert("❌ Falsches Admin-Passwort.");
+        alert(
+            "❌ Falsches Admin-Passwort."
+        );
 
     });
+
 }
+
+
+// =====================================================
+// ADMIN PANEL
+// =====================================================
 
 async function adminPanel() {
 
@@ -989,19 +1147,24 @@ async function adminPanel() {
     try {
 
         const response =
-            await fetch("/api/admin/stats", {
+            await fetch(
+                "/api/admin/stats",
+                {
 
-                method: "POST",
+                    method: "POST",
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                body: JSON.stringify({
-                    password: adminPassword
-                })
+                    body: JSON.stringify({
+                        password:
+                            adminPassword
+                    })
 
-            });
+                }
+            );
 
         if (!response.ok) {
 
@@ -1019,34 +1182,47 @@ async function adminPanel() {
         const data =
             await response.json();
 
-        document.getElementById("content").innerHTML = `
+        document.getElementById(
+            "content"
+        ).innerHTML = `
 
             <div class="admin">
 
                 <h2 class="admin-title">
-                    👑 CUBIX ADMIN-BEREICH
+                    👑 CUBIX ADMIN
                 </h2>
 
                 <div class="card">
 
-                    <h3>👥 Spieler</h3>
+                    <h3>
+                        👥 Spieler online
+                    </h3>
 
                     <p class="online">
-                        🟢 ${data.onlinePlayers}
-                        Spieler gerade online
+                        🟢
+                        ${data.onlinePlayers}
+                        Spieler online
                     </p>
+
+                    <button
+                        class="action"
+                        onclick="adminPanel()">
+                        🔄 Aktualisieren
+                    </button>
 
                 </div>
 
                 <div class="card">
 
-                    <h3>💰 Coins geben</h3>
+                    <h3>
+                        💰 Coins vergeben
+                    </h3>
 
                     <input
                         id="adminCoins"
                         type="number"
                         min="1"
-                        placeholder="Anzahl Coins"
+                        placeholder="z.B. 10000"
                     >
 
                     <button
@@ -1059,13 +1235,15 @@ async function adminPanel() {
 
                 <div class="card">
 
-                    <h3>⭐ XP geben</h3>
+                    <h3>
+                        ⭐ XP vergeben
+                    </h3>
 
                     <input
                         id="adminXP"
                         type="number"
                         min="1"
-                        placeholder="Anzahl XP"
+                        placeholder="z.B. 500"
                     >
 
                     <button
@@ -1078,36 +1256,54 @@ async function adminPanel() {
 
                 <div class="card">
 
-                    <h3>⚙️ Admin</h3>
+                    <h3>
+                        🔐 Admin
+                    </h3>
 
                     <button
                         class="action red"
                         onclick="adminLogout()">
-                        Admin-Bereich verlassen
+                        Admin verlassen
                     </button>
 
                 </div>
 
             </div>
+
         `;
 
     } catch (error) {
 
-        alert("Admin-Bereich konnte nicht geladen werden.");
+        alert(
+            "Admin-Bereich konnte nicht geladen werden."
+        );
 
     }
+
 }
+
+
+// =====================================================
+// ADMIN COINS
+// =====================================================
 
 function adminGiveCoins() {
 
     const amount =
         Number(
-            document.getElementById("adminCoins").value
+            document.getElementById(
+                "adminCoins"
+            ).value
         );
 
-    if (!amount || amount <= 0) {
+    if (
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ) {
 
-        alert("Bitte eine gültige Zahl eingeben.");
+        alert(
+            "Bitte eine gültige Zahl eingeben."
+        );
 
         return;
     }
@@ -1117,24 +1313,37 @@ function adminGiveCoins() {
     save();
 
     alert(
-        "👑 Admin:\n\n+" +
+        "👑 ADMIN\n\n+" +
         amount +
         " Coins"
     );
 
     adminPanel();
+
 }
+
+
+// =====================================================
+// ADMIN XP
+// =====================================================
 
 function adminGiveXP() {
 
     const amount =
         Number(
-            document.getElementById("adminXP").value
+            document.getElementById(
+                "adminXP"
+            ).value
         );
 
-    if (!amount || amount <= 0) {
+    if (
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ) {
 
-        alert("Bitte eine gültige Zahl eingeben.");
+        alert(
+            "Bitte eine gültige Zahl eingeben."
+        );
 
         return;
     }
@@ -1142,13 +1351,19 @@ function adminGiveXP() {
     addXP(amount);
 
     alert(
-        "👑 Admin:\n\n+" +
+        "👑 ADMIN\n\n+" +
         amount +
         " XP"
     );
 
     adminPanel();
+
 }
+
+
+// =====================================================
+// ADMIN LOGOUT
+// =====================================================
 
 function adminLogout() {
 
@@ -1159,32 +1374,25 @@ function adminLogout() {
     );
 
     home();
+
 }
 
 
 // =====================================================
-// ADMIN BUTTON
+// ADMIN URL
 // =====================================================
 
-// Absichtlich nicht im normalen Menü sichtbar.
-// Nur durch eine spezielle Tastenkombination erreichbar:
-//
-// STRG + SHIFT + A
-//
+if (
+    window.location.pathname === "/admin"
+) {
 
-document.addEventListener("keydown", function(event) {
+    setTimeout(() => {
 
-    if (
-        event.ctrlKey &&
-        event.shiftKey &&
-        event.key.toLowerCase() === "a"
-    ) {
+        adminLogin();
 
-        adminPanel();
+    }, 300);
 
-    }
-
-});
+}
 
 
 // =====================================================
@@ -1193,7 +1401,11 @@ document.addEventListener("keydown", function(event) {
 
 updateStats();
 
-home();
+if (
+    window.location.pathname !== "/admin"
+) {
+    home();
+}
 
 </script>
 
