@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -8,61 +7,130 @@
 <title>CUBIX CITY</title>
 
 <style>
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #111827;
+    background: #0f172a;
     color: white;
+    font-family: Arial, sans-serif;
 }
 
 .game {
-    max-width: 500px;
+    width: 100%;
+    max-width: 600px;
+    min-height: 100vh;
     margin: auto;
     padding: 20px;
+    background: #1e293b;
 }
 
 h1 {
     text-align: center;
+    margin: 10px 0 20px;
 }
 
 .stats {
-    background: #1f2937;
-    padding: 20px;
-    border-radius: 15px;
+    background: #0f172a;
+    padding: 18px;
+    border-radius: 18px;
     text-align: center;
-    line-height: 2;
-    margin-bottom: 20px;
+    line-height: 1.9;
+    margin-bottom: 15px;
+}
+
+.levelbar {
+    height: 10px;
+    background: #334155;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.levelprogress {
+    height: 100%;
+    width: 0%;
+    background: #22c55e;
+}
+
+.menu {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
 button {
-    width: 100%;
-    padding: 16px;
-    margin: 6px 0;
-    border: 0;
-    border-radius: 12px;
-    background: #374151;
+    border: none;
+    border-radius: 13px;
+    padding: 15px;
+    background: #334155;
     color: white;
-    font-size: 17px;
+    font-size: 16px;
     cursor: pointer;
 }
 
 button:hover {
-    background: #4b5563;
+    background: #475569;
+}
+
+.primary {
+    background: #2563eb;
+}
+
+.success {
+    background: #16a34a;
+}
+
+.danger {
+    background: #dc2626;
 }
 
 .content {
-    background: #1f2937;
+    margin-top: 15px;
+    background: #0f172a;
+    border-radius: 18px;
     padding: 20px;
-    border-radius: 15px;
-    margin-top: 20px;
 }
 
-.job {
-    background: #374151;
-    padding: 15px;
-    border-radius: 12px;
+.card {
+    background: #334155;
+    padding: 16px;
+    border-radius: 14px;
     margin: 10px 0;
 }
+
+.small {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.big {
+    font-size: 28px;
+}
+
+.hidden {
+    display: none;
+}
+
+.admin {
+    border: 2px solid #f59e0b;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    margin: 6px 0;
+    border: none;
+    border-radius: 10px;
+}
+
+.quiz-answer {
+    margin-top: 8px;
+}
+
 </style>
 </head>
 
@@ -73,142 +141,1031 @@ button:hover {
 <h1>🎮 CUBIX CITY</h1>
 
 <div class="stats">
-💰 <span id="coins">250</span> Coins<br>
-⭐ Level <span id="level">1</span><br>
-⚡ XP: <span id="xp">0</span> / 100
+
+💰 <b><span id="coins">250</span></b> Coins<br>
+
+⭐ Level <b><span id="level">1</span></b><br>
+
+⚡ <span id="xp">0</span> XP /
+<span id="xpNeeded">100</span>
+
+<div class="levelbar">
+    <div id="levelprogress" class="levelprogress"></div>
 </div>
 
+🔥 Daily-Streak:
+<span id="streak">0</span>
+
+</div>
+
+<div class="menu">
+
 <button onclick="jobs()">💼 Jobs</button>
+
 <button onclick="shop()">🏪 Shop</button>
-<button onclick="daily()">🎁 Daily Reward</button>
+
+<button onclick="daily()">🎁 Daily</button>
+
 <button onclick="profile()">👤 Profil</button>
 
+<button onclick="minigames()">🎮 Minispiele</button>
+
+<button onclick="achievements()">🏆 Erfolge</button>
+
+<button onclick="city()">🗺️ City</button>
+
+<button id="adminButton"
+        class="admin hidden"
+        onclick="adminPanel()">
+👑 Admin
+</button>
+
+</div>
+
 <div id="content" class="content">
-<h2>Willkommen! 👋</h2>
-<p>Wähle eine Aktion.</p>
+
+<h2>Willkommen in CUBIX CITY! 👋</h2>
+
+<p>
+Verdiene Coins, steige Level auf, kaufe Items
+und entdecke die Stadt.
+</p>
+
+<p class="small">
+Dein Fortschritt wird während der laufenden Spielsession
+serverseitig verwaltet.
+</p>
+
 </div>
 
 </div>
 
 <script>
 
-let coins = 250;
-let xp = 0;
-let level = 1;
+let playerId = localStorage.getItem("cubixPlayerId");
 
-function update() {
-    document.getElementById("coins").innerText = coins;
-    document.getElementById("xp").innerText = xp;
-    document.getElementById("level").innerText = level;
+if (!playerId) {
+    playerId = crypto.randomUUID();
+    localStorage.setItem("cubixPlayerId", playerId);
 }
 
-function addXP(amount) {
+let player = null;
 
-    xp += amount;
+function api(url, options = {}) {
 
-    if (xp >= 100) {
-        xp -= 100;
-        level++;
+    options.headers = {
+        "Content-Type": "application/json",
+        ...(options.headers || {})
+    };
 
-        alert("🎉 Level Up! Level " + level);
-    }
-
-    update();
+    return fetch(url, options)
+        .then(r => r.json());
 }
+
+function loadPlayer() {
+
+    api("/api/player", {
+        method: "POST",
+        body: JSON.stringify({
+            id: playerId
+        })
+    }).then(data => {
+
+        player = data.player;
+
+        updateUI();
+
+    });
+}
+
+function updateUI() {
+
+    if (!player) return;
+
+    document.getElementById("coins").textContent =
+        player.coins;
+
+    document.getElementById("level").textContent =
+        player.level;
+
+    document.getElementById("xp").textContent =
+        player.xp;
+
+    const needed = player.level * 100;
+
+    document.getElementById("xpNeeded").textContent =
+        needed;
+
+    document.getElementById("levelprogress").style.width =
+        Math.min((player.xp / needed) * 100, 100) + "%";
+
+    document.getElementById("streak").textContent =
+        player.dailyStreak;
+}
+
+function message(text) {
+
+    alert(text);
+}
+
+function showAchievements(list) {
+
+    if (!list || !list.length) return;
+
+    message(
+        "🏆 Neuer Erfolg!\n\n" +
+        list.join("\n")
+    );
+}
+
+// ======================
+// JOBS
+// ======================
 
 function jobs() {
 
     document.getElementById("content").innerHTML = `
-        <h2>💼 Jobs</h2>
 
-        <div class="job">
-            🧹 Müll sammeln<br>
-            💰 +20 Coins
-            <button onclick="work(20, 10)">Arbeiten</button>
-        </div>
+<h2>💼 Jobs</h2>
 
-        <div class="job">
-            🍕 Pizza liefern<br>
-            💰 +50 Coins
-            <button onclick="work(50, 25)">Arbeiten</button>
-        </div>
+<p class="small">
+Jeder Job besitzt einen Cooldown.
+Je schwieriger der Job, desto höher die Belohnung.
+</p>
 
-        <div class="job">
-            🚕 Taxi fahren<br>
-            💰 +100 Coins
-            <button onclick="work(100, 50)">Arbeiten</button>
-        </div>
-    `;
+<div class="card">
+🧹 <b>Müll sammeln</b><br>
+💰 +20 Coins · ⚡ +10 XP<br>
+<button onclick="work('garbage')">
+Arbeiten
+</button>
+</div>
+
+<div class="card">
+🍕 <b>Pizza liefern</b><br>
+💰 +50 Coins · ⚡ +25 XP<br>
+<button onclick="work('pizza')">
+Arbeiten
+</button>
+</div>
+
+<div class="card">
+🚕 <b>Taxi fahren</b><br>
+💰 +100 Coins · ⚡ +50 XP<br>
+<button onclick="work('taxi')">
+Arbeiten
+</button>
+</div>
+
+<div class="card">
+💻 <b>Programmieren</b><br>
+💰 +200 Coins · ⚡ +90 XP<br>
+<button onclick="work('programmer')">
+Arbeiten
+</button>
+</div>
+
+`;
 }
 
-function work(money, experience) {
+function work(job) {
 
-    coins += money;
+    api("/api/job", {
+        method: "POST",
+        body: JSON.stringify({
+            id: playerId,
+            job
+        })
+    }).then(data => {
 
-    addXP(experience);
+        if (!data.success) {
+            message("⏳ " + data.message);
+            return;
+        }
 
-    alert("💼 Job erledigt! +" + money + " Coins");
+        player = data.player;
 
-    update();
+        updateUI();
+
+        showAchievements(data.achievements);
+
+        message(
+            `💼 Job erledigt!\n\n` +
+            `💰 +${data.coins} Coins\n` +
+            `⚡ +${data.xp} XP`
+        );
+
+    });
 }
+
+// ======================
+// DAILY
+// ======================
+
+function daily() {
+
+    api("/api/daily", {
+        method: "POST",
+        body: JSON.stringify({
+            id: playerId
+        })
+    }).then(data => {
+
+        if (!data.success) {
+            message("🎁 " + data.message);
+            return;
+        }
+
+        player = data.player;
+
+        updateUI();
+
+        showAchievements(data.achievements);
+
+        message(
+            `🎁 Daily Reward!\n\n` +
+            `💰 +${data.reward} Coins\n` +
+            `🔥 Streak: ${player.dailyStreak}`
+        );
+
+    });
+}
+
+// ======================
+// SHOP
+// ======================
 
 function shop() {
 
     document.getElementById("content").innerHTML = `
-        <h2>🏪 Shop</h2>
 
-        <div class="job">
-            🥤 Energy Drink<br>
-            💰 50 Coins
-            <button onclick="buy(50, 'Energy Drink')">Kaufen</button>
-        </div>
+<h2>🏪 CUBIX Shop</h2>
 
-        <div class="job">
-            🎧 Kopfhörer<br>
-            💰 150 Coins
-            <button onclick="buy(150, 'Kopfhörer')">Kaufen</button>
-        </div>
-    `;
+<div class="card">
+🥤 Energy Drink<br>
+<span class="small">50 Coins</span>
+<button onclick="buy('energy')">Kaufen</button>
+</div>
+
+<div class="card">
+🎧 Kopfhörer<br>
+<span class="small">150 Coins</span>
+<button onclick="buy('headphones')">Kaufen</button>
+</div>
+
+<div class="card">
+🛹 Skateboard<br>
+<span class="small">400 Coins</span>
+<button onclick="buy('skateboard')">Kaufen</button>
+</div>
+
+<div class="card">
+📱 Smartphone<br>
+<span class="small">750 Coins</span>
+<button onclick="buy('smartphone')">Kaufen</button>
+</div>
+
+<div class="card">
+💻 Gaming Laptop<br>
+<span class="small">1500 Coins</span>
+<button onclick="buy('laptop')">Kaufen</button>
+</div>
+
+`;
 }
 
-function buy(price, item) {
+function buy(item) {
 
-    if (coins < price) {
-        alert("❌ Nicht genug Coins!");
-        return;
-    }
+    api("/api/shop/buy", {
+        method: "POST",
+        body: JSON.stringify({
+            id: playerId,
+            item
+        })
+    }).then(data => {
 
-    coins -= price;
+        if (!data.success) {
+            message("❌ " + data.message);
+            return;
+        }
 
-    alert("✅ " + item + " gekauft!");
+        player = data.player;
 
-    update();
+        updateUI();
+
+        showAchievements(data.achievements);
+
+        message("✅ " + data.item + " gekauft!");
+
+    });
 }
 
-function daily() {
-
-    coins += 100;
-
-    addXP(20);
-
-    alert("🎁 Daily Reward: +100 Coins!");
-
-    update();
-}
+// ======================
+// PROFIL
+// ======================
 
 function profile() {
 
-    document.getElementById("content").innerHTML = `
-        <h2>👤 Profil</h2>
+    const items =
+        Object.keys(player.inventory).length
+        ? Object.entries(player.inventory)
+            .map(([item, amount]) =>
+                `${item}: ${amount}`
+            ).join("<br>")
+        : "Noch keine Items";
 
-        <p>💰 Coins: ${coins}</p>
-        <p>⭐ Level: ${level}</p>
-        <p>⚡ XP: ${xp} / 100</p>
-    `;
+    document.getElementById("content").innerHTML = `
+
+<h2>👤 Dein Profil</h2>
+
+<div class="card">
+💰 Coins: <b>${player.coins}</b><br>
+⭐ Level: <b>${player.level}</b><br>
+⚡ XP: <b>${player.xp}</b><br>
+🔥 Streak: <b>${player.dailyStreak}</b>
+</div>
+
+<h3>🎒 Inventar</h3>
+
+<div class="card">
+${items}
+</div>
+
+<h3>🏆 Statistiken</h3>
+
+<div class="card">
+🧠 Quiz-Siege: ${player.quizWins}<br>
+🏎️ Rennen gewonnen: ${player.racesWon}<br>
+🃏 Blackjack-Siege: ${player.blackjackWins}<br>
+🎯 Beste Reaktion:
+${player.reactionBest
+    ? player.reactionBest + " ms"
+    : "noch keine"}
+</div>
+
+`;
 }
+
+// ======================
+// ACHIEVEMENTS
+// ======================
+
+function achievements() {
+
+    const names = {
+        first_job: "💼 Erster Arbeitstag",
+        rich: "💰 Sparschwein",
+        level5: "⭐ Level 5",
+        level10: "🌟 Level 10",
+        quiz10: "🧠 Quizmeister",
+        race5: "🏎️ Rennfahrer",
+        collector: "🎒 Sammler"
+    };
+
+    const list = player.achievements.length
+        ? player.achievements
+            .map(a => names[a] || a)
+            .join("<br>")
+        : "Noch keine Erfolge.";
+
+    document.getElementById("content").innerHTML = `
+
+<h2>🏆 Erfolge</h2>
+
+<div class="card">
+${list}
+</div>
+
+`;
+}
+
+// ======================
+// CITY
+// ======================
+
+function city() {
+
+    document.getElementById("content").innerHTML = `
+
+<h2>🗺️ CUBIX CITY</h2>
+
+<div class="card">
+🏢 <b>Downtown</b><br>
+Der geschäftige Mittelpunkt der Stadt.
+</div>
+
+<div class="card">
+🌳 <b>City Park</b><br>
+Ein ruhiger Ort zum Entspannen.
+</div>
+
+<div class="card">
+🏁 <b>Rennstrecke</b><br>
+Hier finden deine Rennen statt.
+</div>
+
+<div class="card">
+🎮 <b>Arcade</b><br>
+Hier findest du die Minispiele.
+</div>
+
+<div class="card">
+🛍️ <b>Shopping District</b><br>
+Hier befindet sich der CUBIX Shop.
+</div>
+
+`;
+}
+
+// ======================
+// MINIGAMES
+// ======================
+
+function minigames() {
+
+    document.getElementById("content").innerHTML = `
+
+<h2>🎮 Minispiele</h2>
+
+<div class="card">
+🧠 <b>CUBIX Quiz</b><br>
+Teste dein Wissen.
+<button onclick="quiz()">Starten</button>
+</div>
+
+<div class="card">
+🎯 <b>Reaktionstest</b><br>
+Wie schnell kannst du reagieren?
+<button onclick="reaction()">Starten</button>
+</div>
+
+<div class="card">
+🃏 <b>Blackjack</b><br>
+Spiele ohne Geldeinsatz.
+<button onclick="blackjack()">Starten</button>
+</div>
+
+<div class="card">
+🏎️ <b>City Race</b><br>
+Fahre um den Sieg.
+<button onclick="race()">Starten</button>
+</div>
+
+`;
+}
+
+// ======================
+// QUIZ
+// ======================
+
+function quiz() {
+
+    api("/api/quiz")
+        .then(data => {
+
+            const q = data.question;
+
+            document.getElementById("content").innerHTML = `
+
+<h2>🧠 Quiz</h2>
+
+<h3>${q.q}</h3>
+
+${q.answers.map((answer, index) => `
+<button
+class="quiz-answer"
+onclick="answerQuiz(${index === q.correct})">
+${answer}
+</button>
+`).join("")}
+
+`;
+        });
+}
+
+function answerQuiz(correct) {
+
+    api("/api/quiz", {
+        method: "POST",
+        body: JSON.stringify({
+            id: playerId,
+            correct
+        })
+    }).then(data => {
+
+        player = data.player;
+
+        updateUI();
+
+        showAchievements(data.achievements);
+
+        if (correct) {
+            message("🧠 Richtig! +30 Coins!");
+        } else {
+            message("❌ Leider falsch!");
+        }
+
+    });
+}
+
+// ======================
+// REAKTION
+// ======================
+
+let reactionStart = null;
+let reactionTimeout = null;
+
+function reaction() {
+
+    document.getElementById("content").innerHTML = `
+
+<h2>🎯 Reaktionstest</h2>
+
+<p>Warte auf den grünen Button!</p>
+
+<button
+id="reactionButton"
+onclick="reactionClick()">
+Warten...
+</button>
+
+`;
+
+    const delay =
+        Math.floor(Math.random() * 3000) + 1500;
+
+    reactionTimeout = setTimeout(() => {
+
+        reactionStart = performance.now();
+
+        const button =
+            document.getElementById("reactionButton");
+
+        button.textContent = "🟢 JETZT!";
+        button.className = "success";
+
+    }, delay);
+}
+
+function reactionClick() {
+
+    if (!reactionStart) {
+
+        clearTimeout(reactionTimeout);
+
+        message("😅 Zu früh!");
+
+        reaction();
+
+        return;
+    }
+
+    const time =
+        Math.round(performance.now() - reactionStart);
+
+    reactionStart = null;
+
+    api("/api/reaction", {
+        method: "POST",
+        body: JSON.stringify({
+            id: playerId,
+            time
+        })
+    }).then(data => {
+
+        player = data.player;
+
+        updateUI();
+
+        message(
+            `🎯 Deine Zeit: ${time} ms\n\n` +
+            (data.newRecord
+                ? "🏆 Neuer persönlicher Rekord!\n+75 Coins"
+                : "Gut gemacht!")
+        );
+
+    });
+}
+
+// ======================
+// BLACKJACK
+// ======================
+
+function blackjack() {
+
+    let cards = [];
+
+    for (let i = 0; i < 2; i++) {
+        cards.push(Math.floor(Math.random() * 10) + 1);
+    }
+
+    let score =
+        cards.reduce((a, b) => a + b, 0);
+
+    document.getElementById("content").innerHTML = `
+
+<h2>🃏 Blackjack</h2>
+
+<div class="card">
+Deine Karten:<br>
+${cards.join(" + ")}
+<br><br>
+Punkte: <b>${score}</b>
+</div>
+
+<button onclick="blackjackHit(${score})">
+🃏 Karte ziehen
+</button>
+
+<button onclick="blackjackStand(${score})">
+✋ Stand
+</button>
+
+<p class="small">
+Keine Einsätze – hier geht es nur um Punkte
+und Belohnungen.
+</p>
+
+`;
+}
+
+function blackjackHit(score) {
+
+    const card =
+        Math.floor(Math.random() * 10) + 1;
+
+    const newScore = score + card;
+
+    if (newScore > 21) {
+
+        message(
+            `💥 ${newScore} Punkte!\nBust!`
+        );
+
+        return;
+    }
+
+    document.getElementById("content").innerHTML = `
+
+<h2>🃏 Blackjack</h2>
+
+<div class="card">
+Neue Karte: ${card}<br>
+Punkte: <b>${newScore}</b>
+</div>
+
+<button onclick="blackjackHit(${newScore})">
+🃏 Noch eine
+</button>
+
+<button onclick="blackjackStand(${newScore})">
+✋ Stand
+</button>
+
+`;
+
+}
+
+function blackjackStand(score) {
+
+    api("/api/blackjack", {
+        method: "POST",
+        body: JSON.stringify({
+            id: playerId,
+            playerScore: score
+        })
+    }).then(data => {
+
+        player = data.player;
+
+        updateUI();
+
+        let text =
+            `🃏 Dealer: ${data.dealerScore}\n\n`;
+
+        if (data.result === "win") {
+            text += "🎉 Du gewinnst! +60 Coins";
+        } else if (data.result === "draw") {
+            text += "🤝 Unentschieden!";
+        } else {
+            text += "😅 Dealer gewinnt.";
+        }
+
+        message(text);
+
+    });
+}
+
+// ======================
+// RACE
+// ======================
+
+function race() {
+
+    message("🏎️ 3... 2... 1... LOS!");
+
+    api("/api/race", {
+        method: "POST",
+        body: JSON.stringify({
+            id: playerId
+        })
+    }).then(data => {
+
+        player = data.player;
+
+        updateUI();
+
+        showAchievements(data.achievements);
+
+        const position =
+            data.position === 1
+                ? "🥇 1. Platz! +150 Coins"
+                : data.position === 2
+                    ? "🥈 2. Platz! +75 Coins"
+                    : "🥉 3. Platz!";
+
+        message(position);
+
+    });
+}
+
+// ======================
+// ADMIN
+// ======================
+
+let adminPassword = null;
+
+function adminPanel() {
+
+    if (!adminPassword) {
+
+        const password =
+            prompt("👑 Admin-Passwort:");
+
+        if (!password) return;
+
+        api("/api/admin/login", {
+            method: "POST",
+            body: JSON.stringify({
+                password
+            })
+        }).then(data => {
+
+            if (!data.success) {
+
+                message("❌ Falsches Passwort.");
+
+                return;
+            }
+
+            adminPassword = password;
+
+            showAdmin();
+
+        });
+
+        return;
+    }
+
+    showAdmin();
+}
+
+function showAdmin() {
+
+    document.getElementById("content").innerHTML = `
+
+<h2>👑 CUBIX ADMIN</h2>
+
+<div class="card">
+<h3>📊 Server</h3>
+
+Aktive Spieler:
+<b id="activePlayers">...</b>
+
+<br>
+
+Gesamtspieler:
+<b id="totalPlayers">...</b>
+
+<br>
+
+Coins im System:
+<b id="totalCoins">...</b>
+
+<br>
+
+XP im System:
+<b id="totalXP">...</b>
+
+</div>
+
+<div class="card">
+
+<h3>💰 Spieler belohnen</h3>
+
+<input
+id="adminPlayer"
+placeholder="Spieler-ID">
+
+<input
+id="adminCoins"
+type="number"
+placeholder="Coins">
+
+<input
+id="adminXP"
+type="number"
+placeholder="XP">
+
+<button
+class="success"
+onclick="adminGive()">
+💰 / ⭐ Geben
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>🔄 Spielstand zurücksetzen</h3>
+
+<button
+class="danger"
+onclick="adminReset()">
+Spieler zurücksetzen
+</button>
+
+</div>
+
+<p class="small">
+👑 Dieser Bereich ist serverseitig geschützt.
+</p>
+
+`;
+
+    loadAdminStats();
+}
+
+function adminHeaders() {
+
+    return {
+        "Content-Type": "application/json",
+        "x-admin-password": adminPassword
+    };
+}
+
+function loadAdminStats() {
+
+    fetch("/api/admin/stats", {
+        headers: adminHeaders()
+    })
+    .then(r => r.json())
+    .then(data => {
+
+        document.getElementById("activePlayers")
+            .textContent = data.activePlayers;
+
+        document.getElementById("totalPlayers")
+            .textContent = data.totalPlayers;
+
+        document.getElementById("totalCoins")
+            .textContent = data.totalCoins;
+
+        document.getElementById("totalXP")
+            .textContent = data.totalXP;
+
+    });
+}
+
+function adminGive() {
+
+    const target =
+        document.getElementById("adminPlayer").value;
+
+    const coins =
+        Number(document.getElementById("adminCoins").value) || 0;
+
+    const xp =
+        Number(document.getElementById("adminXP").value) || 0;
+
+    fetch("/api/admin/give", {
+        method: "POST",
+        headers: adminHeaders(),
+        body: JSON.stringify({
+            playerId: target,
+            coins,
+            xp
+        })
+    })
+    .then(r => r.json())
+    .then(data => {
+
+        if (!data.success) {
+
+            message("❌ " + (data.error || "Fehler"));
+
+            return;
+        }
+
+        message(
+            `👑 Admin-Aktion erfolgreich!\n\n` +
+            `💰 +${coins} Coins\n` +
+            `⭐ +${xp} XP`
+        );
+
+        loadAdminStats();
+
+    });
+}
+
+function adminReset() {
+
+    const target =
+        document.getElementById("adminPlayer").value;
+
+    if (!target) {
+
+        message("Spieler-ID eingeben.");
+
+        return;
+    }
+
+    if (!confirm(
+        "Spielstand dieses Spielers wirklich zurücksetzen?"
+    )) return;
+
+    fetch("/api/admin/reset", {
+        method: "POST",
+        headers: adminHeaders(),
+        body: JSON.stringify({
+            playerId: target
+        })
+    })
+    .then(r => r.json())
+    .then(data => {
+
+        if (!data.success) {
+
+            message("❌ Fehler beim Zurücksetzen.");
+
+            return;
+        }
+
+        message("🔄 Spielstand zurückgesetzt.");
+
+        loadAdminStats();
+
+    });
+}
+
+// ======================
+// ADMIN ERKENNUNG
+// ======================
+
+function checkAdmin() {
+
+    // Der Button wird zunächst versteckt.
+    // Nur wenn die Admin-Anmeldung erfolgreich war,
+    // wird er angezeigt.
+
+    document
+        .getElementById("adminButton")
+        .classList.add("hidden");
+
+}
+
+// ======================
+// HEARTBEAT
+// ======================
+
+function heartbeat() {
+
+    api("/api/heartbeat", {
+        method: "POST",
+        body: JSON.stringify({
+            id: playerId
+        })
+    }).then(data => {
+
+        player = data.player;
+
+        updateUI();
+
+    }).catch(() => {});
+}
+
+// ======================
+// START
+// ======================
+
+loadPlayer();
+checkAdmin();
+
+heartbeat();
+
+setInterval(heartbeat, 30000);
 
 </script>
 
 </body>
 </html>
-```
