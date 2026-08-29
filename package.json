@@ -1,7 +1,6 @@
 {
   "name": "cubix-bot",
   "version": "1.0.0",
-  "description": "CUBIX WhatsApp Spielbot",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
