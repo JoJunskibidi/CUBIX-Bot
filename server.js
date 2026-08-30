@@ -10,10 +10,12 @@ app.use(express.static(path.join(__dirname, "public")));
 
 const PORT = process.env.PORT || 3000;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "294140";
+
 const DB_FILE = path.join(__dirname, "cubix-data.json");
 
 const DAY = 86400000;
 const JOB_INACTIVITY_LIMIT = 7 * DAY;
+const MAX_AMOUNT = Number.MAX_SAFE_INTEGER;
 
 let db = {
     players: {},
@@ -42,12 +44,20 @@ let db = {
     }
 };
 
+/* =========================
+   DATENBANK
+========================= */
+
 try {
     if (fs.existsSync(DB_FILE)) {
-        db = JSON.parse(fs.readFileSync(DB_FILE, "utf8"));
+        db = JSON.parse(
+            fs.readFileSync(DB_FILE, "utf8")
+        );
     }
-} catch {
-    console.log("Neue Datenbank wird erstellt.");
+} catch (error) {
+    console.log(
+        "Neue Datenbank wird erstellt."
+    );
 }
 
 db.players ||= {};
@@ -61,20 +71,35 @@ function saveDB() {
     );
 }
 
+/* =========================
+   HILFSFUNKTIONEN
+========================= */
+
 function today() {
-    return new Date().toISOString().slice(0, 10);
+    return new Date()
+        .toISOString()
+        .slice(0, 10);
 }
 
 function clean() {
     const now = Date.now();
 
-    for (const [token, session] of Object.entries(db.sessions)) {
-        if (now - session.createdAt > 30 * DAY) {
+    for (
+        const [token, session]
+        of Object.entries(db.sessions)
+    ) {
+        if (
+            now - session.createdAt >
+            30 * DAY
+        ) {
             delete db.sessions[token];
         }
     }
 
-    for (const player of Object.values(db.players)) {
+    for (
+        const player
+        of Object.values(db.players)
+    ) {
         normalizePlayer(player);
 
         if (
@@ -87,7 +112,8 @@ function clean() {
         if (
             player.activeJob &&
             player.lastWorkedAt &&
-            now - player.lastWorkedAt > JOB_INACTIVITY_LIMIT
+            now - player.lastWorkedAt >
+            JOB_INACTIVITY_LIMIT
         ) {
             player.activeJob = null;
             player.jobFired = true;
@@ -95,112 +121,241 @@ function clean() {
     }
 }
 
-function normalizePlayer(p) {
-    p.coins = Number.isFinite(p.coins) ? p.coins : 250;
-    p.xp = Number.isFinite(p.xp) ? p.xp : 0;
-    p.level = Number.isFinite(p.level) ? p.level : 1;
+function normalizePlayer(player) {
+    player.coins =
+        Number.isFinite(player.coins)
+            ? player.coins
+            : 250;
 
-    p.energy = Number.isFinite(p.energy)
-        ? Math.max(0, Math.min(100, p.energy))
-        : 100;
+    player.xp =
+        Number.isFinite(player.xp)
+            ? player.xp
+            : 0;
 
-    p.happiness = Number.isFinite(p.happiness)
-        ? Math.max(0, Math.min(100, p.happiness))
-        : 70;
+    player.level =
+        Number.isFinite(player.level)
+            ? player.level
+            : 1;
 
-    p.inventory ||= [];
-    p.equipped ||= [];
-    p.jobs ||= {};
+    player.energy =
+        Number.isFinite(player.energy)
+            ? Math.max(
+                0,
+                Math.min(
+                    100,
+                    player.energy
+                )
+            )
+            : 100;
 
-    p.activeJob ||= null;
-    p.lastWorkedAt ||= 0;
-    p.jobFired ||= false;
+    player.happiness =
+        Number.isFinite(
+            player.happiness
+        )
+            ? Math.max(
+                0,
+                Math.min(
+                    100,
+                    player.happiness
+                )
+            )
+            : 70;
 
-    p.restsToday ||= 0;
-    p.freeTimeToday ||= 0;
-    p.lastActionDay ||= today();
+    player.inventory ||= [];
+    player.equipped ||= [];
+    player.jobs ||= {};
 
-    p.streak ||= 0;
-    p.lastDaily ||= null;
+    player.activeJob ||=
+        null;
 
-    p.friends ||= [];
-    p.gifts ||= [];
+    player.lastWorkedAt ||=
+        0;
 
-    p.bank ||= 0;
-    p.exchange ||= 0;
+    player.jobFired ||=
+        false;
 
-    p.boostUntil ||= 0;
-    p.feePassUntil ||= 0;
+    player.restsToday ||=
+        0;
 
-    p.portfolio ||= {};
+    player.freeTimeToday ||=
+        0;
 
-    p.miner ||= null;
+    player.lastActionDay ||=
+        today();
+
+    player.streak ||=
+        0;
+
+    player.lastDaily ||=
+        null;
+
+    player.friends ||=
+        [];
+
+    player.friendRequests ||= {
+        incoming: [],
+        outgoing: []
+    };
+
+    player.gifts ||=
+        [];
+
+    player.bank ||=
+        0;
+
+    player.exchange ||=
+        0;
+
+    player.boostUntil ||=
+        0;
+
+    player.feePassUntil ||=
+        0;
+
+    player.portfolio ||=
+        {};
+
+    player.miner ||=
+        null;
 }
 
 function currentPlayer(req) {
     const token =
-        req.headers.authorization?.replace(
-            /^Bearer\s+/i,
-            ""
-        );
+        req.headers.authorization
+            ?.replace(
+                /^Bearer\s+/i,
+                ""
+            );
 
-    if (!token || !db.sessions[token]) {
+    if (
+        !token ||
+        !db.sessions[token]
+    ) {
         return null;
     }
 
     const username =
         db.sessions[token].username;
 
-    const p = db.players[username];
+    const player =
+        db.players[username];
 
-    if (!p) return null;
+    if (!player) {
+        return null;
+    }
 
-    normalizePlayer(p);
+    normalizePlayer(player);
 
-    p.lastSeen = Date.now();
-    p.online = true;
+    player.lastSeen =
+        Date.now();
 
-    return p;
+    player.online = true;
+
+    return player;
 }
 
 function requirePlayer(req, res) {
-    const p = currentPlayer(req);
+    const player =
+        currentPlayer(req);
 
-    if (!p) {
+    if (!player) {
         res.status(401).json({
             success: false,
-            error: "Nicht eingeloggt."
+            error:
+                "Nicht eingeloggt."
         });
 
         return null;
     }
 
-    return p;
+    return player;
 }
 
-function xpNeeded(p) {
-    return 100 + (p.level - 1) * 50;
-}
-
-function addXP(p, amount) {
-    p.xp += Math.max(
-        0,
-        Math.floor(amount)
+function xpNeeded(player) {
+    return (
+        100 +
+        (player.level - 1) * 50
     );
+}
 
-    while (p.xp >= xpNeeded(p)) {
-        p.xp -= xpNeeded(p);
-        p.level++;
+function addXP(player, amount) {
+    if (
+        !Number.isSafeInteger(
+            amount
+        ) ||
+        amount <= 0
+    ) {
+        return;
+    }
+
+    player.xp += amount;
+
+    while (
+        player.xp >=
+        xpNeeded(player)
+    ) {
+        player.xp -=
+            xpNeeded(player);
+
+        player.level++;
     }
 }
 
-function resetDaily(p) {
-    if (p.lastActionDay !== today()) {
-        p.lastActionDay = today();
-        p.restsToday = 0;
-        p.freeTimeToday = 0;
+function resetDaily(player) {
+    if (
+        player.lastActionDay !==
+        today()
+    ) {
+        player.lastActionDay =
+            today();
+
+        player.restsToday = 0;
+        player.freeTimeToday = 0;
     }
 }
+
+function consume(player, name) {
+    const index =
+        player.inventory.findIndex(
+            item =>
+                item.name === name &&
+                item.uses > 0
+        );
+
+    if (index === -1) {
+        return false;
+    }
+
+    player.inventory[index].uses--;
+
+    if (
+        player.inventory[index]
+            .uses <= 0
+    ) {
+        player.inventory.splice(
+            index,
+            1
+        );
+
+        player.equipped =
+            player.equipped.filter(
+                item => item !== name
+            );
+    }
+
+    return true;
+}
+
+function incomeMultiplier(player) {
+    return player.boostUntil >
+        Date.now()
+        ? 2
+        : 1;
+}
+
+/* =========================
+   JOBS
+========================= */
 
 const jobs = [
     {
@@ -240,6 +395,32 @@ const jobs = [
         cooldown: 720000
     }
 ];
+
+function jobEnergyCost(player, job) {
+    let cost = job.energy;
+
+    if (
+        player.equipped.includes(
+            "🚲 Fahrrad"
+        )
+    ) {
+        cost -= 5;
+    }
+
+    if (
+        player.equipped.includes(
+            "👟 Arbeitsschuhe"
+        )
+    ) {
+        cost -= 3;
+    }
+
+    return Math.max(5, cost);
+}
+
+/* =========================
+   SHOP
+========================= */
 
 const shop = {
     "🥤 Energy Drink": {
@@ -297,851 +478,1641 @@ const shop = {
         price: 5000,
         uses: 1,
         type: "boost",
-        text: "Verdoppelt Einnahmen für 10 Stunden"
+        text:
+            "Verdoppelt Einnahmen für 10 Stunden"
     },
 
     "🛡️ Fee Pass": {
         price: 7500,
         uses: 1,
         type: "fees",
-        text: "Keine Bank-/Börsengebühren für 24 Stunden"
+        text:
+            "Keine Bank-/Börsengebühren für 24 Stunden"
     }
 };
 
-function consume(p, name) {
-    const i = p.inventory.findIndex(
-        x =>
-            x.name === name &&
-            x.uses > 0
-    );
-
-    if (i === -1) return false;
-
-    p.inventory[i].uses--;
-
-    if (p.inventory[i].uses <= 0) {
-        p.inventory.splice(i, 1);
-
-        p.equipped =
-            p.equipped.filter(
-                x => x !== name
-            );
-    }
-
-    return true;
-}
-
-function incomeMultiplier(p) {
-    return p.boostUntil > Date.now()
-        ? 2
-        : 1;
-}
-
-function jobEnergyCost(p, job) {
-    let cost = job.energy;
-
-    if (p.equipped.includes("🚲 Fahrrad"))
-        cost -= 5;
-
-    if (p.equipped.includes("👟 Arbeitsschuhe"))
-        cost -= 3;
-
-    return Math.max(5, cost);
-}
-
 /* =========================
-   LOGIN / USERNAME
+   REGISTRIERUNG
 ========================= */
 
-app.post("/api/register", (req, res) => {
-    clean();
+app.post(
+    "/api/register",
+    (req, res) => {
+        clean();
 
-    const username =
-        String(req.body.username || "").trim();
+        const username =
+            String(
+                req.body.username || ""
+            ).trim();
 
-    if (!/^[A-Za-z0-9_]{3,16}$/.test(username)) {
-        return res.status(400).json({
-            success: false,
-            error:
-                "Username muss 3-16 Zeichen haben und darf nur Buchstaben, Zahlen und _ enthalten."
-        });
-    }
+        if (
+            !/^[A-Za-z0-9_]{3,16}$/
+                .test(username)
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Username muss 3-16 Zeichen haben und darf nur Buchstaben, Zahlen und _ enthalten."
+            });
+        }
 
-    if (db.players[username]) {
-        return res.status(409).json({
-            success: false,
-            error: "Dieser Username ist bereits vergeben."
-        });
-    }
+        if (
+            db.players[username]
+        ) {
+            return res.status(409).json({
+                success: false,
+                error:
+                    "Dieser Username ist bereits vergeben."
+            });
+        }
 
-    const p = {
-        username,
-        coins: 250,
-        xp: 0,
-        level: 1,
-        energy: 100,
-        happiness: 70,
-        inventory: [],
-        equipped: [],
-        jobs: {},
-        activeJob: null,
-        lastWorkedAt: 0,
-        jobFired: false,
-        restsToday: 0,
-        freeTimeToday: 0,
-        lastActionDay: today(),
-        streak: 0,
-        lastDaily: null,
-        friends: [],
-        gifts: [],
-        bank: 0,
-        exchange: 0,
-        boostUntil: 0,
-        feePassUntil: 0,
-        portfolio: {},
-        miner: null,
-        online: true,
-        lastSeen: Date.now()
-    };
+        const player = {
+            username,
+            coins: 250,
+            xp: 0,
+            level: 1,
 
-    db.players[username] = p;
+            energy: 100,
+            happiness: 70,
 
-    const token = crypto.randomBytes(32).toString("hex");
+            inventory: [],
+            equipped: [],
 
-    db.sessions[token] = {
-        username,
-        createdAt: Date.now()
-    };
+            jobs: {},
 
-    saveDB();
+            activeJob: null,
+            lastWorkedAt: 0,
+            jobFired: false,
 
-    res.json({
-        success: true,
-        token,
-        player: p
-    });
-});
+            restsToday: 0,
+            freeTimeToday: 0,
+            lastActionDay: today(),
 
-app.post("/api/login", (req, res) => {
-    clean();
+            streak: 0,
+            lastDaily: null,
 
-    const username =
-        String(req.body.username || "").trim();
+            friends: [],
 
-    const p = db.players[username];
+            friendRequests: {
+                incoming: [],
+                outgoing: []
+            },
 
-    if (!p) {
-        return res.status(404).json({
-            success: false,
-            error: "Spieler nicht gefunden."
-        });
-    }
+            gifts: [],
 
-    normalizePlayer(p);
+            bank: 0,
+            exchange: 0,
 
-    const token = crypto.randomBytes(32).toString("hex");
+            boostUntil: 0,
+            feePassUntil: 0,
 
-    db.sessions[token] = {
-        username,
-        createdAt: Date.now()
-    };
+            portfolio: {},
 
-    p.online = true;
-    p.lastSeen = Date.now();
+            miner: null,
 
-    saveDB();
+            online: true,
+            lastSeen: Date.now()
+        };
 
-    res.json({
-        success: true,
-        token,
-        player: p
-    });
-});
+        db.players[username] =
+            player;
 
-app.get("/api/me", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
+        const token =
+            crypto.randomBytes(32)
+                .toString("hex");
 
-    resetDaily(p);
-    clean();
-
-    res.json({
-        success: true,
-        player: p,
-        xpNeeded: xpNeeded(p),
-        jobs,
-        shop
-    });
-});
-
-app.post("/api/heartbeat", (req, res) => {
-    const p = currentPlayer(req);
-
-    if (!p) {
-        return res.status(401).json({
-            success: false
-        });
-    }
-
-    p.lastSeen = Date.now();
-    p.online = true;
-
-    clean();
-    saveDB();
-
-    res.json({
-        success: true,
-        online: Object.values(db.players)
-            .filter(x => x.online).length
-    });
-});
-
-app.get("/api/online", (req, res) => {
-    clean();
-
-    res.json({
-        online:
-            Object.values(db.players)
-                .filter(x => x.online).length
-    });
-});
-
-/* =========================
-   JOBS
-========================= */
-
-app.post("/api/job/apply", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
-
-    const job = jobs.find(
-        x => x.id === req.body.jobId
-    );
-
-    if (!job) {
-        return res.status(400).json({
-            success: false,
-            error: "Job nicht gefunden."
-        });
-    }
-
-    if (p.activeJob) {
-        return res.status(400).json({
-            success: false,
-            error:
-                "Du hast bereits einen Job."
-        });
-    }
-
-    p.activeJob = job.id;
-    p.jobFired = false;
-    p.lastWorkedAt = Date.now();
-
-    saveDB();
-
-    res.json({
-        success: true,
-        player: p
-    });
-});
-
-app.post("/api/job/work", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
-
-    resetDaily(p);
-
-    if (!p.activeJob) {
-        return res.status(400).json({
-            success: false,
-            error:
-                "Du hast keinen Job. Bewirb dich zuerst."
-        });
-    }
-
-    const job = jobs.find(
-        x => x.id === p.activeJob
-    );
-
-    if (!job) {
-        p.activeJob = null;
-
-        return res.status(400).json({
-            success: false,
-            error: "Job nicht verfügbar."
-        });
-    }
-
-    if (
-        p.lastWorkedAt &&
-        Date.now() - p.lastWorkedAt >
-        JOB_INACTIVITY_LIMIT
-    ) {
-        p.activeJob = null;
-        p.jobFired = true;
+        db.sessions[token] = {
+            username,
+            createdAt: Date.now()
+        };
 
         saveDB();
 
-        return res.status(400).json({
-            success: false,
-            error:
-                "Du wurdest wegen zu langer Inaktivität gefeuert."
+        res.json({
+            success: true,
+            token,
+            player
         });
     }
-
-    const last =
-        p.jobs[job.id] || 0;
-
-    const remaining =
-        job.cooldown -
-        (Date.now() - last);
-
-    if (remaining > 0) {
-        return res.status(400).json({
-            success: false,
-            error:
-                `Noch ${Math.ceil(remaining / 1000)} Sekunden Cooldown.`
-        });
-    }
-
-    const energyCost =
-        jobEnergyCost(p, job);
-
-    if (p.energy < energyCost) {
-        return res.status(400).json({
-            success: false,
-            error: "Nicht genug Energie."
-        });
-    }
-
-    let reward =
-        Math.round(
-            job.reward *
-            incomeMultiplier(p)
-        );
-
-    if (p.equipped.includes("🎧 Kopfhörer")) {
-        reward =
-            Math.round(reward * 1.10);
-        consume(p, "🎧 Kopfhörer");
-    }
-
-    if (p.equipped.includes("🚲 Fahrrad"))
-        consume(p, "🚲 Fahrrad");
-
-    if (p.equipped.includes("👟 Arbeitsschuhe"))
-        consume(p, "👟 Arbeitsschuhe");
-
-    p.energy -= energyCost;
-
-    p.happiness =
-        Math.max(
-            0,
-            p.happiness - job.happiness
-        );
-
-    p.coins += reward;
-
-    addXP(p, job.xp);
-
-    p.jobs[job.id] = Date.now();
-    p.lastWorkedAt = Date.now();
-    p.jobFired = false;
-
-    saveDB();
-
-    res.json({
-        success: true,
-        reward,
-        xp: job.xp,
-        player: p
-    });
-});
+);
 
 /* =========================
-   REST
+   LOGIN
 ========================= */
 
-app.post("/api/rest", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
+app.post(
+    "/api/login",
+    (req, res) => {
+        clean();
 
-    resetDaily(p);
+        const username =
+            String(
+                req.body.username || ""
+            ).trim();
 
-    if (p.restsToday >= 3) {
-        return res.status(400).json({
-            success: false,
-            error:
-                "Du hast heute bereits 3 Ruhepausen benutzt."
+        const player =
+            db.players[username];
+
+        if (!player) {
+            return res.status(404).json({
+                success: false,
+                error:
+                    "Spieler nicht gefunden."
+            });
+        }
+
+        normalizePlayer(player);
+
+        const token =
+            crypto.randomBytes(32)
+                .toString("hex");
+
+        db.sessions[token] = {
+            username,
+            createdAt: Date.now()
+        };
+
+        player.online = true;
+        player.lastSeen =
+            Date.now();
+
+        saveDB();
+
+        res.json({
+            success: true,
+            token,
+            player
         });
     }
+);
 
-    if (p.energy >= 100) {
-        return res.status(400).json({
-            success: false,
-            error:
-                "Du bist bereits vollständig erholt."
+/* =========================
+   SPIELERDATEN
+========================= */
+
+app.get(
+    "/api/me",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
+
+        if (!player) return;
+
+        resetDaily(player);
+        clean();
+
+        res.json({
+            success: true,
+            player,
+            xpNeeded:
+                xpNeeded(player),
+            jobs,
+            shop
         });
     }
+);
 
-    let amount = 30;
+/* =========================
+   HEARTBEAT
+========================= */
 
-    if (p.equipped.includes("🏠 Kleine Wohnung")) {
-        amount += 15;
-        consume(p, "🏠 Kleine Wohnung");
+app.post(
+    "/api/heartbeat",
+    (req, res) => {
+        const player =
+            currentPlayer(req);
+
+        if (!player) {
+            return res.status(401).json({
+                success: false
+            });
+        }
+
+        player.lastSeen =
+            Date.now();
+
+        player.online = true;
+
+        clean();
+        saveDB();
+
+        res.json({
+            success: true,
+            online:
+                Object.values(
+                    db.players
+                ).filter(
+                    p => p.online
+                ).length
+        });
     }
+);
 
-    p.energy =
-        Math.min(
-            100,
-            p.energy + amount
+app.get(
+    "/api/online",
+    (req, res) => {
+        clean();
+
+        res.json({
+            online:
+                Object.values(
+                    db.players
+                ).filter(
+                    p => p.online
+                ).length
+        });
+    }
+);
+
+/* =========================
+   JOB BEWERBUNG
+========================= */
+
+app.post(
+    "/api/job/apply",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
+
+        if (!player) return;
+
+        const job =
+            jobs.find(
+                x =>
+                    x.id ===
+                    req.body.jobId
+            );
+
+        if (!job) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Job nicht gefunden."
+            });
+        }
+
+        if (player.activeJob) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Du hast bereits einen Job."
+            });
+        }
+
+        player.activeJob =
+            job.id;
+
+        player.jobFired = false;
+        player.lastWorkedAt =
+            Date.now();
+
+        saveDB();
+
+        res.json({
+            success: true,
+            player
+        });
+    }
+);
+
+/* =========================
+   ARBEITEN
+========================= */
+
+app.post(
+    "/api/job/work",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
+
+        if (!player) return;
+
+        resetDaily(player);
+
+        if (!player.activeJob) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Du hast keinen Job. Bewirb dich zuerst."
+            });
+        }
+
+        const job =
+            jobs.find(
+                x =>
+                    x.id ===
+                    player.activeJob
+            );
+
+        if (!job) {
+            player.activeJob = null;
+
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Job nicht verfügbar."
+            });
+        }
+
+        if (
+            player.lastWorkedAt &&
+            Date.now() -
+                player.lastWorkedAt >
+                JOB_INACTIVITY_LIMIT
+        ) {
+            player.activeJob = null;
+            player.jobFired = true;
+
+            saveDB();
+
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Du wurdest wegen zu langer Inaktivität gefeuert."
+            });
+        }
+
+        const last =
+            player.jobs[job.id] || 0;
+
+        const remaining =
+            job.cooldown -
+            (
+                Date.now() -
+                last
+            );
+
+        if (remaining > 0) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    `Noch ${Math.ceil(
+                        remaining / 1000
+                    )} Sekunden Cooldown.`
+            });
+        }
+
+        const energyCost =
+            jobEnergyCost(
+                player,
+                job
+            );
+
+        if (
+            player.energy <
+            energyCost
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Nicht genug Energie."
+            });
+        }
+
+        let reward =
+            Math.round(
+                job.reward *
+                incomeMultiplier(
+                    player
+                )
+            );
+
+        if (
+            player.equipped.includes(
+                "🎧 Kopfhörer"
+            )
+        ) {
+            reward =
+                Math.round(
+                    reward * 1.10
+                );
+
+            consume(
+                player,
+                "🎧 Kopfhörer"
+            );
+        }
+
+        if (
+            player.equipped.includes(
+                "🚲 Fahrrad"
+            )
+        ) {
+            consume(
+                player,
+                "🚲 Fahrrad"
+            );
+        }
+
+        if (
+            player.equipped.includes(
+                "👟 Arbeitsschuhe"
+            )
+        ) {
+            consume(
+                player,
+                "👟 Arbeitsschuhe"
+            );
+        }
+
+        player.energy -=
+            energyCost;
+
+        player.happiness =
+            Math.max(
+                0,
+                player.happiness -
+                    job.happiness
+            );
+
+        player.coins +=
+            reward;
+
+        addXP(
+            player,
+            job.xp
         );
 
-    p.happiness =
-        Math.min(
-            100,
-            p.happiness + 3
-        );
+        player.jobs[job.id] =
+            Date.now();
 
-    p.restsToday++;
+        player.lastWorkedAt =
+            Date.now();
 
-    saveDB();
+        player.jobFired = false;
 
-    res.json({
-        success: true,
-        energy: amount,
-        player: p
-    });
-});
+        saveDB();
+
+        res.json({
+            success: true,
+            reward,
+            xp: job.xp,
+            player
+        });
+    }
+);
+
+/* =========================
+   RUHE
+========================= */
+
+app.post(
+    "/api/rest",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
+
+        if (!player) return;
+
+        resetDaily(player);
+
+        if (
+            player.restsToday >= 3
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Du hast heute bereits 3 Ruhepausen benutzt."
+            });
+        }
+
+        if (
+            player.energy >= 100
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Du bist bereits vollständig erholt."
+            });
+        }
+
+        const amount = 30;
+
+        player.energy =
+            Math.min(
+                100,
+                player.energy +
+                    amount
+            );
+
+        player.happiness =
+            Math.min(
+                100,
+                player.happiness + 3
+            );
+
+        player.restsToday++;
+
+        saveDB();
+
+        res.json({
+            success: true,
+            energy: amount,
+            player
+        });
+    }
+);
 
 /* =========================
    FREIZEIT
 ========================= */
 
-app.post("/api/freetime", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
+app.post(
+    "/api/freetime",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
 
-    resetDaily(p);
+        if (!player) return;
 
-    if (p.freeTimeToday >= 5) {
-        return res.status(400).json({
-            success: false,
-            error:
-                "Dein Freizeitlimit für heute ist erreicht."
-        });
-    }
+        resetDaily(player);
 
-    if (p.energy < 15) {
-        return res.status(400).json({
-            success: false,
-            error:
-                "Du brauchst mindestens 15 Energie."
-        });
-    }
+        if (
+            player.freeTimeToday >=
+            5
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Dein Freizeitlimit für heute ist erreicht."
+            });
+        }
 
-    let happiness = 12;
+        if (
+            player.energy < 15
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Du brauchst mindestens 15 Energie."
+            });
+        }
 
-    if (p.equipped.includes("🎮 Controller")) {
-        happiness += 15;
-        consume(p, "🎮 Controller");
-    }
+        let happiness = 12;
 
-    if (p.equipped.includes("📱 Smartphone")) {
-        happiness += 8;
-        consume(p, "📱 Smartphone");
-    }
+        if (
+            player.equipped.includes(
+                "🎮 Controller"
+            )
+        ) {
+            happiness += 15;
 
-    p.energy -= 15;
+            consume(
+                player,
+                "🎮 Controller"
+            );
+        }
 
-    p.happiness =
-        Math.min(
-            100,
-            p.happiness + happiness
+        if (
+            player.equipped.includes(
+                "📱 Smartphone"
+            )
+        ) {
+            happiness += 8;
+
+            consume(
+                player,
+                "📱 Smartphone"
+            );
+        }
+
+        player.energy -= 15;
+
+        player.happiness =
+            Math.min(
+                100,
+                player.happiness +
+                    happiness
+            );
+
+        player.freeTimeToday++;
+
+        addXP(
+            player,
+            5
         );
 
-    p.freeTimeToday++;
+        saveDB();
 
-    addXP(p, 5);
-
-    saveDB();
-
-    res.json({
-        success: true,
-        happiness,
-        player: p
-    });
-});
+        res.json({
+            success: true,
+            happiness,
+            player
+        });
+    }
+);
 
 /* =========================
-   SHOP
+   SHOP KAUFEN
 ========================= */
 
-app.post("/api/shop/buy", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
+app.post(
+    "/api/shop/buy",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
 
-    const name = req.body.name;
-    const item = shop[name];
+        if (!player) return;
 
-    if (!item) {
-        return res.status(404).json({
-            success: false,
-            error: "Item nicht gefunden."
+        const name =
+            req.body.name;
+
+        const item =
+            shop[name];
+
+        if (!item) {
+            return res.status(404).json({
+                success: false,
+                error:
+                    "Item nicht gefunden."
+            });
+        }
+
+        if (
+            player.coins <
+            item.price
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Nicht genug Coins."
+            });
+        }
+
+        player.coins -=
+            item.price;
+
+        if (
+            item.type ===
+            "boost"
+        ) {
+            player.boostUntil =
+                Math.max(
+                    Date.now(),
+                    player.boostUntil
+                ) +
+                10 *
+                60 *
+                60 *
+                1000;
+        } else if (
+            item.type ===
+            "fees"
+        ) {
+            player.feePassUntil =
+                Math.max(
+                    Date.now(),
+                    player.feePassUntil
+                ) +
+                24 *
+                60 *
+                60 *
+                1000;
+        } else {
+            player.inventory.push({
+                name,
+                uses: item.uses
+            });
+        }
+
+        saveDB();
+
+        res.json({
+            success: true,
+            player
         });
     }
+);
 
-    if (p.coins < item.price) {
-        return res.status(400).json({
-            success: false,
-            error: "Nicht genug Coins."
+/* =========================
+   ITEM AUSRÜSTEN
+========================= */
+
+app.post(
+    "/api/item/equip",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
+
+        if (!player) return;
+
+        const name =
+            req.body.name;
+
+        const item =
+            shop[name];
+
+        if (
+            !item ||
+            item.type === "energy"
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Dieses Item kann nicht ausgerüstet werden."
+            });
+        }
+
+        if (
+            !player.inventory.some(
+                x =>
+                    x.name === name &&
+                    x.uses > 0
+            )
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Item nicht im Inventar."
+            });
+        }
+
+        if (
+            !player.equipped.includes(
+                name
+            )
+        ) {
+            player.equipped.push(
+                name
+            );
+        }
+
+        saveDB();
+
+        res.json({
+            success: true,
+            player
         });
     }
+);
 
-    p.coins -= item.price;
+app.post(
+    "/api/item/unequip",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
 
-    if (item.type === "boost") {
-        p.boostUntil =
-            Math.max(
-                Date.now(),
-                p.boostUntil
-            ) + 10 * 60 * 60 * 1000;
-    } else if (item.type === "fees") {
-        p.feePassUntil =
-            Math.max(
-                Date.now(),
-                p.feePassUntil
-            ) + 24 * 60 * 60 * 1000;
-    } else {
-        p.inventory.push({
-            name,
-            uses: item.uses
+        if (!player) return;
+
+        player.equipped =
+            player.equipped.filter(
+                x =>
+                    x !==
+                    req.body.name
+            );
+
+        saveDB();
+
+        res.json({
+            success: true,
+            player
         });
     }
+);
 
-    saveDB();
+/* =========================
+   ITEM BENUTZEN
+========================= */
 
-    res.json({
-        success: true,
-        player: p
-    });
-});
+app.post(
+    "/api/item/use",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
 
-app.post("/api/item/equip", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
+        if (!player) return;
 
-    const name = req.body.name;
-    const item = shop[name];
+        const name =
+            req.body.name;
 
-    if (!item || item.type === "energy") {
-        return res.status(400).json({
-            success: false,
-            error:
-                "Dieses Item kann nicht ausgerüstet werden."
+        const item =
+            shop[name];
+
+        if (
+            !item ||
+            item.type !==
+                "energy"
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Item kann nicht benutzt werden."
+            });
+        }
+
+        if (
+            player.energy >=
+            100
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Deine Energie ist bereits voll."
+            });
+        }
+
+        if (
+            !consume(
+                player,
+                name
+            )
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Item nicht vorhanden."
+            });
+        }
+
+        player.energy =
+            Math.min(
+                100,
+                player.energy +
+                    item.value
+            );
+
+        saveDB();
+
+        res.json({
+            success: true,
+            player
         });
     }
-
-    if (
-        !p.inventory.some(
-            x =>
-                x.name === name &&
-                x.uses > 0
-        )
-    ) {
-        return res.status(400).json({
-            success: false,
-            error: "Item nicht im Inventar."
-        });
-    }
-
-    if (!p.equipped.includes(name)) {
-        p.equipped.push(name);
-    }
-
-    saveDB();
-
-    res.json({
-        success: true,
-        player: p
-    });
-});
-
-app.post("/api/item/unequip", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
-
-    p.equipped =
-        p.equipped.filter(
-            x => x !== req.body.name
-        );
-
-    saveDB();
-
-    res.json({
-        success: true,
-        player: p
-    });
-});
-
-app.post("/api/item/use", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
-
-    const name = req.body.name;
-    const item = shop[name];
-
-    if (!item || item.type !== "energy") {
-        return res.status(400).json({
-            success: false,
-            error: "Item kann nicht benutzt werden."
-        });
-    }
-
-    if (p.energy >= 100) {
-        return res.status(400).json({
-            success: false,
-            error:
-                "Deine Energie ist bereits voll."
-        });
-    }
-
-    if (!consume(p, name)) {
-        return res.status(400).json({
-            success: false,
-            error: "Item nicht vorhanden."
-        });
-    }
-
-    p.energy =
-        Math.min(
-            100,
-            p.energy + item.value
-        );
-
-    saveDB();
-
-    res.json({
-        success: true,
-        player: p
-    });
-});
+);
 
 /* =========================
    DAILY
 ========================= */
 
-app.post("/api/daily", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
+app.post(
+    "/api/daily",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
 
-    const d = today();
+        if (!player) return;
 
-    if (p.lastDaily === d) {
-        return res.status(400).json({
-            success: false,
-            error:
-                "Daily bereits abgeholt."
-        });
-    }
+        const date =
+            today();
 
-    p.lastDaily = d;
-    p.streak++;
+        if (
+            player.lastDaily ===
+            date
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Daily bereits abgeholt."
+            });
+        }
 
-    const reward =
-        100 +
-        Math.min(
-            100,
-            (p.streak - 1) * 10
+        player.lastDaily =
+            date;
+
+        player.streak++;
+
+        const reward =
+            100 +
+            Math.min(
+                100,
+                (player.streak - 1) *
+                    10
+            );
+
+        player.coins +=
+            reward;
+
+        addXP(
+            player,
+            20
         );
 
-    p.coins += reward;
+        saveDB();
 
-    addXP(p, 20);
-
-    saveDB();
-
-    res.json({
-        success: true,
-        reward,
-        player: p
-    });
-});
+        res.json({
+            success: true,
+            reward,
+            player
+        });
+    }
+);
 
 /* =========================
    RANGLISTE
 ========================= */
 
-app.get("/api/leaderboard", (req, res) => {
-    clean();
+app.get(
+    "/api/leaderboard",
+    (req, res) => {
+        clean();
 
-    const players =
-        Object.values(db.players);
+        const players =
+            Object.values(
+                db.players
+            );
 
-    const money =
-        [...players]
-            .sort((a, b) =>
-                b.coins - a.coins
+        const money =
+            [...players]
+                .sort(
+                    (a, b) =>
+                        b.coins -
+                        a.coins
+                )
+                .slice(0, 20)
+                .map(
+                    (player, index) => ({
+                        rank:
+                            index + 1,
+                        username:
+                            player.username,
+                        value:
+                            player.coins
+                    })
+                );
+
+        const xp =
+            [...players]
+                .sort(
+                    (a, b) => {
+                        if (
+                            b.level !==
+                            a.level
+                        ) {
+                            return (
+                                b.level -
+                                a.level
+                            );
+                        }
+
+                        return (
+                            b.xp -
+                            a.xp
+                        );
+                    }
+                )
+                .slice(0, 20)
+                .map(
+                    (player, index) => ({
+                        rank:
+                            index + 1,
+                        username:
+                            player.username,
+                        value:
+                            player.xp,
+                        level:
+                            player.level
+                    })
+                );
+
+        res.json({
+            success: true,
+            money,
+            xp
+        });
+    }
+);
+
+/* =========================
+   FREUNDSCHAFTEN
+========================= */
+
+app.post(
+    "/api/friend/add",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
+
+        if (!player) return;
+
+        const username =
+            String(
+                req.body.username ||
+                    ""
+            ).trim();
+
+        const target =
+            db.players[username];
+
+        if (!target) {
+            return res.status(404).json({
+                success: false,
+                error:
+                    "Spieler nicht gefunden."
+            });
+        }
+
+        if (
+            username ===
+            player.username
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Du kannst dich nicht selbst hinzufügen."
+            });
+        }
+
+        if (
+            player.friends.includes(
+                username
             )
-            .slice(0, 20)
-            .map((p, i) => ({
-                rank: i + 1,
-                username: p.username,
-                value: p.coins
-            }));
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Ihr seid bereits Freunde."
+            });
+        }
 
-    const xp =
-        [...players]
-            .sort((a, b) => {
-                if (b.level !== a.level)
-                    return b.level - a.level;
+        normalizePlayer(target);
 
-                return b.xp - a.xp;
-            })
-            .slice(0, 20)
-            .map((p, i) => ({
-                rank: i + 1,
-                username: p.username,
-                value: p.xp,
-                level: p.level
-            }));
+        if (
+            target.friendRequests
+                .incoming
+                .includes(
+                    player.username
+                )
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Freundschaftsanfrage bereits gesendet."
+            });
+        }
 
-    res.json({
-        success: true,
-        money,
-        xp
-    });
-});
+        target.friendRequests
+            .incoming
+            .push(
+                player.username
+            );
 
-/* =========================
-   FREUNDE
-========================= */
+        player.friendRequests
+            .outgoing
+            .push(username);
 
-app.post("/api/friend/add", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
+        saveDB();
 
-    const username =
-        String(req.body.username || "").trim();
-
-    if (!db.players[username]) {
-        return res.status(404).json({
-            success: false,
-            error: "Spieler nicht gefunden."
+        res.json({
+            success: true,
+            player
         });
     }
-
-    if (username === p.username) {
-        return res.status(400).json({
-            success: false,
-            error:
-                "Du kannst dich nicht selbst hinzufügen."
-        });
-    }
-
-    if (!p.friends.includes(username)) {
-        p.friends.push(username);
-    }
-
-    saveDB();
-
-    res.json({
-        success: true,
-        player: p
-    });
-});
+);
 
 /* =========================
-   BANK / BÖRSE
+   FREUNDSCHAFT ANNEHMEN
 ========================= */
 
-function feeFor(p, amount) {
-    if (p.feePassUntil > Date.now())
+app.post(
+    "/api/friend/accept",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
+
+        if (!player) return;
+
+        const username =
+            String(
+                req.body.username ||
+                    ""
+            ).trim();
+
+        const target =
+            db.players[username];
+
+        if (!target) {
+            return res.status(404).json({
+                success: false,
+                error:
+                    "Spieler nicht gefunden."
+            });
+        }
+
+        const index =
+            player.friendRequests
+                .incoming
+                .indexOf(
+                    username
+                );
+
+        if (index === -1) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Keine Anfrage vorhanden."
+            });
+        }
+
+        player.friendRequests
+            .incoming
+            .splice(index, 1);
+
+        target.friendRequests
+            .outgoing =
+            target.friendRequests
+                .outgoing
+                .filter(
+                    x =>
+                        x !==
+                        player.username
+                );
+
+        if (
+            !player.friends.includes(
+                username
+            )
+        ) {
+            player.friends.push(
+                username
+            );
+        }
+
+        if (
+            !target.friends.includes(
+                player.username
+            )
+        ) {
+            target.friends.push(
+                player.username
+            );
+        }
+
+        saveDB();
+
+        res.json({
+            success: true,
+            player
+        });
+    }
+);
+
+/* =========================
+   FREUNDSCHAFT ABLEHNEN
+========================= */
+
+app.post(
+    "/api/friend/decline",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
+
+        if (!player) return;
+
+        const username =
+            String(
+                req.body.username ||
+                    ""
+            ).trim();
+
+        const target =
+            db.players[username];
+
+        if (!target) {
+            return res.status(404).json({
+                success: false,
+                error:
+                    "Spieler nicht gefunden."
+            });
+        }
+
+        player.friendRequests
+            .incoming =
+            player.friendRequests
+                .incoming
+                .filter(
+                    x =>
+                        x !==
+                        username
+                );
+
+        target.friendRequests
+            .outgoing =
+            target.friendRequests
+                .outgoing
+                .filter(
+                    x =>
+                        x !==
+                        player.username
+                );
+
+        saveDB();
+
+        res.json({
+            success: true,
+            player
+        });
+    }
+);
+
+/* =========================
+   FREUND ENTFERNEN
+========================= */
+
+app.post(
+    "/api/friend/remove",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
+
+        if (!player) return;
+
+        const username =
+            String(
+                req.body.username ||
+                    ""
+            ).trim();
+
+        const target =
+            db.players[username];
+
+        if (!target) {
+            return res.status(404).json({
+                success: false,
+                error:
+                    "Spieler nicht gefunden."
+            });
+        }
+
+        player.friends =
+            player.friends.filter(
+                x =>
+                    x !==
+                    username
+            );
+
+        target.friends =
+            target.friends.filter(
+                x =>
+                    x !==
+                    player.username
+            );
+
+        saveDB();
+
+        res.json({
+            success: true,
+            player
+        });
+    }
+);
+
+/* =========================
+   GESCHENK: COINS
+========================= */
+
+app.post(
+    "/api/gift/coins",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
+
+        if (!player) return;
+
+        const username =
+            String(
+                req.body.username ||
+                    ""
+            ).trim();
+
+        const amount =
+            Number(
+                req.body.amount
+            );
+
+        const target =
+            db.players[username];
+
+        if (!target) {
+            return res.status(404).json({
+                success: false,
+                error:
+                    "Spieler nicht gefunden."
+            });
+        }
+
+        if (
+            !player.friends.includes(
+                username
+            )
+        ) {
+            return res.status(403).json({
+                success: false,
+                error:
+                    "Du kannst nur Freunden Geschenke schicken."
+            });
+        }
+
+        if (
+            !Number.isSafeInteger(
+                amount
+            ) ||
+            amount <= 0 ||
+            amount >
+                MAX_AMOUNT
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Ungültige Menge."
+            });
+        }
+
+        if (
+            amount >
+            player.coins
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Nicht genug Coins."
+            });
+        }
+
+        player.coins -=
+            amount;
+
+        target.coins +=
+            amount;
+
+        player.gifts.push({
+            type: "coins",
+            to: username,
+            amount,
+            createdAt:
+                Date.now()
+        });
+
+        saveDB();
+
+        res.json({
+            success: true,
+            player
+        });
+    }
+);
+
+/* =========================
+   GESCHENK: ITEM
+========================= */
+
+app.post(
+    "/api/gift/item",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
+
+        if (!player) return;
+
+        const username =
+            String(
+                req.body.username ||
+                    ""
+            ).trim();
+
+        const itemName =
+            String(
+                req.body.itemName ||
+                    ""
+            );
+
+        const target =
+            db.players[username];
+
+        if (!target) {
+            return res.status(404).json({
+                success: false,
+                error:
+                    "Spieler nicht gefunden."
+            });
+        }
+
+        if (
+            !player.friends.includes(
+                username
+            )
+        ) {
+            return res.status(403).json({
+                success: false,
+                error:
+                    "Du kannst nur Freunden Geschenke schicken."
+            });
+        }
+
+        const index =
+            player.inventory.findIndex(
+                item =>
+                    item.name ===
+                        itemName &&
+                    item.uses > 0
+            );
+
+        if (index === -1) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Dieses Item befindet sich nicht in deinem Inventar."
+            });
+        }
+
+        const item =
+            player.inventory[index];
+
+        item.uses--;
+
+        if (item.uses <= 0) {
+            player.inventory.splice(
+                index,
+                1
+            );
+
+            player.equipped =
+                player.equipped.filter(
+                    x =>
+                        x !==
+                        itemName
+                );
+        }
+
+        const existing =
+            target.inventory.find(
+                x =>
+                    x.name ===
+                    itemName
+            );
+
+        if (existing) {
+            existing.uses += 1;
+        } else {
+            target.inventory.push({
+                name: itemName,
+                uses: 1
+            });
+        }
+
+        player.gifts.push({
+            type: "item",
+            to: username,
+            item: itemName,
+            createdAt:
+                Date.now()
+        });
+
+        saveDB();
+
+        res.json({
+            success: true,
+            player
+        });
+    }
+);
+
+/* =========================
+   BANK
+========================= */
+
+function feeFor(
+    player,
+    amount
+) {
+    if (
+        player.feePassUntil >
+        Date.now()
+    ) {
         return 0;
+    }
 
     return Math.max(
         1,
-        Math.floor(amount * 0.02)
+        Math.floor(
+            amount * 0.02
+        )
     );
 }
 
-app.post("/api/bank/deposit", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
+app.post(
+    "/api/bank/deposit",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
 
-    const amount =
-        Math.floor(Number(req.body.amount));
+        if (!player) return;
 
-    if (
-        !Number.isFinite(amount) ||
-        amount <= 0 ||
-        amount > p.coins
-    ) {
-        return res.status(400).json({
-            success: false,
-            error: "Ungültiger Betrag."
+        const amount =
+            Math.floor(
+                Number(
+                    req.body.amount
+                )
+            );
+
+        if (
+            !Number.isSafeInteger(
+                amount
+            ) ||
+            amount <= 0 ||
+            amount >
+                player.coins
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Ungültiger Betrag."
+            });
+        }
+
+        const fee =
+            feeFor(
+                player,
+                amount
+            );
+
+        player.coins -=
+            amount;
+
+        player.exchange +=
+            amount - fee;
+
+        saveDB();
+
+        res.json({
+            success: true,
+            fee,
+            player
         });
     }
+);
 
-    const fee = feeFor(p, amount);
+app.post(
+    "/api/bank/withdraw",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
 
-    p.coins -= amount;
-    p.exchange += amount - fee;
+        if (!player) return;
 
-    saveDB();
+        const amount =
+            Math.floor(
+                Number(
+                    req.body.amount
+                )
+            );
 
-    res.json({
-        success: true,
-        fee,
-        player: p
-    });
-});
+        if (
+            !Number.isSafeInteger(
+                amount
+            ) ||
+            amount <= 0 ||
+            amount >
+                player.exchange
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Ungültiger Betrag."
+            });
+        }
 
-app.post("/api/bank/withdraw", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
+        const fee =
+            feeFor(
+                player,
+                amount
+            );
 
-    const amount =
-        Math.floor(Number(req.body.amount));
+        player.exchange -=
+            amount;
 
-    if (
-        !Number.isFinite(amount) ||
-        amount <= 0 ||
-        amount > p.exchange
-    ) {
-        return res.status(400).json({
-            success: false,
-            error: "Ungültiger Betrag."
+        player.coins +=
+            amount - fee;
+
+        saveDB();
+
+        res.json({
+            success: true,
+            fee,
+            player
         });
     }
-
-    const fee = feeFor(p, amount);
-
-    p.exchange -= amount;
-    p.coins += amount - fee;
-
-    saveDB();
-
-    res.json({
-        success: true,
-        fee,
-        player: p
-    });
-});
+);
 
 /* =========================
-   STOCKS
+   AKTIEN
 ========================= */
 
 function updateStocks() {
-    for (const stock of Object.values(db.stocks)) {
-        const old = stock.price;
-
+    for (
+        const stock
+        of Object.values(
+            db.stocks
+        )
+    ) {
         const movement =
-            (Math.random() - 0.48) * 0.08;
+            (
+                Math.random() -
+                0.48
+            ) * 0.08;
 
         let next =
-            old * (1 + movement);
+            stock.price *
+            (1 + movement);
 
         next =
             Math.max(
@@ -1153,12 +2124,20 @@ function updateStocks() {
             );
 
         stock.price =
-            Math.round(next * 100) / 100;
+            Math.round(
+                next * 100
+            ) / 100;
 
         stock.history ||= [];
-        stock.history.push(stock.price);
 
-        if (stock.history.length > 100) {
+        stock.history.push(
+            stock.price
+        );
+
+        if (
+            stock.history.length >
+            100
+        ) {
             stock.history.shift();
         }
     }
@@ -1171,132 +2150,199 @@ setInterval(
     60000
 );
 
-app.get("/api/stocks", (req, res) => {
-    res.json({
-        success: true,
-        stocks: db.stocks
-    });
-});
-
-app.post("/api/stock/buy", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
-
-    const symbol = req.body.symbol;
-    const stock = db.stocks[symbol];
-
-    const amount =
-        Math.floor(Number(req.body.amount));
-
-    if (
-        !stock ||
-        !Number.isFinite(amount) ||
-        amount <= 0
-    ) {
-        return res.status(400).json({
-            success: false,
-            error: "Ungültiger Kauf."
+app.get(
+    "/api/stocks",
+    (req, res) => {
+        res.json({
+            success: true,
+            stocks:
+                db.stocks
         });
     }
+);
 
-    const cost =
-        stock.price * amount;
+app.post(
+    "/api/stock/buy",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
 
-    const fee =
-        feeFor(p, cost);
+        if (!player) return;
 
-    const total =
-        cost + fee;
+        const symbol =
+            req.body.symbol;
 
-    if (p.exchange < total) {
-        return res.status(400).json({
-            success: false,
-            error:
-                "Nicht genug Börsengeld."
-        });
-    }
+        const stock =
+            db.stocks[symbol];
 
-    p.exchange -= total;
+        const amount =
+            Math.floor(
+                Number(
+                    req.body.amount
+                )
+            );
 
-    p.portfolio[symbol] ||=
-        {
+        if (
+            !stock ||
+            !Number.isSafeInteger(
+                amount
+            ) ||
+            amount <= 0
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Ungültiger Kauf."
+            });
+        }
+
+        const cost =
+            stock.price *
+            amount;
+
+        const fee =
+            feeFor(
+                player,
+                cost
+            );
+
+        const total =
+            cost + fee;
+
+        if (
+            player.exchange <
+            total
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Nicht genug Börsengeld."
+            });
+        }
+
+        player.exchange -=
+            total;
+
+        player.portfolio[
+            symbol
+        ] ||= {
             amount: 0,
             invested: 0
         };
 
-    p.portfolio[symbol].amount += amount;
-    p.portfolio[symbol].invested += cost;
+        player.portfolio[
+            symbol
+        ].amount +=
+            amount;
 
-    saveDB();
+        player.portfolio[
+            symbol
+        ].invested +=
+            cost;
 
-    res.json({
-        success: true,
-        fee,
-        player: p
-    });
-});
+        saveDB();
 
-app.post("/api/stock/sell", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
-
-    const symbol = req.body.symbol;
-    const stock = db.stocks[symbol];
-
-    const amount =
-        Math.floor(Number(req.body.amount));
-
-    const holding =
-        p.portfolio[symbol];
-
-    if (
-        !stock ||
-        !holding ||
-        amount <= 0 ||
-        amount > holding.amount
-    ) {
-        return res.status(400).json({
-            success: false,
-            error: "Ungültiger Verkauf."
+        res.json({
+            success: true,
+            fee,
+            player
         });
     }
+);
 
-    const gross =
-        stock.price * amount;
+app.post(
+    "/api/stock/sell",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
 
-    const fee =
-        feeFor(p, gross);
+        if (!player) return;
 
-    const net =
-        gross - fee;
+        const symbol =
+            req.body.symbol;
 
-    const avg =
-        holding.invested /
-        holding.amount;
+        const stock =
+            db.stocks[symbol];
 
-    holding.invested -=
-        avg * amount;
+        const amount =
+            Math.floor(
+                Number(
+                    req.body.amount
+                )
+            );
 
-    holding.amount -= amount;
+        const holding =
+            player.portfolio[
+                symbol
+            ];
 
-    if (holding.amount <= 0) {
-        delete p.portfolio[symbol];
+        if (
+            !stock ||
+            !holding ||
+            !Number.isSafeInteger(
+                amount
+            ) ||
+            amount <= 0 ||
+            amount >
+                holding.amount
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Ungültiger Verkauf."
+            });
+        }
+
+        const gross =
+            stock.price *
+            amount;
+
+        const fee =
+            feeFor(
+                player,
+                gross
+            );
+
+        const net =
+            gross - fee;
+
+        const average =
+            holding.invested /
+            holding.amount;
+
+        holding.invested -=
+            average *
+            amount;
+
+        holding.amount -=
+            amount;
+
+        if (
+            holding.amount <= 0
+        ) {
+            delete player
+                .portfolio[
+                    symbol
+                ];
+        }
+
+        player.exchange +=
+            net;
+
+        saveDB();
+
+        res.json({
+            success: true,
+            fee,
+            profit:
+                gross -
+                fee -
+                average *
+                    amount,
+            player
+        });
     }
-
-    p.exchange += net;
-
-    saveDB();
-
-    res.json({
-        success: true,
-        fee,
-        profit:
-            gross -
-            fee -
-            avg * amount,
-        player: p
-    });
-});
+);
 
 /* =========================
    MINER
@@ -1305,258 +2351,332 @@ app.post("/api/stock/sell", (req, res) => {
 function minerData(level) {
     return {
         level,
+
         hourly:
             Math.round(
                 2000 *
-                Math.pow(2.2, level - 1)
+                Math.pow(
+                    2.2,
+                    level - 1
+                )
             ),
+
         upgrade:
             Math.round(
                 10000 *
-                Math.pow(2.7, level - 1)
+                Math.pow(
+                    2.7,
+                    level - 1
+                )
             )
     };
 }
 
-app.post("/api/miner/buy", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
-
-    if (p.miner) {
-        return res.status(400).json({
-            success: false,
-            error:
-                "Du besitzt bereits einen Miner."
-        });
+function processMiner(player) {
+    if (!player.miner) {
+        return;
     }
 
-    if (p.coins < 10000) {
-        return res.status(400).json({
-            success: false,
-            error:
-                "Ein Miner kostet 10.000 Coins."
-        });
-    }
-
-    p.coins -= 10000;
-
-    p.miner = {
-        level: 1,
-        produced: 0,
-        lastUpdate: Date.now(),
-        condition: 100
-    };
-
-    saveDB();
-
-    res.json({
-        success: true,
-        player: p
-    });
-});
-
-function processMiner(p) {
-    if (!p.miner) return;
-
-    const now = Date.now();
+    const now =
+        Date.now();
 
     const elapsed =
         Math.max(
             0,
-            now - p.miner.lastUpdate
+            now -
+                player.miner
+                    .lastUpdate
         );
 
     const hours =
-        elapsed / 3600000;
+        elapsed /
+        3600000;
 
     const data =
-        minerData(p.miner.level);
+        minerData(
+            player.miner.level
+        );
 
     const conditionMultiplier =
         0.5 +
-        p.miner.condition / 200;
+        player.miner.condition /
+            200;
 
     const produced =
         data.hourly *
         hours *
         conditionMultiplier;
 
-    p.miner.produced += produced;
+    player.miner.produced +=
+        produced;
 
     const damage =
         hours * 1.2;
 
-    p.miner.condition =
+    player.miner.condition =
         Math.max(
             0,
-            p.miner.condition - damage
+            player.miner.condition -
+                damage
         );
 
-    p.miner.lastUpdate = now;
+    player.miner.lastUpdate =
+        now;
 }
 
-app.get("/api/miner", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
+app.post(
+    "/api/miner/buy",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
 
-    processMiner(p);
+        if (!player) return;
 
-    res.json({
-        success: true,
-        miner: p.miner
-            ? {
-                ...p.miner,
-                stats:
-                    minerData(
-                        p.miner.level
-                    )
-            }
-            : null
-    });
-});
+        if (player.miner) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Du besitzt bereits einen Miner."
+            });
+        }
 
-app.post("/api/miner/collect", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
+        if (
+            player.coins <
+            10000
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Ein Miner kostet 10.000 Coins."
+            });
+        }
 
-    processMiner(p);
+        player.coins -=
+            10000;
 
-    if (!p.miner) {
-        return res.status(400).json({
-            success: false,
-            error: "Kein Miner vorhanden."
+        player.miner = {
+            level: 1,
+            produced: 0,
+            lastUpdate:
+                Date.now(),
+            condition: 100
+        };
+
+        saveDB();
+
+        res.json({
+            success: true,
+            player
         });
     }
+);
 
-    const amount =
-        Math.floor(p.miner.produced);
+app.get(
+    "/api/miner",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
 
-    if (amount <= 0) {
-        return res.status(400).json({
-            success: false,
-            error:
-                "Der Miner hat noch nichts produziert."
+        if (!player) return;
+
+        processMiner(player);
+
+        res.json({
+            success: true,
+            miner:
+                player.miner
+                    ? {
+                        ...player.miner,
+                        stats:
+                            minerData(
+                                player.miner
+                                    .level
+                            )
+                    }
+                    : null
         });
     }
+);
 
-    p.miner.produced -= amount;
+app.post(
+    "/api/miner/collect",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
 
-    p.coins +=
-        Math.floor(
-            amount *
-            incomeMultiplier(p)
-        );
+        if (!player) return;
 
-    saveDB();
+        processMiner(player);
 
-    res.json({
-        success: true,
-        amount,
-        player: p
-    });
-});
+        if (!player.miner) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Kein Miner vorhanden."
+            });
+        }
 
-app.post("/api/miner/upgrade", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
+        const amount =
+            Math.floor(
+                player.miner.produced
+            );
 
-    processMiner(p);
+        if (amount <= 0) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Der Miner hat noch nichts produziert."
+            });
+        }
 
-    if (!p.miner) {
-        return res.status(400).json({
-            success: false,
-            error: "Kein Miner vorhanden."
+        player.miner.produced -=
+            amount;
+
+        player.coins +=
+            Math.floor(
+                amount *
+                incomeMultiplier(
+                    player
+                )
+            );
+
+        saveDB();
+
+        res.json({
+            success: true,
+            amount,
+            player
         });
     }
+);
 
-    const data =
-        minerData(
-            p.miner.level
-        );
+app.post(
+    "/api/miner/upgrade",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
 
-    if (p.coins < data.upgrade) {
-        return res.status(400).json({
-            success: false,
-            error:
-                `Upgrade kostet ${data.upgrade.toLocaleString("de-DE")} Coins.`
+        if (!player) return;
+
+        processMiner(player);
+
+        if (!player.miner) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Kein Miner vorhanden."
+            });
+        }
+
+        const data =
+            minerData(
+                player.miner.level
+            );
+
+        if (
+            player.coins <
+            data.upgrade
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    `Upgrade kostet ${data.upgrade.toLocaleString("de-DE")} Coins.`
+            });
+        }
+
+        player.coins -=
+            data.upgrade;
+
+        player.miner.level++;
+
+        saveDB();
+
+        res.json({
+            success: true,
+            player
         });
     }
+);
 
-    p.coins -= data.upgrade;
-    p.miner.level++;
+app.post(
+    "/api/miner/repair",
+    (req, res) => {
+        const player =
+            requirePlayer(req, res);
 
-    saveDB();
+        if (!player) return;
 
-    res.json({
-        success: true,
-        player: p
-    });
-});
+        processMiner(player);
 
-app.post("/api/miner/repair", (req, res) => {
-    const p = requirePlayer(req, res);
-    if (!p) return;
+        if (!player.miner) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Kein Miner vorhanden."
+            });
+        }
 
-    processMiner(p);
+        const missing =
+            100 -
+            player.miner.condition;
 
-    if (!p.miner) {
-        return res.status(400).json({
-            success: false,
-            error: "Kein Miner vorhanden."
+        if (missing <= 0) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Miner ist vollständig repariert."
+            });
+        }
+
+        const cost =
+            Math.max(
+                50,
+                Math.round(
+                    missing *
+                    player.miner.level *
+                    20
+                )
+            );
+
+        if (
+            player.coins <
+            cost
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    `Reparatur kostet ${cost.toLocaleString("de-DE")} Coins.`
+            });
+        }
+
+        player.coins -=
+            cost;
+
+        player.miner.condition =
+            100;
+
+        saveDB();
+
+        res.json({
+            success: true,
+            player
         });
     }
-
-    const missing =
-        100 - p.miner.condition;
-
-    if (missing <= 0) {
-        return res.status(400).json({
-            success: false,
-            error: "Miner ist vollständig repariert."
-        });
-    }
-
-    const cost =
-        Math.max(
-            50,
-            Math.round(
-                missing *
-                p.miner.level *
-                20
-            )
-        );
-
-    if (p.coins < cost) {
-        return res.status(400).json({
-            success: false,
-            error:
-                `Reparatur kostet ${cost.toLocaleString("de-DE")} Coins.`
-        });
-    }
-
-    p.coins -= cost;
-    p.miner.condition = 100;
-
-    saveDB();
-
-    res.json({
-        success: true,
-        player: p
-    });
-});
+);
 
 /* =========================
    ADMIN
 ========================= */
 
-function admin(req, res) {
+function checkAdmin(req, res) {
     if (
         req.body.password !==
         ADMIN_PASSWORD
     ) {
         res.status(401).json({
             success: false,
-            error: "Falsches Admin-Passwort."
+            error:
+                "Falsches Admin-Passwort."
         });
 
         return false;
@@ -1565,110 +2685,211 @@ function admin(req, res) {
     return true;
 }
 
-app.post("/api/admin/login", (req, res) => {
-    if (!admin(req, res)) return;
+app.post(
+    "/api/admin/login",
+    (req, res) => {
+        if (
+            !checkAdmin(
+                req,
+                res
+            )
+        ) {
+            return;
+        }
 
-    res.json({
-        success: true
-    });
-});
+        res.json({
+            success: true
+        });
+    }
+);
 
-app.post("/api/admin/stats", (req, res) => {
-    if (!admin(req, res)) return;
+app.post(
+    "/api/admin/stats",
+    (req, res) => {
+        if (
+            !checkAdmin(
+                req,
+                res
+            )
+        ) {
+            return;
+        }
 
-    clean();
+        clean();
 
-    res.json({
-        success: true,
-        onlinePlayers:
-            Object.values(db.players)
-                .filter(p => p.online).length,
-        totalPlayers:
-            Object.keys(db.players).length
-    });
-});
+        res.json({
+            success: true,
 
-app.post("/api/admin/give", (req, res) => {
-    if (!admin(req, res)) return;
+            onlinePlayers:
+                Object.values(
+                    db.players
+                ).filter(
+                    p =>
+                        p.online
+                ).length,
 
-    const username =
-        String(req.body.username || "").trim();
+            totalPlayers:
+                Object.keys(
+                    db.players
+                ).length
+        });
+    }
+);
 
-    const amount =
-        Math.floor(
-            Number(req.body.amount)
+/* =========================
+   ADMIN COINS / XP
+========================= */
+
+app.post(
+    "/api/admin/give",
+    (req, res) => {
+        if (
+            !checkAdmin(
+                req,
+                res
+            )
+        ) {
+            return;
+        }
+
+        const username =
+            String(
+                req.body.username ||
+                    ""
+            ).trim();
+
+        const amount =
+            Number(
+                req.body.amount
+            );
+
+        const type =
+            req.body.type;
+
+        const player =
+            db.players[username];
+
+        if (!player) {
+            return res.status(404).json({
+                success: false,
+                error:
+                    "Spieler nicht gefunden."
+            });
+        }
+
+        /*
+         * Keine künstliche
+         * 1-Milliarden-Grenze mehr.
+         *
+         * Erlaubt sind alle sicheren
+         * JavaScript-Ganzzahlen bis
+         * Number.MAX_SAFE_INTEGER.
+         */
+
+        if (
+            !Number.isSafeInteger(
+                amount
+            ) ||
+            amount <= 0 ||
+            amount >
+                MAX_AMOUNT
+        ) {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Ungültige Menge."
+            });
+        }
+
+        if (
+            type === "coins"
+        ) {
+            player.coins +=
+                amount;
+        }
+
+        else if (
+            type === "xp"
+        ) {
+            addXP(
+                player,
+                amount
+            );
+        }
+
+        else {
+            return res.status(400).json({
+                success: false,
+                error:
+                    "Ungültiger Typ."
+            });
+        }
+
+        saveDB();
+
+        res.json({
+            success: true,
+            username,
+            amount,
+            type
+        });
+    }
+);
+
+/* =========================
+   ADMIN SEITE
+========================= */
+
+app.get(
+    "/admin",
+    (req, res) => {
+        res.sendFile(
+            path.join(
+                __dirname,
+                "public",
+                "index.html"
+            )
         );
-
-    const type = req.body.type;
-
-    const p = db.players[username];
-
-    if (!p) {
-        return res.status(404).json({
-            success: false,
-            error: "Spieler nicht gefunden."
-        });
     }
+);
 
-    if (
-        !Number.isFinite(amount) ||
-        amount <= 0 ||
-        amount > 1000000000
-    ) {
-        return res.status(400).json({
-            success: false,
-            error: "Ungültige Menge."
-        });
+/* =========================
+   FALLBACK
+========================= */
+
+app.use(
+    (req, res) => {
+        res.sendFile(
+            path.join(
+                __dirname,
+                "public",
+                "index.html"
+            )
+        );
     }
+);
 
-    if (type === "coins") {
-        p.coins += amount;
-    } else if (type === "xp") {
-        addXP(p, amount);
-    } else {
-        return res.status(400).json({
-            success: false,
-            error: "Ungültiger Typ."
-        });
+/* =========================
+   AUTOMATISCHE BEREINIGUNG
+========================= */
+
+setInterval(
+    () => {
+        clean();
+        saveDB();
+    },
+    30000
+);
+
+/* =========================
+   SERVER START
+========================= */
+
+app.listen(
+    PORT,
+    () => {
+        console.log(
+            `🔥 CUBIX CITY läuft auf Port ${PORT}`
+        );
     }
-
-    saveDB();
-
-    res.json({
-        success: true,
-        username,
-        amount,
-        type
-    });
-});
-
-app.get("/admin", (req, res) => {
-    res.sendFile(
-        path.join(
-            __dirname,
-            "public",
-            "index.html"
-        )
-    );
-});
-
-app.use((req, res) => {
-    res.sendFile(
-        path.join(
-            __dirname,
-            "public",
-            "index.html"
-        )
-    );
-});
-
-setInterval(() => {
-    clean();
-    saveDB();
-}, 30000);
-
-app.listen(PORT, () => {
-    console.log(
-        `🔥 CUBIX CITY läuft auf Port ${PORT}`
-    );
-});
+);
