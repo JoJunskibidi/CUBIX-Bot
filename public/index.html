@@ -10,237 +10,238 @@
 
 body{
     margin:0;
-    min-height:100vh;
+    background:
+        radial-gradient(circle at top,#3b0808,#100303 45%,#050505);
+    color:#fff;
     font-family:Arial,sans-serif;
-    background:radial-gradient(circle at top,#430909,#140404 45%,#050505);
-    color:#fff
+}
+
+button{
+    border:0;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:disabled{
+    opacity:.4;
+    cursor:not-allowed;
 }
 
 .app{
-    max-width:1000px;
+    max-width:950px;
     margin:auto;
-    padding:10px
+    padding:12px;
 }
 
 .header,.content{
     background:#090909;
-    border:1px solid #551313;
-    border-radius:20px;
-    box-shadow:0 10px 35px #0008
+    border:1px solid #4a1010;
+    border-radius:18px;
+    box-shadow:0 8px 30px #0008;
 }
 
 .header{
     padding:18px;
-    margin-bottom:10px
+    margin-bottom:12px;
 }
 
 .logo{
     text-align:center;
     font-size:32px;
-    font-weight:900
+    font-weight:900;
 }
 
-.sub{
+.subtitle{
     text-align:center;
     color:#999;
-    margin:7px 0 16px
+    margin:6px 0 18px;
 }
 
-.stats,.grid{
+.stats{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:8px
-}
-
-.stat,.card,.item{
-    background:#120707;
-    border:1px solid #421010;
-    border-radius:13px;
-    padding:13px
+    gap:8px;
 }
 
 .stat{
-    text-align:center
+    background:#111;
+    border:1px solid #321010;
+    border-radius:12px;
+    padding:10px;
+    text-align:center;
 }
 
-.small{
+.stat-title{
+    color:#888;
     font-size:11px;
-    color:#888
+}
+
+.stat-value{
+    font-size:18px;
+    font-weight:bold;
+    margin-top:4px;
 }
 
 .bar{
     height:7px;
-    background:#260d0d;
+    margin-top:6px;
+    background:#241010;
     border-radius:10px;
     overflow:hidden;
-    margin-top:6px
 }
 
 .fill{
     height:100%;
-    width:0
 }
 
-.energy{
-    background:#d97706
-}
-
-.happy{
-    background:#db2777
-}
+.energy{background:#d97706}
+.happy{background:#db2777}
 
 .menu{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(5,1fr);
     gap:7px;
-    margin-bottom:10px
+    margin-bottom:12px;
 }
 
-.menu button,button{
-    border:0;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
+.menu button{
+    padding:12px 6px;
     border-radius:10px;
-    padding:12px;
-    background:#200909;
-    border:1px solid #551313
+    background:#180808;
+    border:1px solid #511414;
 }
 
-.menu button:hover,button:hover{
-    background:#350c0c
-}
-
-button:disabled{
-    opacity:.45;
-    cursor:not-allowed
+.menu button:hover{
+    background:#320c0c;
 }
 
 .content{
-    padding:18px;
-    min-height:500px
+    padding:20px;
+    min-height:500px;
 }
 
 .card{
-    margin:9px 0
+    background:#120707;
+    border:1px solid #461111;
+    border-radius:14px;
+    padding:15px;
+    margin:10px 0;
 }
 
 .action{
     width:100%;
-    margin-top:7px;
-    background:#991b1b
+    padding:12px;
+    margin-top:8px;
+    border-radius:9px;
+    background:#991b1b;
 }
 
-.green{
-    background:#166534
+.action:hover{
+    background:#b91c1c;
 }
 
-.gray{
-    background:#3f3f46
+.green{background:#166534}
+.gray{background:#3f3f46}
+.gold{background:#92400e}
+.blue{background:#1d4ed8}
+.pink{background:#9d174d}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:5px 0;
+    background:#080808;
+    border:1px solid #511414;
+    color:#fff;
+    border-radius:9px;
 }
 
-.gold{
-    background:#92400e
-}
-
-.pink{
-    background:#9d174d
-}
-
-.danger{
-    color:#f87171
-}
-
-.success{
-    color:#4ade80
-}
-
-.muted{
-    color:#999
-}
-
-.row{
+.grid{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:8px
+    gap:10px;
 }
 
 .item{
-    margin:8px 0
+    background:#120707;
+    border:1px solid #461111;
+    border-radius:12px;
+    padding:14px;
+    margin:8px 0;
+}
+
+.equipped{
+    border-color:#dc2626;
 }
 
 .badge{
     display:inline-block;
-    background:#3d1111;
-    padding:5px 8px;
+    padding:5px 9px;
     border-radius:20px;
+    background:#3f1111;
     font-size:12px;
-    margin:2px
 }
 
-.online{
-    color:#6ee7a0
-}
+.success{color:#4ade80}
+.warning{color:#fbbf24}
+.danger{color:#f87171}
+.muted{color:#999}
 
 .toast{
     position:fixed;
     left:50%;
     bottom:20px;
-    transform:translate(-50%,20px);
-    opacity:0;
-    pointer-events:none;
-    background:#111;
-    border:1px solid #8b2020;
-    padding:12px 16px;
+    transform:translateX(-50%);
+    background:#151515;
+    border:1px solid #7f1d1d;
+    padding:13px 18px;
     border-radius:12px;
-    transition:.2s;
-    z-index:9;
-    max-width:90%;
-    text-align:center
+    z-index:9999;
+    box-shadow:0 8px 30px #0009;
 }
 
-.toast.show{
-    opacity:1;
-    transform:translate(-50%,0)
-}
-
-input,select{
+canvas{
     width:100%;
-    padding:12px;
-    background:#080808;
-    color:#fff;
-    border:1px solid #551313;
-    border-radius:9px;
-    margin:4px 0
+    height:280px;
+    background:#050505;
+    border:1px solid #381010;
+    border-radius:12px;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse
+.stock{
+    border:1px solid #461111;
+    padding:14px;
+    border-radius:12px;
+    margin:10px 0;
+    background:#100606;
 }
 
-td,th{
-    padding:8px;
-    border-bottom:1px solid #351010;
-    text-align:left
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
 }
 
-@media(max-width:650px){
-
-    .stats,.grid{
-        grid-template-columns:repeat(2,1fr)
+@media(max-width:700px){
+    .stats{
+        grid-template-columns:1fr 1fr;
     }
 
     .menu{
-        grid-template-columns:repeat(2,1fr)
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .grid{
+        grid-template-columns:1fr;
     }
 
     .row{
-        grid-template-columns:1fr
+        grid-template-columns:1fr;
     }
 
     .logo{
-        font-size:27px
+        font-size:27px;
     }
 }
 </style>
@@ -252,49 +253,41 @@ td,th{
 
 <div class="header">
 
-<div class="logo">
-🔥 CUBIX CITY
-</div>
+<div class="logo">🔥 CUBIX CITY</div>
 
-<div class="sub">
+<div class="subtitle">
 Deine Stadt. Dein Charakter. Dein Fortschritt.
 </div>
 
 <div class="stats">
 
 <div class="stat">
-<div class="small">👤 USER</div>
-<b id="username">–</b>
+<div class="stat-title">👤 USERNAME</div>
+<div class="stat-value" id="username">-</div>
 </div>
 
 <div class="stat">
-<div class="small">💰 COINS</div>
-<b id="coins">0</b>
+<div class="stat-title">💰 COINS</div>
+<div class="stat-value" id="coins">0</div>
 </div>
 
 <div class="stat">
-<div class="small">⭐ LEVEL / XP</div>
-<b>
-<span id="level">1</span>
-·
-<span id="xp">0</span>
-</b>
+<div class="stat-title">⭐ LEVEL</div>
+<div class="stat-value" id="level">1</div>
 </div>
 
 <div class="stat">
-<div class="small">⚡ ENERGIE</div>
-
-<b>
+<div class="stat-title">⚡ ENERGIE</div>
+<div class="stat-value">
 <span id="energy">100</span>/100
-</b>
-
+</div>
 <div class="bar">
-<div id="energyBar" class="fill energy"></div>
+<div class="fill energy" id="energyBar"></div>
+</div>
 </div>
 
 </div>
 
-</div>
 </div>
 
 <div class="menu">
@@ -303,2492 +296,1679 @@ Deine Stadt. Dein Charakter. Dein Fortschritt.
 <button onclick="jobs()">💼 Jobs</button>
 <button onclick="shopPage()">🏪 Shop</button>
 <button onclick="inventory()">🎒 Inventar</button>
-
-<button onclick="minerPage()">⛏️ Miner</button>
-<button onclick="bankPage()">🏦 Bank</button>
-<button onclick="socialPage()">🤝 Freunde</button>
-<button onclick="leaderboard()">🏆 Rangliste</button>
-
-<button onclick="rest()">😴 Ausruhen</button>
+<button onclick="rest()">😴 Ruhe</button>
 <button onclick="freeTime()">🎮 Freizeit</button>
+<button onclick="stocks()">📈 Stonks</button>
+<button onclick="miner()">⛏️ Miner</button>
+<button onclick="friends()">👥 Freunde</button>
+<button onclick="leaderboard()">🏆 Rangliste</button>
 <button onclick="daily()">🎁 Daily</button>
 <button onclick="profile()">👤 Profil</button>
-
-<button
-id="adminBtn"
-style="display:none"
-onclick="adminPage()">
-👑 Admin
-</button>
+<button onclick="admin()">👑 Admin</button>
 
 </div>
 
-<div
-id="content"
-class="content">
-</div>
+<div class="content" id="content"></div>
 
-</div>
-
-<div
-id="toast"
-class="toast">
 </div>
 
 <script>
-
-const $ =
-id =>
-document.getElementById(id);
-
-const today =
-() =>
-new Date()
-.toISOString()
-.slice(0,10);
-
 let token =
-localStorage.getItem(
-"cubixToken"
-);
+    localStorage.getItem("cubixToken");
 
-let p = null;
+let player = null;
 
-let adminPassword =
-sessionStorage.getItem(
-"cubixAdmin"
-) || null;
-
-const jobsData = [
-
-{
-id:"trash",
-name:"🧹 Müll sammeln",
-reward:25,
-xp:10,
-energy:12,
-happy:3,
-cooldown:60000
-},
-
-{
-id:"pizza",
-name:"🍕 Pizza liefern",
-reward:60,
-xp:25,
-energy:20,
-happy:5,
-cooldown:180000
-},
-
-{
-id:"taxi",
-name:"🚕 Taxi fahren",
-reward:120,
-xp:45,
-energy:30,
-happy:7,
-cooldown:420000
-},
-
-{
-id:"code",
-name:"💻 Programmieren",
-reward:200,
-xp:70,
-energy:40,
-happy:10,
-cooldown:720000
+function headers(){
+    return {
+        "Content-Type":
+            "application/json",
+        "Authorization":
+            "Bearer " + token
+    };
 }
 
-];
+async function api(url,options={}){
+    const r =
+        await fetch(
+            url,
+            {
+                ...options,
+                headers:{
+                    ...headers(),
+                    ...(options.headers||{})
+                }
+            }
+        );
 
-const items = {
+    const d =
+        await r.json();
 
-"🥤 Energy Drink":{
-price:50,
-uses:3,
-type:"consumable",
-value:25,
-text:"+25 Energie"
-},
+    if(!r.ok || !d.success)
+        throw new Error(
+            d.error || "Fehler"
+        );
 
-"☕ Kaffee":{
-price:80,
-uses:4,
-type:"consumable",
-value:15,
-text:"+15 Energie"
-},
+    if(d.player)
+        player=d.player;
 
-"🎧 Kopfhörer":{
-price:150,
-uses:10,
-type:"work",
-text:"+10% Job-Einnahmen"
-},
+    update();
 
-"👟 Arbeitsschuhe":{
-price:350,
-uses:12,
-type:"work",
-text:"-3 Energie pro Job"
-},
-
-"🚲 Fahrrad":{
-price:500,
-uses:10,
-type:"work",
-text:"-5 Energie pro Job"
-},
-
-"🎮 Controller":{
-price:300,
-uses:8,
-type:"free",
-text:"+15 Glück bei Freizeit"
-},
-
-"📱 Smartphone":{
-price:250,
-uses:12,
-type:"free",
-text:"+8 Glück bei Freizeit"
-},
-
-"💻 Gaming PC":{
-price:750,
-uses:8,
-type:"free",
-text:"+20 Glück bei Freizeit"
-},
-
-"🏠 Kleine Wohnung":{
-price:1500,
-uses:10,
-type:"rest",
-text:"+15 Energie beim Ausruhen"
-},
-
-"🛏️ Bequemes Bett":{
-price:900,
-uses:12,
-type:"rest",
-text:"+10 Energie beim Ausruhen"
+    return d;
 }
 
-};
+function toast(text){
+    const old=
+        document.querySelector(".toast");
 
-const shopSpecials = {
+    if(old) old.remove();
 
-"⚡ Einnahmen-Boost":{
-price:5000,
-text:"10 Stunden: Jobs und Miner produzieren/verdienen doppelt."
-},
+    const x=
+        document.createElement("div");
 
-"🧾 Gebührenpass":{
-price:2500,
-text:"24 Stunden: Keine Gebühren zwischen Konto und Börse."
+    x.className="toast";
+    x.textContent=text;
+
+    document.body.appendChild(x);
+
+    setTimeout(
+        ()=>x.remove(),
+        2500
+    );
 }
 
-};
+function update(){
+    if(!player)return;
 
-function toast(x){
+    document.getElementById(
+        "username"
+    ).textContent=
+        player.username;
 
-$("toast").textContent=x;
+    document.getElementById(
+        "coins"
+    ).textContent=
+        Math.floor(player.coins)
+        .toLocaleString("de-DE");
 
-$("toast")
-.classList
-.add("show");
+    document.getElementById(
+        "level"
+    ).textContent=
+        player.level;
 
-clearTimeout(
-window.tt
-);
+    document.getElementById(
+        "energy"
+    ).textContent=
+        Math.round(player.energy);
 
-window.tt =
-setTimeout(
-() =>
-$("toast")
-.classList.remove("show"),
-2400
-);
-
+    document.getElementById(
+        "energyBar"
+    ).style.width=
+        player.energy+"%";
 }
 
-async function api(
-url,
-body={}
-){
+async function load(){
+    if(!token){
+        loginPage();
+        return;
+    }
 
-const r =
-await fetch(
-url,
-{
-method:"POST",
-headers:{
-"Content-Type":
-"application/json",
+    try{
+        const d=
+            await api("/api/me");
 
-...(token
-?{
-Authorization:
-"Bearer "+token
-}
-:{})
-},
-
-body:
-JSON.stringify(body)
-}
-);
-
-let d={};
-
-try{
-d=await r.json();
-}
-catch{}
-
-if(
-!r.ok ||
-d.success===false
-){
-throw Error(
-d.error ||
-"Fehler"
-);
+        player=d.player;
+        update();
+        home();
+    }catch{
+        localStorage.removeItem(
+            "cubixToken"
+        );
+        token=null;
+        loginPage();
+    }
 }
 
-return d;
-}
+function loginPage(){
 
-function setPlayer(x){
+    document.getElementById(
+        "content"
+    ).innerHTML=`
 
-p=x;
+    <h2>👤 CUBIX CITY</h2>
 
-$("username")
-.textContent=
-p.username;
+    <div class="card">
 
-$("coins")
-.textContent=
-p.coins
-.toLocaleString("de-DE");
+    <h3>Neuer Spieler</h3>
 
-$("level")
-.textContent=
-p.level;
+    <p class="muted">
+    Beim ersten Besuch wählst du deinen
+    eindeutigen Username.
+    </p>
 
-$("xp")
-.textContent=
-p.xp;
+    <input
+        id="newUser"
+        placeholder="Username"
+        maxlength="16">
 
-$("energy")
-.textContent=
-Math.round(
-p.energy
-);
+    <button
+        class="action"
+        onclick="register()">
+        🚀 Account erstellen
+    </button>
 
-$("energyBar")
-.style
-.width=
-p.energy+"%";
+    </div>
 
-}
+    <div class="card">
 
-async function sync(){
+    <h3>Bereits registriert?</h3>
 
-if(!token){
-loginScreen();
-return;
-}
+    <input
+        id="oldUser"
+        placeholder="Username">
 
-try{
+    <button
+        class="action gray"
+        onclick="login()">
+        🔑 Einloggen
+    </button>
 
-let d =
-await api(
-"/api/state"
-);
-
-setPlayer(
-d.player
-);
-
-home();
-
-}
-
-catch{
-
-localStorage
-.removeItem(
-"cubixToken"
-);
-
-token=null;
-
-loginScreen();
-
-}
-
-}
-
-function loginScreen(){
-
-$("content")
-.innerHTML=`
-
-<h2>👤 Willkommen</h2>
-
-<div class="card">
-
-<p>
-Wähle einen eindeutigen Username.
-Erlaubt sind 3–16 Zeichen:
-A-Z, 0-9 und _.
-</p>
-
-<input
-id="userInput"
-maxlength="16"
-placeholder="z.B. CubixPlayer">
-
-<div class="row">
-
-<button
-class="action"
-onclick="register()">
-
-✨ Registrieren
-
-</button>
-
-<button
-class="action gray"
-onclick="login()">
-
-🔑 Einloggen
-
-</button>
-
-</div>
-
-</div>
-
-`;
-
+    </div>
+    `;
 }
 
 async function register(){
+    try{
+        const username=
+            document.getElementById(
+                "newUser"
+            ).value.trim();
 
-try{
+        const r=
+            await fetch(
+                "/api/register",
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+                    body:
+                        JSON.stringify({
+                            username
+                        })
+                }
+            );
 
-let u =
-$("userInput")
-.value
-.trim();
+        const d=
+            await r.json();
 
-let d =
-await api(
-"/api/register",
-{
-username:u
-}
-);
+        if(!r.ok)
+            throw new Error(d.error);
 
-token =
-d.token;
+        token=d.token;
 
-localStorage.setItem(
-"cubixToken",
-token
-);
+        localStorage.setItem(
+            "cubixToken",
+            token
+        );
 
-setPlayer(
-d.player
-);
+        player=d.player;
 
-home();
+        toast(
+            "🎉 Willkommen in CUBIX CITY!"
+        );
 
-toast(
-"Willkommen in CUBIX CITY!"
-);
-
-}
-
-catch(e){
-
-toast(
-e.message
-);
-
-}
-
+        home();
+    }catch(e){
+        toast("❌ "+e.message);
+    }
 }
 
 async function login(){
+    try{
+        const username=
+            document.getElementById(
+                "oldUser"
+            ).value.trim();
 
-try{
+        const r=
+            await fetch(
+                "/api/login",
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+                    body:
+                        JSON.stringify({
+                            username
+                        })
+                }
+            );
 
-let d =
-await api(
-"/api/login",
-{
-username:
-$("userInput")
-.value
-.trim()
-}
-);
+        const d=
+            await r.json();
 
-token =
-d.token;
+        if(!r.ok)
+            throw new Error(d.error);
 
-localStorage.setItem(
-"cubixToken",
-token
-);
+        token=d.token;
 
-setPlayer(
-d.player
-);
+        localStorage.setItem(
+            "cubixToken",
+            token
+        );
 
-home();
+        player=d.player;
 
-}
-
-catch(e){
-
-toast(
-e.message
-);
-
-}
-
+        home();
+    }catch(e){
+        toast("❌ "+e.message);
+    }
 }
 
 function home(){
 
-if(!p)return;
+    document.getElementById(
+        "content"
+    ).innerHTML=`
 
-$("content")
-.innerHTML=`
+    <h2>🏠 CUBIX CITY</h2>
 
-<h2>🏠 CUBIX CITY</h2>
+    <div class="card">
 
-<p class="muted">
-Willkommen,
-<b>${p.username}</b>!
-</p>
+    <h3>
+    Willkommen,
+    ${player.username}! 👋
+    </h3>
 
-<div class="grid">
+    <p>
+    💰 ${player.coins.toLocaleString("de-DE")} Coins
+    </p>
 
-<div class="card">
-<h3>💰 Coins</h3>
-<b>
-${p.coins.toLocaleString("de-DE")}
-</b>
-</div>
+    <p>
+    ⚡ ${Math.round(player.energy)}/100 Energie
+    </p>
 
-<div class="card">
-<h3>⚡ Energie</h3>
-<b>
-${Math.round(p.energy)}/100
-</b>
-</div>
+    <p>
+    😊 ${Math.round(player.happiness)}/100 Glück
+    </p>
 
-<div class="card">
-<h3>😊 Glück</h3>
-<b>
-${Math.round(p.happiness)}/100
-</b>
-</div>
+    </div>
 
-<div class="card">
-<h3>⛏️ Miner</h3>
-<b>
-${
-p.miner
-?
-`Level ${p.miner.level}`
-:
-"Noch keiner"
-}
-</b>
-</div>
+    <div class="card">
 
-</div>
+    <h3>💼 Arbeit</h3>
 
-<div class="card">
+    <p>
+    ${
+        player.activeJob
+        ?
+        "Aktiver Job: "+
+        player.activeJob
+        :
+        "Du hast aktuell keinen Job."
+    }
+    </p>
 
-<h3>📅 Heute</h3>
+    ${
+        player.jobFired
+        ?
+        `<p class="danger">
+        ⚠️ Du wurdest wegen Inaktivität
+        gefeuert. Bewirb dich erneut.
+        </p>`
+        :
+        ""
+    }
 
-<p>
-💼 Jobs:
-${p.workToday}/8
-</p>
+    </div>
 
-<p>
-😴 Ruhepausen:
-${p.restsToday}/3
-</p>
+    <div class="card">
 
-<p>
-🎮 Freizeit:
-${p.freeTimeToday}/5
-</p>
+    <h3>📅 Heute</h3>
 
-</div>
+    <p>
+    😴 Ruhepausen:
+    ${player.restsToday}/3
+    </p>
 
-`;
+    <p>
+    🎮 Freizeit:
+    ${player.freeTimeToday}/5
+    </p>
 
-}
-
-function fmt(ms){
-
-let s =
-Math.ceil(
-ms/1000
-);
-
-return s>=60
-?
-Math.floor(s/60)
-+"m "
-+
-String(
-s%60
-).padStart(2,"0")
-+"s"
-:
-s+"s";
-
+    </div>
+    `;
 }
 
 async function jobs(){
 
-let html=`
+    try{
+        const d=
+            await api("/api/me");
 
-<h2>💼 Jobs</h2>
+        const list=d.jobs;
 
-<div class="card">
+        let html=
+            "<h2>💼 Jobs</h2>";
 
-💼 Heute:
-<b>
-${p.workToday}/8
-</b>
+        html+=`
+        <p class="muted">
+        Du kannst immer nur einen Job gleichzeitig haben.
+        Nach 7 Tagen ohne Arbeit wirst du gefeuert.
+        </p>
+        `;
 
-Jobs.
+        if(player.activeJob){
 
-Jeder Job hat einen eigenen Cooldown.
+            const active=
+                list.find(
+                    j =>
+                    j.id===player.activeJob
+                );
 
-</div>
+            html+=`
+            <div class="card">
 
-`;
+            <h3>👔 Aktueller Job</h3>
 
-jobsData.forEach(j=>{
+            <p>
+            ${active?.name || player.activeJob}
+            </p>
 
-let last =
-p.jobs?.[j.id] ||
-0;
+            ${
+                player.lastWorkedAt
+                ?
+                `<p class="muted">
+                Wenn du 7 Tage nicht arbeitest,
+                wirst du gefeuert.
+                </p>`
+                :
+                ""
+            }
 
-let rem =
-Math.max(
-0,
-j.cooldown -
-(
-Date.now() -
-last
-)
-);
+            <button
+            class="action green"
+            onclick="work()">
+            💼 Arbeiten
+            </button>
 
-let e =
-j.energy;
+            </div>
+            `;
 
-if(
-p.equipped
-.includes(
-"🚲 Fahrrad"
-)
-){
-e-=5;
+        }else{
+
+            html+=`
+            <div class="card">
+            <h3>📋 Jobs</h3>
+            <p>
+            Bewirb dich bei einem Job.
+            </p>
+            </div>
+            `;
+
+            list.forEach(j=>{
+
+                html+=`
+
+                <div class="card">
+
+                <h3>${j.name}</h3>
+
+                <p>
+                💰 ${j.reward} Coins<br>
+                ⭐ ${j.xp} XP<br>
+                ⚡ ${j.energy} Energie<br>
+                😊 -${j.happiness} Glück
+                </p>
+
+                <button
+                class="action"
+                onclick="applyJob('${j.id}')">
+                📋 Bewerben
+                </button>
+
+                </div>
+                `;
+            });
+        }
+
+        document.getElementById(
+            "content"
+        ).innerHTML=html;
+
+    }catch(e){
+        toast("❌ "+e.message);
+    }
 }
 
-if(
-p.equipped
-.includes(
-"👟 Arbeitsschuhe"
-)
-){
-e-=3;
+async function applyJob(id){
+    try{
+        await api(
+            "/api/job/apply",
+            {
+                method:"POST",
+                body:
+                    JSON.stringify({
+                        jobId:id
+                    })
+            }
+        );
+
+        toast(
+            "👔 Bewerbung angenommen!"
+        );
+
+        jobs();
+    }catch(e){
+        toast("❌ "+e.message);
+    }
 }
 
-e=Math.max(
-5,
-e
-);
+async function work(){
 
-html+=`
+    try{
+        const d=
+            await api(
+                "/api/job/work",
+                {
+                    method:"POST"
+                }
+            );
 
-<div class="card">
+        toast(
+            `💼 +${d.reward} Coins · +${d.xp} XP`
+        );
 
-<h3>
-${j.name}
-</h3>
-
-<p>
-
-💰 +${j.reward}
-
-${
-p.boostUntil>Date.now()
-?
-" → BOOST ×2"
-:
-""
+        jobs();
+    }catch(e){
+        toast("❌ "+e.message);
+    }
 }
 
-<br>
+async function rest(){
 
-⭐ +${j.xp} XP
+    try{
+        const d=
+            await api(
+                "/api/rest",
+                {
+                    method:"POST"
+                }
+            );
 
-<br>
+        toast(
+            `😴 +${d.energy} Energie`
+        );
 
-⚡ -${e} Energie
-
-<br>
-
-😊 -${j.happy} Glück
-
-</p>
-
-<p class="muted">
-
-${
-rem
-?
-"⏳ Bereit in "+fmt(rem)
-:
-"🟢 Bereit"
+        home();
+    }catch(e){
+        toast("❌ "+e.message);
+    }
 }
 
-</p>
+async function freeTime(){
 
-<button
-class="action"
-${
-rem ||
-p.workToday>=8 ||
-p.energy<e
-?
-"disabled"
-:
-""
-}
-onclick="work('${j.id}')">
+    try{
+        const d=
+            await api(
+                "/api/freetime",
+                {
+                    method:"POST"
+                }
+            );
 
-${
-rem
-?
-"⏳ Cooldown"
-:
-p.workToday>=8
-?
-"📅 Tageslimit"
-:
-p.energy<e
-?
-"⚡ Zu wenig Energie"
-:
-"Arbeiten"
+        toast(
+            `🎮 +${d.happiness} Glück`
+        );
+
+        home();
+    }catch(e){
+        toast("❌ "+e.message);
+    }
 }
 
-</button>
+async function shopPage(){
 
-</div>
+    const d=
+        await api("/api/me");
 
-`;
+    let html=
+        "<h2>🏪 Shop</h2>";
 
-});
+    Object.entries(d.shop)
+    .forEach(
+        ([name,item])=>{
 
-$("content")
-.innerHTML=
-html;
+        html+=`
 
-}
+        <div class="card">
 
-async function work(id){
+        <h3>${name}</h3>
 
-try{
+        <p>
+        ${item.text}
+        </p>
 
-let d =
-await api(
-"/api/work",
-{id}
-);
+        <p>
+        💰 ${item.price.toLocaleString("de-DE")}
+        Coins
+        </p>
 
-setPlayer(
-d.player
-);
+        ${
+            item.type==="energy"
+            ?
+            `<p>🔋 ${item.uses} Nutzungen</p>`
+            :
+            ""
+        }
 
-toast(
-"💼 Job erledigt! +"
-+
-d.reward
-+
-" Coins"
-);
+        <button
+        class="action"
+        onclick="buy('${name}')">
+        Kaufen
+        </button>
 
-jobs();
+        </div>
 
-}
+        `;
+    });
 
-catch(e){
-
-toast(
-e.message
-);
-
-jobs();
-
-}
-
-}
-
-function shopPage(){
-
-let html=`
-
-<h2>🏪 Shop</h2>
-
-<p class="muted">
-Verbrauchs- und Ausrüstungs-Items
-plus zeitlich begrenzte Services.
-</p>
-
-`;
-
-for(
-const [n,d]
-of Object.entries(items)
-){
-
-html+=`
-
-<div class="card">
-
-<h3>${n}</h3>
-
-<p>
-${d.text}
-</p>
-
-<p>
-💰
-${d.price.toLocaleString("de-DE")}
-Coins
-
-·
-
-🔋
-${d.uses}
-Nutzungen
-</p>
-
-<button
-class="action"
-onclick="buy(${JSON.stringify(n)})"
-${p.coins<d.price?"disabled":""}>
-
-🛒 Kaufen
-
-</button>
-
-</div>
-
-`;
-
-}
-
-for(
-const [n,d]
-of Object.entries(
-shopSpecials
-)
-){
-
-html+=`
-
-<div class="card">
-
-<h3>${n}</h3>
-
-<p>
-${d.text}
-</p>
-
-<p>
-💰
-${d.price.toLocaleString("de-DE")}
-Coins
-</p>
-
-<button
-class="action gold"
-onclick="buy(${JSON.stringify(n)})"
-${p.coins<d.price?"disabled":""}>
-
-⚡ Kaufen
-
-</button>
-
-</div>
-
-`;
-
-}
-
-$("content")
-.innerHTML=
-html;
-
+    document.getElementById(
+        "content"
+    ).innerHTML=html;
 }
 
 async function buy(name){
 
-try{
+    try{
+        await api(
+            "/api/shop/buy",
+            {
+                method:"POST",
+                body:
+                    JSON.stringify({
+                        name
+                    })
+            }
+        );
 
-let d =
-await api(
-"/api/shop/buy",
-{name}
-);
+        toast("🛍️ Gekauft!");
 
-setPlayer(
-d.player
-);
-
-toast(
-name+
-" gekauft!"
-);
-
-shopPage();
-
+        shopPage();
+    }catch(e){
+        toast("❌ "+e.message);
+    }
 }
 
-catch(e){
+async function inventory(){
 
-toast(
-e.message
-);
+    if(!player.inventory.length){
 
-}
+        document.getElementById(
+            "content"
+        ).innerHTML=`
 
-}
+        <h2>🎒 Inventar</h2>
 
-function inventory(){
+        <div class="card">
+        Dein Inventar ist leer.
+        </div>
 
-if(
-!p.inventory.length
-){
+        `;
 
-$("content")
-.innerHTML=`
+        return;
+    }
 
-<h2>🎒 Inventar</h2>
+    let html=
+        "<h2>🎒 Inventar</h2>";
 
-<div class="card">
+    player.inventory
+    .forEach(item=>{
 
-Leer.
+        const equipped=
+            player.equipped
+            .includes(item.name);
 
-<button
-class="action"
-onclick="shopPage()">
+        const energy =
+            item.name==="🥤 Energy Drink" ||
+            item.name==="☕ Kaffee";
 
-Zum Shop
+        html+=`
 
-</button>
+        <div class="item
+        ${equipped?"equipped":""}">
 
-</div>
+        <h3>${item.name}</h3>
 
-`;
+        <p>
+        🔋 ${item.uses} Nutzungen
+        </p>
 
-return;
+        ${
+            energy
+            ?
+            `<button
+            class="action green"
+            onclick="useItem('${item.name}')">
+            ⚡ Benutzen
+            </button>`
+            :
+            equipped
+            ?
+            `
+            <span class="badge">
+            ✅ Ausgerüstet
+            </span>
 
-}
+            <button
+            class="action gray"
+            onclick="unequip('${item.name}')">
+            Ablegen
+            </button>
+            `
+            :
+            `
+            <button
+            class="action"
+            onclick="equip('${item.name}')">
+            Ausrüsten
+            </button>
+            `
+        }
 
-let h =
-"<h2>🎒 Inventar</h2>";
+        </div>
+        `;
+    });
 
-p.inventory.forEach(
-(it,i)=>{
-
-let d =
-items[it.name];
-
-let eq =
-p.equipped
-.includes(
-it.name
-);
-
-h+=`
-
-<div
-class="item
-${eq?"equipped":""}">
-
-<h3>
-${it.name}
-</h3>
-
-<p>
-🔋
-${it.uses}
-Nutzungen
-
-·
-
-${d?.text||""}
-</p>
-
-${
-d?.type==="consumable"
-
-?
-
-`
-
-<button
-class="action green"
-onclick="useItem(${i})">
-
-⚡ Benutzen
-
-</button>
-
-`
-
-:
-
-eq
-
-?
-
-`
-
-<span class="badge">
-✅ Ausgerüstet
-</span>
-
-<button
-class="action gray"
-onclick="unequip(${JSON.stringify(it.name)})">
-
-Ablegen
-
-</button>
-
-`
-
-:
-
-`
-
-<button
-class="action"
-onclick="equip(${JSON.stringify(it.name)})">
-
-⚙️ Ausrüsten
-
-</button>
-
-`
-}
-
-<button
-class="action pink"
-onclick="giftItem(${i})">
-
-🎁 Verschenken
-
-</button>
-
-</div>
-
-`;
-
-});
-
-$("content")
-.innerHTML=
-h;
-
+    document.getElementById(
+        "content"
+    ).innerHTML=html;
 }
 
 async function equip(name){
 
-try{
+    try{
+        await api(
+            "/api/item/equip",
+            {
+                method:"POST",
+                body:
+                    JSON.stringify({
+                        name
+                    })
+            }
+        );
 
-let d =
-await api(
-"/api/inventory/equip",
-{name}
-);
-
-setPlayer(
-d.player
-);
-
-inventory();
-
-}
-
-catch(e){
-
-toast(
-e.message
-);
-
-}
-
+        inventory();
+    }catch(e){
+        toast("❌ "+e.message);
+    }
 }
 
 async function unequip(name){
 
-try{
+    try{
+        await api(
+            "/api/item/unequip",
+            {
+                method:"POST",
+                body:
+                    JSON.stringify({
+                        name
+                    })
+            }
+        );
 
-let d =
-await api(
-"/api/inventory/unequip",
-{name}
-);
-
-setPlayer(
-d.player
-);
-
-inventory();
-
+        inventory();
+    }catch(e){
+        toast("❌ "+e.message);
+    }
 }
 
-catch(e){
+async function useItem(name){
 
-toast(
-e.message
-);
+    try{
+        await api(
+            "/api/item/use",
+            {
+                method:"POST",
+                body:
+                    JSON.stringify({
+                        name
+                    })
+            }
+        );
 
+        toast("⚡ Item benutzt!");
+
+        inventory();
+    }catch(e){
+        toast("❌ "+e.message);
+    }
 }
 
+async function daily(){
+
+    try{
+        const d=
+            await api(
+                "/api/daily",
+                {
+                    method:"POST"
+                }
+            );
+
+        toast(
+            `🎁 +${d.reward} Coins`
+        );
+
+        home();
+    }catch(e){
+        toast("❌ "+e.message);
+    }
 }
 
-async function useItem(index){
+async function leaderboard(){
 
-try{
+    try{
 
-let d =
-await api(
-"/api/inventory/use",
-{index}
-);
+        const d=
+            await api(
+                "/api/leaderboard"
+            );
 
-setPlayer(
-d.player
-);
+        let html=
+            "<h2>🏆 Rangliste</h2>";
 
-toast(
-"⚡ +"
-+
-d.gained
-+
-" Energie"
-);
+        html+=`
+        <div class="grid">
 
-inventory();
+        <div class="card">
 
+        <h3>💰 Reichste Spieler</h3>
+        `;
+
+        d.money.forEach(x=>{
+
+            html+=`
+            <p>
+            #${x.rank}
+            <strong>${x.username}</strong>
+            —
+            ${x.value.toLocaleString("de-DE")}
+            Coins
+            </p>
+            `;
+        });
+
+        html+=`
+        </div>
+
+        <div class="card">
+
+        <h3>⭐ XP-Rangliste</h3>
+        `;
+
+        d.xp.forEach(x=>{
+
+            html+=`
+            <p>
+            #${x.rank}
+            <strong>${x.username}</strong>
+            —
+            Level ${x.level}
+            · ${x.value} XP
+            </p>
+            `;
+        });
+
+        html+=`
+        </div>
+
+        </div>
+        `;
+
+        document.getElementById(
+            "content"
+        ).innerHTML=html;
+
+    }catch(e){
+        toast("❌ "+e.message);
+    }
 }
 
-catch(e){
+async function friends(){
 
-toast(
-e.message
-);
+    document.getElementById(
+        "content"
+    ).innerHTML=`
 
-}
+    <h2>👥 Freunde</h2>
 
-}
+    <div class="card">
 
-function giftItem(index){
+    <h3>➕ Freund hinzufügen</h3>
 
-let u =
-prompt(
-"Username des Freundes:"
-);
+    <input
+    id="friendName"
+    placeholder="Username">
 
-if(!u)return;
+    <button
+    class="action"
+    onclick="addFriend()">
+    Freund hinzufügen
+    </button>
 
-gift(
-u,
-"item",
-0,
-index
-);
+    </div>
 
-}
+    <div class="card">
 
-async function gift(
-u,
-type,
-amount,
-index
-){
+    <h3>👥 Deine Freunde</h3>
 
-try{
+    ${
+        player.friends.length
+        ?
+        player.friends.join("<br>")
+        :
+        "Noch keine Freunde."
+    }
 
-let d =
-await api(
-"/api/gift",
-{
-username:u,
-type,
-amount,
-index
-}
-);
-
-setPlayer(
-d.player
-);
-
-toast(
-"🎁 Geschenk verschickt!"
-);
-
-inventory();
-
-}
-
-catch(e){
-
-toast(
-e.message
-);
-
-}
-
-}
-
-function rest(){
-
-api(
-"/api/rest"
-)
-
-.then(
-d=>{
-
-setPlayer(
-d.player
-);
-
-toast(
-"😴 Ruhepause abgeschlossen."
-);
-
-home();
-
-}
-)
-
-.catch(
-e =>
-toast(
-e.message
-)
-);
-
-}
-
-function freeTime(){
-
-api(
-"/api/freetime"
-)
-
-.then(
-d=>{
-
-setPlayer(
-d.player
-);
-
-toast(
-"🎮 +"
-+
-d.happiness
-+
-" Glück!"
-);
-
-home();
-
-}
-)
-
-.catch(
-e =>
-toast(
-e.message
-)
-);
-
-}
-
-function daily(){
-
-api(
-"/api/daily"
-)
-
-.then(
-d=>{
-
-setPlayer(
-d.player
-);
-
-toast(
-"🎁 +"
-+
-d.reward
-+
-" Coins!"
-);
-
-home();
-
-}
-)
-
-.catch(
-e =>
-toast(
-e.message
-)
-);
-
-}
-
-function minerPage(){
-
-if(!p.miner){
-
-$("content")
-.innerHTML=`
-
-<h2>⛏️ Miner</h2>
-
-<div class="card">
-
-<h3>
-Baue deine passive Einnahmequelle auf.
-</h3>
-
-<p>
-Level 1 · 2.000 Coins/h
-· Kaufpreis 10.000 Coins
-</p>
-
-<button
-class="action"
-onclick="minerBuy()">
-
-⛏️ Miner kaufen
-
-</button>
-
-</div>
-
-`;
-
-return;
-
-}
-
-api(
-"/api/miner/state"
-)
-
-.then(
-d=>{
-
-setPlayer(
-d.player
-);
-
-renderMiner();
-
-}
-)
-
-.catch(
-e =>
-toast(
-e.message
-)
-);
-
-}
-
-function renderMiner(){
-
-let m =
-p.miner;
-
-let eff =
-(
-0.70 +
-0.30 *
-m.condition /
-100
-)
-*
-(
-p.boostUntil>Date.now()
-?
-2
-:
-1
-);
-
-let rate =
-Math.floor(
-m.rate *
-eff
-);
-
-$("content")
-.innerHTML=`
-
-<h2>⛏️ Miner</h2>
-
-<div class="card">
-
-<h3>
-🟢 Miner Level ${m.level}
-</h3>
-
-<p>
-💰 Basis:
-${m.rate.toLocaleString("de-DE")}
-Coins/h
-</p>
-
-<p>
-📈 Aktuell:
-<b>
-${rate.toLocaleString("de-DE")}
-Coins/h
-</b>
-
-${
-p.boostUntil>Date.now()
-?
-" · ⚡ BOOST ×2"
-:
-""
-}
-
-</p>
-
-<p>
-📦 Gespeichert:
-<b>
-${m.stored.toLocaleString("de-DE")}
-Coins
-</b>
-</p>
-
-<p>
-🔧 Zustand:
-<b>
-${m.condition.toFixed(1)}%
-</b>
-</p>
-
-<button
-class="action green"
-onclick="collectMiner()">
-
-💰 Einnahmen abholen
-
-</button>
-
-<button
-class="action gray"
-onclick="repairMiner()">
-
-🔧 Reparieren
-
-</button>
-
-</div>
-
-<div class="card">
-
-<h3>
-⬆️ Nächstes Upgrade
-</h3>
-
-${
-m.upgradeCost===null ||
-!isFinite(m.upgradeCost)
-
-?
-
-"Maximales Level erreicht."
-
-:
-
-`
-
-<p>
-Level ${m.level+1}
-·
-${m.upgradeCost.toLocaleString("de-DE")}
-Coins
-</p>
-
-<button
-class="action"
-onclick="upgradeMiner()">
-
-⬆️ Upgrade
-
-</button>
-
-`
-}
-
-</div>
-
-`;
-
-}
-
-async function minerBuy(){
-
-try{
-
-let d =
-await api(
-"/api/miner/buy"
-);
-
-setPlayer(
-d.player
-);
-
-minerPage();
-
-}
-
-catch(e){
-
-toast(
-e.message
-);
-
-}
-
-}
-
-async function collectMiner(){
-
-try{
-
-let d =
-await api(
-"/api/miner/collect"
-);
-
-setPlayer(
-d.player
-);
-
-toast(
-"💰 "
-+
-d.amount.toLocaleString(
-"de-DE"
-)
-+
-" Coins abgeholt!"
-);
-
-renderMiner();
-
-}
-
-catch(e){
-
-toast(
-e.message
-);
-
-}
-
-}
-
-async function repairMiner(){
-
-try{
-
-let d =
-await api(
-"/api/miner/repair"
-);
-
-setPlayer(
-d.player
-);
-
-toast(
-"🔧 Miner repariert! -"
-+
-d.cost
-+
-" Coins"
-);
-
-renderMiner();
-
-}
-
-catch(e){
-
-toast(
-e.message
-);
-
-}
-
-}
-
-async function upgradeMiner(){
-
-try{
-
-let d =
-await api(
-"/api/miner/upgrade"
-);
-
-setPlayer(
-d.player
-);
-
-toast(
-"⬆️ Miner verbessert!"
-);
-
-renderMiner();
-
-}
-
-catch(e){
-
-toast(
-e.message
-);
-
-}
-
-}
-
-function bankPage(){
-
-$("content")
-.innerHTML=`
-
-<h2>🏦 Bank</h2>
-
-<div class="grid">
-
-<div class="card">
-
-<h3>
-💳 Konto
-</h3>
-
-<b>
-${p.bank.toLocaleString("de-DE")}
-Coins
-</b>
-
-</div>
-
-<div class="card">
-
-<h3>
-📈 Börse
-</h3>
-
-<b>
-${p.exchange.toLocaleString("de-DE")}
-Coins
-</b>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h3>
-💳 Konto verwalten
-</h3>
-
-<input
-id="ba"
-type="number"
-min="1"
-placeholder="Betrag">
-
-<div class="row">
-
-<button
-class="action"
-onclick="bankMove('deposit')">
-
-💰 Coins → Konto
-
-</button>
-
-<button
-class="action gray"
-onclick="bankMove('withdraw')">
-
-💸 Konto → Coins
-
-</button>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h3>
-📈 Konto ↔ Börse
-</h3>
-
-<p>
-Standardgebühr:
-<b>2%</b>.
-
-Mit Gebührenpass:
-<b>0%</b>.
-</p>
-
-<input
-id="ea"
-type="number"
-min="1"
-placeholder="Betrag">
-
-<div class="row">
-
-<button
-class="action"
-onclick="bankMove('toExchange')">
-
-📈 Zur Börse
-
-</button>
-
-<button
-class="action gray"
-onclick="bankMove('toBank')">
-
-💳 Zum Konto
-
-</button>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h3>
-🧾 Gebührenpass
-</h3>
-
-<p>
-
-${
-p.feePassUntil>Date.now()
-?
-
-"🔵 Aktiv · noch "
-+
-fmt(
-p.feePassUntil-Date.now()
-)
-
-:
-
-"Nicht aktiv"
-}
-
-</p>
-
-<button
-class="action gold"
-onclick="buy('🧾 Gebührenpass')">
-
-🧾 Im Shop kaufen
-
-</button>
-
-</div>
-
-`;
-
-}
-
-async function bankMove(dir){
-
-try{
-
-let amount =
-Number(
-dir==="deposit" ||
-dir==="withdraw"
-?
-$("ba").value
-:
-$("ea").value
-);
-
-let direction =
-dir==="deposit"
-?
-"toBankFromCoins"
-:
-dir==="withdraw"
-?
-"fromBankToCoins"
-:
-dir;
-
-let d =
-await api(
-"/api/bank/transfer",
-{
-direction,
-amount
-}
-);
-
-setPlayer(
-d.player
-);
-
-toast(
-"🏦 Transfer erfolgreich"
-+
-(
-d.fee
-?
-" · Gebühr "
-+
-d.fee
-:
-""
-)
-);
-
-bankPage();
-
-}
-
-catch(e){
-
-toast(
-e.message
-);
-
-}
-
-}
-
-function leaderboard(){
-
-fetch(
-"/api/leaderboard"
-)
-
-.then(
-r =>
-r.json()
-)
-
-.then(
-d=>{
-
-$("content")
-.innerHTML=`
-
-<h2>
-🏆 Rangliste
-</h2>
-
-<div class="row">
-
-<div class="card">
-
-<h3>
-💰 Coins
-</h3>
-
-<table>
-
-<tr>
-<th>#</th>
-<th>Spieler</th>
-<th>Coins</th>
-</tr>
-
-${
-d.money
-.map(
-x=>
-`
-
-<tr>
-
-<td>
-${x.rank}
-</td>
-
-<td>
-${x.username}
-</td>
-
-<td>
-${x.value.toLocaleString("de-DE")}
-</td>
-
-</tr>
-
-`
-)
-.join("")
-}
-
-</table>
-
-</div>
-
-<div class="card">
-
-<h3>
-⭐ XP / Level
-</h3>
-
-<table>
-
-<tr>
-<th>#</th>
-<th>Spieler</th>
-<th>Level</th>
-<th>XP</th>
-</tr>
-
-${
-d.xp
-.map(
-x=>
-`
-
-<tr>
-
-<td>
-${x.rank}
-</td>
-
-<td>
-${x.username}
-</td>
-
-<td>
-${x.level}
-</td>
-
-<td>
-${x.value}
-</td>
-
-</tr>
-
-`
-)
-.join("")
-}
-
-</table>
-
-</div>
-
-</div>
-
-`;
-
-}
-)
-
-.catch(
-() =>
-toast(
-"Rangliste konnte nicht geladen werden."
-)
-);
-
-}
-
-function socialPage(){
-
-$("content")
-.innerHTML=`
-
-<h2>
-🤝 Freunde
-</h2>
-
-<div class="card">
-
-<h3>
-➕ Freund hinzufügen
-</h3>
-
-<input
-id="friend"
-placeholder="Username">
-
-<button
-class="action"
-onclick="addFriend()">
-
-🤝 Hinzufügen
-
-</button>
-
-</div>
-
-<div class="card">
-
-<h3>
-Meine Freunde
-</h3>
-
-${
-p.friends.length
-
-?
-
-p.friends
-.map(
-x =>
-`
-<span class="badge">
-${x}
-</span>
-`
-)
-.join("")
-
-:
-
-"Noch keine Freunde."
-}
-
-</div>
-
-<div class="card">
-
-<h3>
-💰 Geld schenken
-</h3>
-
-<input
-id="giftUser"
-placeholder="Freund-Username">
-
-<input
-id="giftAmount"
-type="number"
-min="1"
-placeholder="Coins">
-
-<button
-class="action pink"
-onclick="
-gift(
-$('giftUser').value,
-'coins',
-Number($('giftAmount').value),
-0
-)">
-
-🎁 Coins schenken
-
-</button>
-
-</div>
-
-`;
-
+    </div>
+    `;
 }
 
 async function addFriend(){
 
-try{
+    try{
 
-let d =
-await api(
-"/api/friend/add",
-{
-username:
-$("friend")
-.value
-.trim()
-}
-);
+        const username=
+            document.getElementById(
+                "friendName"
+            ).value.trim();
 
-setPlayer(
-d.player
-);
+        await api(
+            "/api/friend/add",
+            {
+                method:"POST",
+                body:
+                    JSON.stringify({
+                        username
+                    })
+            }
+        );
 
-toast(
-"🤝 Freund hinzugefügt!"
-);
+        toast("👥 Freund hinzugefügt!");
 
-socialPage();
+        friends();
 
-}
-
-catch(e){
-
-toast(
-e.message
-);
-
+    }catch(e){
+        toast("❌ "+e.message);
+    }
 }
 
+async function stocks(){
+
+    try{
+
+        const d=
+            await api(
+                "/api/stocks"
+            );
+
+        const symbols=
+            Object.keys(d.stocks);
+
+        let html=
+            "<h2>📈 STONKS</h2>";
+
+        html+=`
+        <p class="muted">
+        Die Kurse verändern sich regelmäßig.
+        Kaufe günstig und verkaufe hoffentlich
+        später teurer.
+        </p>
+        `;
+
+        symbols.forEach(
+            symbol=>{
+
+            const s=
+                d.stocks[symbol];
+
+            html+=`
+
+            <div class="stock">
+
+            <h3>
+            ${symbol} · ${s.name}
+            </h3>
+
+            <p>
+            💰
+            <strong>
+            ${s.price.toLocaleString("de-DE")}
+            </strong>
+            pro Aktie
+            </p>
+
+            <canvas
+            id="chart-${symbol}"
+            width="800"
+            height="280">
+            </canvas>
+
+            <div class="row">
+
+            <input
+            id="buy-${symbol}"
+            type="number"
+            min="1"
+            value="1">
+
+            <button
+            class="action green"
+            onclick="buyStock('${symbol}')">
+            📈 Kaufen
+            </button>
+
+            </div>
+
+            <div class="row">
+
+            <input
+            id="sell-${symbol}"
+            type="number"
+            min="1"
+            value="1">
+
+            <button
+            class="action"
+            onclick="sellStock('${symbol}')">
+            📉 Verkaufen
+            </button>
+
+            </div>
+
+            </div>
+            `;
+        });
+
+        document.getElementById(
+            "content"
+        ).innerHTML=html;
+
+        symbols.forEach(
+            symbol =>
+                drawChart(
+                    "chart-"+symbol,
+                    d.stocks[symbol].history
+                )
+        );
+
+    }catch(e){
+        toast("❌ "+e.message);
+    }
+}
+
+function drawChart(id,data){
+
+    const canvas=
+        document.getElementById(id);
+
+    if(!canvas)return;
+
+    const ctx=
+        canvas.getContext("2d");
+
+    const w=canvas.width;
+    const h=canvas.height;
+
+    ctx.clearRect(
+        0,0,w,h
+    );
+
+    const min=
+        Math.min(...data);
+
+    const max=
+        Math.max(...data);
+
+    const range=
+        Math.max(
+            1,
+            max-min
+        );
+
+    ctx.strokeStyle="#333";
+    ctx.lineWidth=1;
+
+    for(let i=1;i<5;i++){
+
+        const y=
+            (h/5)*i;
+
+        ctx.beginPath();
+        ctx.moveTo(0,y);
+        ctx.lineTo(w,y);
+        ctx.stroke();
+    }
+
+    ctx.strokeStyle="#ef4444";
+    ctx.lineWidth=3;
+
+    ctx.beginPath();
+
+    data.forEach(
+        (value,i)=>{
+
+        const x=
+            i/
+            Math.max(
+                1,
+                data.length-1
+            )*
+            (w-20)+10;
+
+        const y=
+            h-20-
+            (
+                (value-min)/
+                range
+            )*
+            (h-40);
+
+        if(i===0)
+            ctx.moveTo(x,y);
+        else
+            ctx.lineTo(x,y);
+    });
+
+    ctx.stroke();
+}
+
+async function buyStock(symbol){
+
+    try{
+
+        const amount=
+            Number(
+                document.getElementById(
+                    "buy-"+symbol
+                ).value
+            );
+
+        await api(
+            "/api/stock/buy",
+            {
+                method:"POST",
+                body:
+                    JSON.stringify({
+                        symbol,
+                        amount
+                    })
+            }
+        );
+
+        toast("📈 Aktie gekauft!");
+
+        stocks();
+
+    }catch(e){
+        toast("❌ "+e.message);
+    }
+}
+
+async function sellStock(symbol){
+
+    try{
+
+        const amount=
+            Number(
+                document.getElementById(
+                    "sell-"+symbol
+                ).value
+            );
+
+        const d=
+            await api(
+                "/api/stock/sell",
+                {
+                    method:"POST",
+                    body:
+                        JSON.stringify({
+                            symbol,
+                            amount
+                        })
+                }
+            );
+
+        toast(
+            `📉 Verkauf · ${
+                d.profit>=0
+                ? "+"
+                :
+                ""
+            }${Math.floor(d.profit)} Coins`
+        );
+
+        stocks();
+
+    }catch(e){
+        toast("❌ "+e.message);
+    }
+}
+
+async function miner(){
+
+    try{
+
+        const d=
+            await api(
+                "/api/miner"
+            );
+
+        if(!d.miner){
+
+            document.getElementById(
+                "content"
+            ).innerHTML=`
+
+            <h2>⛏️ Miner</h2>
+
+            <div class="card">
+
+            <h3>⛏️ Kaufe deinen Miner</h3>
+
+            <p>
+            Preis:
+            <strong>
+            10.000 Coins
+            </strong>
+            </p>
+
+            <p>
+            Produktion:
+            2.000 Coins/Stunde
+            </p>
+
+            <button
+            class="action"
+            onclick="buyMiner()">
+            ⛏️ Miner kaufen
+            </button>
+
+            </div>
+            `;
+
+            return;
+        }
+
+        const m=d.miner;
+
+        document.getElementById(
+            "content"
+        ).innerHTML=`
+
+        <h2>⛏️ Miner</h2>
+
+        <div class="card">
+
+        <h3>
+        ⛏️ Miner Level ${m.level}
+        </h3>
+
+        <p>
+        💰 Produktion:
+        ${Math.floor(m.stats.hourly)
+        .toLocaleString("de-DE")}
+        Coins/Stunde
+        </p>
+
+        <p>
+        📦 Produziert:
+        ${Math.floor(m.produced)
+        .toLocaleString("de-DE")}
+        Coins
+        </p>
+
+        <p>
+        🔧 Zustand:
+        ${Math.round(m.condition)}%
+        </p>
+
+        <button
+        class="action green"
+        onclick="collectMiner()">
+        💰 Geld abholen
+        </button>
+
+        <button
+        class="action"
+        onclick="upgradeMiner()">
+        ⬆️ Upgrade für
+        ${m.stats.upgrade
+        .toLocaleString("de-DE")}
+        Coins
+        </button>
+
+        <button
+        class="action gray"
+        onclick="repairMiner()">
+        🔧 Miner reparieren
+        </button>
+
+        </div>
+        `;
+
+    }catch(e){
+        toast("❌ "+e.message);
+    }
+}
+
+async function buyMiner(){
+
+    try{
+
+        await api(
+            "/api/miner/buy",
+            {
+                method:"POST"
+            }
+        );
+
+        toast(
+            "⛏️ Miner gekauft!"
+        );
+
+        miner();
+
+    }catch(e){
+        toast("❌ "+e.message);
+    }
+}
+
+async function collectMiner(){
+
+    try{
+
+        const d=
+            await api(
+                "/api/miner/collect",
+                {
+                    method:"POST"
+                }
+            );
+
+        toast(
+            `💰 ${d.amount.toLocaleString("de-DE")} Coins abgeholt!`
+        );
+
+        miner();
+
+    }catch(e){
+        toast("❌ "+e.message);
+    }
+}
+
+async function upgradeMiner(){
+
+    try{
+
+        await api(
+            "/api/miner/upgrade",
+            {
+                method:"POST"
+            }
+        );
+
+        toast(
+            "⬆️ Miner verbessert!"
+        );
+
+        miner();
+
+    }catch(e){
+        toast("❌ "+e.message);
+    }
+}
+
+async function repairMiner(){
+
+    try{
+
+        await api(
+            "/api/miner/repair",
+            {
+                method:"POST"
+            }
+        );
+
+        toast(
+            "🔧 Miner repariert!"
+        );
+
+        miner();
+
+    }catch(e){
+        toast("❌ "+e.message);
+    }
 }
 
 function profile(){
 
-$("content")
-.innerHTML=`
+    document.getElementById(
+        "content"
+    ).innerHTML=`
 
-<h2>
-👤 Profil
-</h2>
+    <h2>👤 Profil</h2>
 
-<div class="card">
+    <div class="card">
 
-<p>
-👤
-${p.username}
-</p>
+    <p>
+    👤 ${player.username}
+    </p>
 
-<p>
-💰 Coins:
-${p.coins.toLocaleString("de-DE")}
-</p>
+    <p>
+    💰 ${player.coins.toLocaleString("de-DE")}
+    Coins
+    </p>
 
-<p>
-⭐ Level:
-${p.level}
-·
-XP:
-${p.xp}
-</p>
+    <p>
+    ⭐ Level ${player.level}
+    · ${player.xp} XP
+    </p>
 
-<p>
-⚡ Energie:
-${Math.round(p.energy)}/100
-</p>
+    <p>
+    ⚡ ${Math.round(player.energy)}/100
+    </p>
 
-<p>
-😊 Glück:
-${Math.round(p.happiness)}/100
-</p>
+    <p>
+    😊 ${Math.round(player.happiness)}/100
+    </p>
 
-<p>
-🔥 Daily Streak:
-${p.streak}
-</p>
+    <p>
+    🔥 Daily Streak:
+    ${player.streak}
+    </p>
 
-</div>
+    </div>
 
-<div class="card">
+    <div class="card">
 
-<h3>
-⚡ Boost
-</h3>
+    <h3>👔 Job</h3>
 
-<p>
+    <p>
+    ${
+        player.activeJob ||
+        "Kein Job"
+    }
+    </p>
 
-${
-p.boostUntil>Date.now()
+    </div>
 
-?
+    <div class="card">
 
-"Aktiv · "+
-fmt(
-p.boostUntil-Date.now()
-)
+    <h3>📈 Börsenkonto</h3>
 
-:
+    <p>
+    💰
+    ${Math.floor(player.exchange)
+    .toLocaleString("de-DE")}
+    Coins
+    </p>
 
-"Nicht aktiv"
+    <p>
+    🏦 Bank:
+    ${Math.floor(player.bank)
+    .toLocaleString("de-DE")}
+    Coins
+    </p>
+
+    </div>
+
+    `;
 }
 
-</p>
+async function admin(){
+
+    let password=
+        sessionStorage.getItem(
+            "cubixAdmin"
+        );
+
+    if(!password){
+
+        password=
+            prompt(
+                "👑 Admin-Passwort:"
+            );
+
+        if(!password)return;
+
+        try{
+
+            const r=
+                await fetch(
+                    "/api/admin/login",
+                    {
+                        method:"POST",
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+                        body:
+                            JSON.stringify({
+                                password
+                            })
+                    }
+                );
+
+            const d=
+                await r.json();
+
+            if(!r.ok)
+                throw new Error(
+                    d.error ||
+                    "Falsches Passwort."
+                );
+
+            sessionStorage.setItem(
+                "cubixAdmin",
+                password
+            );
+
+        }catch(e){
+
+            toast(
+                "❌ "+e.message
+            );
+
+            return;
+        }
+    }
+
+    const stats=
+        await fetch(
+            "/api/admin/stats",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":
+                        "application/json"
+                },
+                body:
+                    JSON.stringify({
+                        password
+                    })
+            }
+        );
+
+    const d=
+        await stats.json();
+
+    if(!stats.ok){
+
+        sessionStorage.removeItem(
+            "cubixAdmin"
+        );
+
+        toast(
+            "❌ Admin-Sitzung abgelaufen."
+        );
+
+        return;
+    }
+
+    document.getElementById(
+        "content"
+    ).innerHTML=`
+
+    <h2>👑 CUBIX ADMIN</h2>
+
+    <div class="card">
+
+    <p>
+    🟢 Online:
+    ${d.onlinePlayers}
+    </p>
 
-<button
-class="action gold"
-onclick="
-buy('⚡ Einnahmen-Boost')
-">
+    <p>
+    👥 Spieler gesamt:
+    ${d.totalPlayers}
+    </p>
 
-⚡ Boost im Shop kaufen
+    </div>
 
-</button>
+    <div class="card">
 
-</div>
+    <h3>💰 Coins / ⭐ XP vergeben</h3>
 
-`;
+    <input
+    id="adminTarget"
+    placeholder="Username">
 
-}
+    <input
+    id="adminAmount"
+    type="number"
+    min="1"
+    placeholder="Menge">
 
-async function adminPage(){
+    <div class="row">
 
-if(!adminPassword){
+    <button
+    class="action green"
+    onclick="adminGive('coins')">
+    💰 Coins geben
+    </button>
 
-let x =
-prompt(
-"👑 Admin-Passwort:"
-);
+    <button
+    class="action green"
+    onclick="adminGive('xp')">
+    ⭐ XP geben
+    </button>
 
-if(!x)return;
+    </div>
 
-try{
+    </div>
 
-await apiAdmin(
-"/api/admin/login",
-x
-);
-
-adminPassword=x;
-
-sessionStorage.setItem(
-"cubixAdmin",
-x
-);
-
-}
-
-catch(e){
-
-toast(
-e.message
-);
-
-return;
-
-}
-
-}
-
-try{
-
-let d =
-await apiAdmin(
-"/api/admin/stats",
-adminPassword
-);
-
-$("content")
-.innerHTML=`
-
-<h2>
-👑 Admin
-</h2>
-
-<div class="card">
-
-<h3>
-👥 Server
-</h3>
-
-<p>
-🟢 Online:
-${d.onlinePlayers}
-</p>
-
-<p>
-👤 Spieler gesamt:
-${d.totalPlayers}
-</p>
-
-</div>
-
-<div class="card">
-
-<h3>
-💰 Coins / ⭐ XP vergeben
-</h3>
-
-<input
-id="target"
-placeholder="Username">
-
-<input
-id="adminAmount"
-type="number"
-min="1"
-placeholder="Menge">
-
-<div class="row">
-
-<button
-class="action green"
-onclick="adminGive('coins')">
-
-💰 Coins geben
-
-</button>
-
-<button
-class="action green"
-onclick="adminGive('xp')">
-
-⭐ XP geben
-
-</button>
-
-</div>
-
-</div>
-
-<button
-class="action gray"
-onclick="
-adminPassword=null;
-sessionStorage.removeItem('cubixAdmin');
-$('adminBtn').style.display='none';
-home()
-">
-
-Admin verlassen
-
-</button>
-
-`;
-
-$("adminBtn")
-.style
-.display=
-"block";
-
-}
-
-catch(e){
-
-adminPassword=null;
-
-sessionStorage.removeItem(
-"cubixAdmin"
-);
-
-toast(
-e.message
-);
-
-}
-
-}
-
-async function apiAdmin(
-url,
-password
-){
-
-let r =
-await fetch(
-url,
-{
-method:"POST",
-
-headers:{
-"Content-Type":
-"application/json"
-},
-
-body:
-JSON.stringify({
-password
-})
-}
-);
-
-let d =
-await r.json();
-
-if(
-!r.ok ||
-!d.success
-){
-
-throw Error(
-d.error ||
-"Admin-Fehler"
-);
-
-}
-
-return d;
-
+    <button
+    class="action gray"
+    onclick="adminLogout()">
+    Admin verlassen
+    </button>
+    `;
 }
 
 async function adminGive(type){
 
-try{
+    const password=
+        sessionStorage.getItem(
+            "cubixAdmin"
+        );
 
-let r =
-await fetch(
-"/api/admin/give",
-{
-method:"POST",
+    try{
 
-headers:{
-"Content-Type":
-"application/json"
-},
+        const username=
+            document.getElementById(
+                "adminTarget"
+            ).value.trim();
 
-body:
-JSON.stringify({
+        const amount=
+            Number(
+                document.getElementById(
+                    "adminAmount"
+                ).value
+            );
 
-password:
-adminPassword,
+        const r=
+            await fetch(
+                "/api/admin/give",
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+                    body:
+                        JSON.stringify({
+                            password,
+                            username,
+                            amount,
+                            type
+                        })
+                }
+            );
 
-username:
-$("target")
-.value
-.trim(),
+        const d=
+            await r.json();
 
-type,
+        if(!r.ok)
+            throw new Error(d.error);
 
-amount:
-Number(
-$("adminAmount")
-.value
-)
+        toast(
+            `👑 ${amount} ${type} an ${username}`
+        );
 
-})
-}
-);
+        admin();
 
-let d =
-await r.json();
-
-if(
-!r.ok ||
-!d.success
-){
-
-throw Error(
-d.error ||
-"Admin-Fehler"
-);
-
-}
-
-toast(
-"👑 Erfolgreich vergeben!"
-);
-
-adminPage();
-
+    }catch(e){
+        toast(
+            "❌ "+e.message
+        );
+    }
 }
 
-catch(e){
+function adminLogout(){
 
-toast(
-e.message
-);
+    sessionStorage.removeItem(
+        "cubixAdmin"
+    );
 
-}
-
+    home();
 }
 
 setInterval(
-()=>{
-
-if(token){
-
-fetch(
-"/api/heartbeat",
-{
-method:"POST",
-
-headers:{
-Authorization:
-"Bearer "+token
-}
-}
+    async()=>{
+        if(token){
+            try{
+                await fetch(
+                    "/api/heartbeat",
+                    {
+                        method:"POST",
+                        headers:headers(),
+                        body:"{}"
+                    }
+                );
+            }catch{}
+        }
+    },
+    30000
 );
 
-}
-
-},
-30000
-);
-
-setInterval(
-()=>{
-
-if(p){
-
-api(
-"/api/state"
-)
-
-.then(
-d =>
-setPlayer(
-d.player
-)
-)
-
-.catch(
-()=>{}
-);
-
-}
-
-},
-60000
-);
-
-sync();
-
+load();
 </script>
 
 </body>
