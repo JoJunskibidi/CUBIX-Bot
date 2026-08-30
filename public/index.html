@@ -1,9 +1,8 @@
-```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>CUBIX CITY</title>
 
 <style>
@@ -12,306 +11,236 @@
 body{
     margin:0;
     min-height:100vh;
-    font-family:Arial,Helvetica,sans-serif;
-    background:
-        radial-gradient(circle at top,#420909 0%,#170404 38%,#050505 80%);
-    color:#fff;
-}
-
-button{
-    border:0;
-    color:#fff;
-    cursor:pointer;
-    font-weight:700;
-    font-size:14px;
-}
-
-button:disabled{
-    opacity:.45;
-    cursor:not-allowed;
+    font-family:Arial,sans-serif;
+    background:radial-gradient(circle at top,#430909,#140404 45%,#050505);
+    color:#fff
 }
 
 .app{
-    width:100%;
-    max-width:950px;
+    max-width:1000px;
     margin:auto;
-    padding:12px;
+    padding:10px
 }
 
-.header,
-.content{
-    background:rgba(8,8,8,.97);
-    border:1px solid #4d1111;
+.header,.content{
+    background:#090909;
+    border:1px solid #551313;
     border-radius:20px;
-    box-shadow:0 10px 35px rgba(0,0,0,.45);
+    box-shadow:0 10px 35px #0008
 }
 
 .header{
-    padding:20px;
-    margin-bottom:12px;
+    padding:18px;
+    margin-bottom:10px
 }
 
 .logo{
     text-align:center;
-    font-size:34px;
-    font-weight:900;
-    letter-spacing:1px;
-    text-shadow:0 0 20px rgba(220,38,38,.35);
+    font-size:32px;
+    font-weight:900
 }
 
-.subtitle{
+.sub{
     text-align:center;
     color:#999;
-    margin:7px 0 18px;
+    margin:7px 0 16px
 }
 
-.stats{
+.stats,.grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:8px;
+    gap:8px
+}
+
+.stat,.card,.item{
+    background:#120707;
+    border:1px solid #421010;
+    border-radius:13px;
+    padding:13px
 }
 
 .stat{
-    background:#111;
-    border:1px solid #351010;
-    border-radius:13px;
-    padding:11px;
-    text-align:center;
+    text-align:center
 }
 
-.stat-title{
-    color:#888;
+.small{
     font-size:11px;
-}
-
-.stat-value{
-    margin-top:4px;
-    font-size:19px;
-    font-weight:bold;
+    color:#888
 }
 
 .bar{
     height:7px;
-    margin-top:6px;
-    background:#261010;
+    background:#260d0d;
     border-radius:10px;
     overflow:hidden;
+    margin-top:6px
 }
 
 .fill{
     height:100%;
-    width:0%;
-    transition:width .25s;
+    width:0
 }
 
-.energy{background:#d97706}
-.happy{background:#db2777}
-.xpbar{background:#b91c1c}
+.energy{
+    background:#d97706
+}
+
+.happy{
+    background:#db2777
+}
 
 .menu{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:8px;
-    margin-bottom:12px;
+    gap:7px;
+    margin-bottom:10px
 }
 
-.menu button{
-    padding:13px 7px;
-    border-radius:11px;
-    background:#180808;
-    border:1px solid #511414;
-    transition:.15s;
+.menu button,button{
+    border:0;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    border-radius:10px;
+    padding:12px;
+    background:#200909;
+    border:1px solid #551313
 }
 
-.menu button:hover{
-    background:#320b0b;
-    transform:translateY(-1px);
+.menu button:hover,button:hover{
+    background:#350c0c
 }
 
-.admin-button{
-    display:none;
-    background:#7f1d1d!important;
-    border-color:#dc2626!important;
+button:disabled{
+    opacity:.45;
+    cursor:not-allowed
 }
 
 .content{
-    padding:20px;
-    min-height:470px;
+    padding:18px;
+    min-height:500px
 }
 
 .card{
-    background:#120707;
-    border:1px solid #461111;
-    border-radius:14px;
-    padding:16px;
-    margin:10px 0;
-}
-
-.card h3{
-    margin-top:0;
+    margin:9px 0
 }
 
 .action{
     width:100%;
-    margin-top:8px;
-    padding:13px;
-    border-radius:10px;
-    background:#991b1b;
+    margin-top:7px;
+    background:#991b1b
 }
 
-.action:hover:not(:disabled){
-    background:#b91c1c;
+.green{
+    background:#166534
 }
 
-.green{background:#166534}
-.green:hover:not(:disabled){background:#15803d}
+.gray{
+    background:#3f3f46
+}
 
-.gray{background:#3f3f46}
-.pink{background:#9d174d}
-.gold{background:#92400e}
+.gold{
+    background:#92400e
+}
+
+.pink{
+    background:#9d174d
+}
+
+.danger{
+    color:#f87171
+}
+
+.success{
+    color:#4ade80
+}
+
+.muted{
+    color:#999
+}
+
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px
+}
 
 .item{
-    background:#120707;
-    border:1px solid #461111;
-    border-radius:13px;
-    padding:15px;
-    margin:9px 0;
-}
-
-.equipped{
-    border-color:#dc2626;
-    box-shadow:0 0 12px rgba(220,38,38,.12);
+    margin:8px 0
 }
 
 .badge{
     display:inline-block;
-    padding:5px 9px;
+    background:#3d1111;
+    padding:5px 8px;
     border-radius:20px;
     font-size:12px;
-    background:#3f1111;
+    margin:2px
 }
 
-.success{color:#4ade80}
-.warning{color:#fbbf24}
-.danger{color:#f87171}
-.muted{color:#999}
-
-.limit{
-    background:#1a0b0b;
-    border:1px solid #511414;
-    border-radius:10px;
-    padding:11px;
-    margin-bottom:12px;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-}
-
-.stat-card{
-    background:#0f0707;
-    border:1px solid #3e1010;
-    border-radius:12px;
-    padding:14px;
-}
-
-.progress{
-    height:9px;
-    background:#250d0d;
-    border-radius:20px;
-    overflow:hidden;
-    margin-top:7px;
-}
-
-.progress > div{
-    height:100%;
-    background:#b91c1c;
-}
-
-input{
-    width:100%;
-    padding:12px;
-    margin:5px 0;
-    border-radius:9px;
-    border:1px solid #511414;
-    background:#080808;
-    color:white;
-    font-size:16px;
+.online{
+    color:#6ee7a0
 }
 
 .toast{
     position:fixed;
     left:50%;
     bottom:20px;
-    transform:translateX(-50%) translateY(20px);
-    background:#111;
-    border:1px solid #6b1717;
-    color:#fff;
-    padding:13px 17px;
-    border-radius:12px;
-    box-shadow:0 8px 25px rgba(0,0,0,.5);
+    transform:translate(-50%,20px);
     opacity:0;
     pointer-events:none;
+    background:#111;
+    border:1px solid #8b2020;
+    padding:12px 16px;
+    border-radius:12px;
     transition:.2s;
-    z-index:9999;
+    z-index:9;
     max-width:90%;
-    text-align:center;
+    text-align:center
 }
 
 .toast.show{
     opacity:1;
-    transform:translateX(-50%) translateY(0);
+    transform:translate(-50%,0)
 }
 
-.toast.success-toast{
-    border-color:#166534;
+input,select{
+    width:100%;
+    padding:12px;
+    background:#080808;
+    color:#fff;
+    border:1px solid #551313;
+    border-radius:9px;
+    margin:4px 0
 }
 
-.toast.error-toast{
-    border-color:#991b1b;
+table{
+    width:100%;
+    border-collapse:collapse
 }
 
-.cooldown{
-    color:#fbbf24;
-    font-size:13px;
-    margin-top:6px;
-}
-
-.online{
-    display:inline-block;
-    padding:7px 11px;
-    border-radius:20px;
-    background:#092b16;
-    color:#6ee7a0;
-    font-weight:bold;
+td,th{
+    padding:8px;
+    border-bottom:1px solid #351010;
+    text-align:left
 }
 
 @media(max-width:650px){
 
-    .app{
-        padding:8px;
-    }
-
-    .logo{
-        font-size:27px;
-    }
-
-    .stats{
-        grid-template-columns:repeat(2,1fr);
+    .stats,.grid{
+        grid-template-columns:repeat(2,1fr)
     }
 
     .menu{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:repeat(2,1fr)
     }
 
-    .grid{
-        grid-template-columns:1fr;
+    .row{
+        grid-template-columns:1fr
     }
 
-    .content{
-        padding:15px;
+    .logo{
+        font-size:27px
     }
 }
 </style>
@@ -323,1510 +252,570 @@ input{
 
 <div class="header">
 
-<div class="logo">🔥 CUBIX CITY</div>
+<div class="logo">
+🔥 CUBIX CITY
+</div>
 
-<div class="subtitle">
-Diese eine Stadt im Internet
+<div class="sub">
+Deine Stadt. Dein Charakter. Dein Fortschritt.
 </div>
 
 <div class="stats">
 
 <div class="stat">
-<div class="stat-title">💰 COINS</div>
-<div class="stat-value" id="coins">250</div>
+<div class="small">👤 USER</div>
+<b id="username">–</b>
 </div>
 
 <div class="stat">
-<div class="stat-title">⭐ LEVEL</div>
-<div class="stat-value" id="level">1</div>
+<div class="small">💰 COINS</div>
+<b id="coins">0</b>
 </div>
 
 <div class="stat">
-<div class="stat-title">⚡ ENERGIE</div>
-<div class="stat-value">
+<div class="small">⭐ LEVEL / XP</div>
+<b>
+<span id="level">1</span>
+·
+<span id="xp">0</span>
+</b>
+</div>
+
+<div class="stat">
+<div class="small">⚡ ENERGIE</div>
+
+<b>
 <span id="energy">100</span>/100
-</div>
+</b>
+
 <div class="bar">
-<div class="fill energy" id="energyBar"></div>
-</div>
+<div id="energyBar" class="fill energy"></div>
 </div>
 
-<div class="stat">
-<div class="stat-title">😊 GLÜCK</div>
-<div class="stat-value">
-<span id="happy">70</span>/100
-</div>
-<div class="bar">
-<div class="fill happy" id="happyBar"></div>
-</div>
 </div>
 
 </div>
 </div>
-
 
 <div class="menu">
 
 <button onclick="home()">🏠 Stadt</button>
 <button onclick="jobs()">💼 Jobs</button>
-<button onclick="shop()">🏪 Shop</button>
+<button onclick="shopPage()">🏪 Shop</button>
 <button onclick="inventory()">🎒 Inventar</button>
+
+<button onclick="minerPage()">⛏️ Miner</button>
+<button onclick="bankPage()">🏦 Bank</button>
+<button onclick="socialPage()">🤝 Freunde</button>
+<button onclick="leaderboard()">🏆 Rangliste</button>
+
 <button onclick="rest()">😴 Ausruhen</button>
 <button onclick="freeTime()">🎮 Freizeit</button>
 <button onclick="daily()">🎁 Daily</button>
 <button onclick="profile()">👤 Profil</button>
-<button id="adminButton" class="admin-button" onclick="adminPanel()">👑 Admin</button>
+
+<button
+id="adminBtn"
+style="display:none"
+onclick="adminPage()">
+👑 Admin
+</button>
 
 </div>
 
-
-<div class="content" id="content"></div>
+<div
+id="content"
+class="content">
+</div>
 
 </div>
 
-<div id="toast" class="toast"></div>
-
+<div
+id="toast"
+class="toast">
+</div>
 
 <script>
 
-/* =====================================================
-   SPIELER
-===================================================== */
-
-const todayKey=()=>new Date().toISOString().slice(0,10);
-
-let player;
-
-try{
-    player=JSON.parse(localStorage.getItem("cubixPlayer"));
-}catch{
-    player=null;
-}
-
-if(!player){
-    player={
-        coins:250,
-        xp:0,
-        level:1,
-        energy:100,
-        happiness:70,
-        streak:0,
-        lastDaily:null,
-        inventory:[],
-        equipped:[],
-        jobs:{},
-        workToday:0,
-        restsToday:0,
-        freeTimeToday:0,
-        lastActionDay:todayKey()
-    };
-}
-
-
-/* =====================================================
-   DATEN REPARIEREN
-===================================================== */
-
-if(!Array.isArray(player.inventory))
-    player.inventory=[];
-
-if(!Array.isArray(player.equipped))
-    player.equipped=[];
-
-if(!player.jobs)
-    player.jobs={};
-
-if(typeof player.coins!=="number")
-    player.coins=250;
-
-if(typeof player.xp!=="number")
-    player.xp=0;
-
-if(typeof player.level!=="number")
-    player.level=1;
-
-if(typeof player.energy!=="number")
-    player.energy=100;
-
-if(typeof player.happiness!=="number")
-    player.happiness=70;
-
-if(typeof player.streak!=="number")
-    player.streak=0;
-
-if(typeof player.workToday!=="number")
-    player.workToday=0;
-
-if(typeof player.restsToday!=="number")
-    player.restsToday=0;
-
-if(typeof player.freeTimeToday!=="number")
-    player.freeTimeToday=0;
-
-if(!player.lastActionDay)
-    player.lastActionDay=todayKey();
-
-
-/* =====================================================
-   ALTES INVENTAR KONVERTIEREN
-===================================================== */
-
-player.inventory=player.inventory.map(item=>{
-
-    if(typeof item==="string"){
-        return {
-            name:item,
-            uses:items[item]?.uses||1
-        };
-    }
-
-    if(!item || !item.name){
-        return null;
-    }
-
-    if(typeof item.uses!=="number"){
-        item.uses=items[item.name]?.uses||1;
-    }
-
-    return item;
-
-}).filter(Boolean);
-
-
-/* =====================================================
-   TAGESRESET
-===================================================== */
-
-function checkNewDay(){
-
-    const today=todayKey();
-
-    if(player.lastActionDay!==today){
-
-        player.workToday=0;
-        player.restsToday=0;
-        player.freeTimeToday=0;
-
-        player.lastActionDay=today;
-
-        save(false);
-    }
-}
-
-
-/* =====================================================
-   SPEICHERN
-===================================================== */
-
-function save(update=true){
-
-    localStorage.setItem(
-        "cubixPlayer",
-        JSON.stringify(player)
-    );
-
-    if(update)
-        updateStats();
-}
-
-
-/* =====================================================
-   TOAST
-===================================================== */
-
-let toastTimer;
-
-function toast(message,type=""){
-
-    const element=document.getElementById("toast");
-
-    element.textContent=message;
-
-    element.className="toast show";
-
-    if(type==="success")
-        element.classList.add("success-toast");
-
-    if(type==="error")
-        element.classList.add("error-toast");
-
-    clearTimeout(toastTimer);
-
-    toastTimer=setTimeout(()=>{
-        element.className="toast";
-    },2600);
-}
-
-
-/* =====================================================
-   XP
-===================================================== */
-
-function xpNeeded(){
-
-    return 100+((player.level-1)*50);
-}
-
-function addXP(amount){
-
-    player.xp+=amount;
-
-    let levels=0;
-
-    while(player.xp>=xpNeeded()){
-
-        player.xp-=xpNeeded();
-        player.level++;
-        levels++;
-
-    }
-
-    if(levels>0){
-        toast(
-            "🔥 Level Up! Du bist jetzt Level "+player.level+"!",
-            "success"
-        );
-    }
-
-    save();
-}
-
-
-/* =====================================================
-   STATS
-===================================================== */
-
-function updateStats(){
-
-    player.energy=Math.max(
-        0,
-        Math.min(100,player.energy)
-    );
-
-    player.happiness=Math.max(
-        0,
-        Math.min(100,player.happiness)
-    );
-
-    document.getElementById("coins").textContent=
-        Math.floor(player.coins);
-
-    document.getElementById("level").textContent=
-        player.level;
-
-    document.getElementById("energy").textContent=
-        Math.round(player.energy);
-
-    document.getElementById("happy").textContent=
-        Math.round(player.happiness);
-
-    document.getElementById("energyBar").style.width=
-        player.energy+"%";
-
-    document.getElementById("happyBar").style.width=
-        player.happiness+"%";
-}
-
-
-/* =====================================================
-   ITEMS
-===================================================== */
-
-const items={
-
-"🥤 Energy Drink":{
-    price:50,
-    uses:3,
-    type:"consumable",
-    effect:"energy",
-    value:25,
-    text:"+25 Energie"
-},
-
-"☕ Kaffee":{
-    price:80,
-    uses:4,
-    type:"consumable",
-    effect:"energy",
-    value:15,
-    text:"+15 Energie"
-},
-
-"🎧 Kopfhörer":{
-    price:150,
-    uses:10,
-    type:"work",
-    effect:"workReward",
-    value:10,
-    text:"+10% Coins bei einem Job"
-},
-
-"👟 Arbeitsschuhe":{
-    price:350,
-    uses:12,
-    type:"work",
-    effect:"workEnergy",
-    value:3,
-    text:"3 Energie weniger pro Job"
-},
-
-"🚲 Fahrrad":{
-    price:500,
-    uses:10,
-    type:"work",
-    effect:"workEnergy",
-    value:5,
-    text:"5 Energie weniger pro Job"
-},
-
-"🎮 Controller":{
-    price:300,
-    uses:8,
-    type:"free",
-    effect:"happiness",
-    value:15,
-    text:"+15 zusätzliche Glücklichkeit bei Freizeit"
-},
-
-"📱 Smartphone":{
-    price:250,
-    uses:12,
-    type:"free",
-    effect:"happiness",
-    value:8,
-    text:"+8 zusätzliche Glücklichkeit bei Freizeit"
-},
-
-"💻 Gaming PC":{
-    price:750,
-    uses:8,
-    type:"free",
-    effect:"happiness",
-    value:20,
-    text:"+20 zusätzliche Glücklichkeit bei Freizeit"
-},
-
-"🏠 Kleine Wohnung":{
-    price:1500,
-    uses:10,
-    type:"rest",
-    effect:"restEnergy",
-    value:15,
-    text:"+15 zusätzliche Energie beim Ausruhen"
-},
-
-"🛏️ Bequemes Bett":{
-    price:900,
-    uses:12,
-    type:"rest",
-    effect:"restEnergy",
-    value:10,
-    text:"+10 zusätzliche Energie beim Ausruhen"
-}
-
-};
-
-
-/* =====================================================
-   ITEM VERBRAUCH
-===================================================== */
-
-function consumeItem(name){
-
-    const index=player.inventory.findIndex(
-        item=>item.name===name && item.uses>0
-    );
-
-    if(index===-1)
-        return false;
-
-    player.inventory[index].uses--;
-
-    if(player.inventory[index].uses<=0){
-
-        player.inventory.splice(index,1);
-
-        player.equipped=
-            player.equipped.filter(
-                x=>x!==name
-            );
-    }
-
-    return true;
-}
-
-
-/* =====================================================
-   BESITZT ITEM?
-===================================================== */
-
-function hasEquipped(name){
-
-    return player.equipped.includes(name) &&
-        player.inventory.some(
-            item=>item.name===name && item.uses>0
-        );
-}
-
-
-/* =====================================================
-   HOME
-===================================================== */
-
-function home(){
-
-    checkNewDay();
-
-    document.getElementById("content").innerHTML=`
-
-<h2>🏠 CUBIX CITY</h2>
-
-<p class="muted">
-Verdiene Geld, sammle XP und manage deine Energie und Glücklichkeit.
-</p>
-
-<div class="grid">
-
-<div class="stat-card">
-<h3>⚡ Energie</h3>
-<strong>${Math.round(player.energy)}/100</strong>
-<div class="progress">
-<div style="width:${player.energy}%"></div>
-</div>
-</div>
-
-<div class="stat-card">
-<h3>😊 Glück</h3>
-<strong>${Math.round(player.happiness)}/100</strong>
-<div class="progress">
-<div style="width:${player.happiness}%"></div>
-</div>
-</div>
-
-</div>
-
-<div class="card">
-
-<h3>📅 Deine heutigen Aktionen</h3>
-
-<p>💼 Arbeiten: <strong>${player.workToday}/8</strong></p>
-<p>😴 Ausruhen: <strong>${player.restsToday}/3</strong></p>
-<p>🎮 Freizeit: <strong>${player.freeTimeToday}/5</strong></p>
-
-</div>
-
-<div class="card">
-
-<h3>🎯 Dein Fortschritt</h3>
-
-<p>💰 ${Math.floor(player.coins)} Coins</p>
-<p>⭐ Level ${player.level}</p>
-<p>⚡ XP ${player.xp}/${xpNeeded()}</p>
-
-</div>
-
-<div class="card">
-
-<h3>👥 CUBIX CITY</h3>
-
-<span class="online" id="onlineCount">
-🟢 Lade Spieler...
-</span>
-
-</div>
-
-`;
-
-updateOnline();
-
-}
-
-
-/* =====================================================
-   JOBS
-===================================================== */
-
-const jobList=[
+const $ =
+id =>
+document.getElementById(id);
+
+const today =
+() =>
+new Date()
+.toISOString()
+.slice(0,10);
+
+let token =
+localStorage.getItem(
+"cubixToken"
+);
+
+let p = null;
+
+let adminPassword =
+sessionStorage.getItem(
+"cubixAdmin"
+) || null;
+
+const jobsData = [
 
 {
-    name:"🧹 Müll sammeln",
-    reward:25,
-    xp:10,
-    energy:12,
-    happiness:3,
-    cooldown:60*1000
+id:"trash",
+name:"🧹 Müll sammeln",
+reward:25,
+xp:10,
+energy:12,
+happy:3,
+cooldown:60000
 },
 
 {
-    name:"🍕 Pizza liefern",
-    reward:60,
-    xp:25,
-    energy:20,
-    happiness:5,
-    cooldown:3*60*1000
+id:"pizza",
+name:"🍕 Pizza liefern",
+reward:60,
+xp:25,
+energy:20,
+happy:5,
+cooldown:180000
 },
 
 {
-    name:"🚕 Taxi fahren",
-    reward:120,
-    xp:45,
-    energy:30,
-    happiness:7,
-    cooldown:7*60*1000
+id:"taxi",
+name:"🚕 Taxi fahren",
+reward:120,
+xp:45,
+energy:30,
+happy:7,
+cooldown:420000
 },
 
 {
-    name:"💻 Programmieren",
-    reward:200,
-    xp:70,
-    energy:40,
-    happiness:10,
-    cooldown:12*60*1000
+id:"code",
+name:"💻 Programmieren",
+reward:200,
+xp:70,
+energy:40,
+happy:10,
+cooldown:720000
 }
 
 ];
 
+const items = {
 
-function getJobEnergy(job){
+"🥤 Energy Drink":{
+price:50,
+uses:3,
+type:"consumable",
+value:25,
+text:"+25 Energie"
+},
 
-    let cost=job.energy;
+"☕ Kaffee":{
+price:80,
+uses:4,
+type:"consumable",
+value:15,
+text:"+15 Energie"
+},
 
-    if(hasEquipped("🚲 Fahrrad"))
-        cost-=5;
+"🎧 Kopfhörer":{
+price:150,
+uses:10,
+type:"work",
+text:"+10% Job-Einnahmen"
+},
 
-    if(hasEquipped("👟 Arbeitsschuhe"))
-        cost-=3;
+"👟 Arbeitsschuhe":{
+price:350,
+uses:12,
+type:"work",
+text:"-3 Energie pro Job"
+},
 
-    return Math.max(5,cost);
+"🚲 Fahrrad":{
+price:500,
+uses:10,
+type:"work",
+text:"-5 Energie pro Job"
+},
+
+"🎮 Controller":{
+price:300,
+uses:8,
+type:"free",
+text:"+15 Glück bei Freizeit"
+},
+
+"📱 Smartphone":{
+price:250,
+uses:12,
+type:"free",
+text:"+8 Glück bei Freizeit"
+},
+
+"💻 Gaming PC":{
+price:750,
+uses:8,
+type:"free",
+text:"+20 Glück bei Freizeit"
+},
+
+"🏠 Kleine Wohnung":{
+price:1500,
+uses:10,
+type:"rest",
+text:"+15 Energie beim Ausruhen"
+},
+
+"🛏️ Bequemes Bett":{
+price:900,
+uses:12,
+type:"rest",
+text:"+10 Energie beim Ausruhen"
 }
 
+};
 
-function formatTime(ms){
+const shopSpecials = {
 
-    const total=Math.ceil(ms/1000);
+"⚡ Einnahmen-Boost":{
+price:5000,
+text:"10 Stunden: Jobs und Miner produzieren/verdienen doppelt."
+},
 
-    const minutes=Math.floor(total/60);
-    const seconds=total%60;
-
-    if(minutes>0)
-        return `${minutes}m ${String(seconds).padStart(2,"0")}s`;
-
-    return `${seconds}s`;
+"🧾 Gebührenpass":{
+price:2500,
+text:"24 Stunden: Keine Gebühren zwischen Konto und Börse."
 }
 
+};
 
-function jobs(){
+function toast(x){
 
-    checkNewDay();
+$("toast").textContent=x;
 
-    let html=`
+$("toast")
+.classList
+.add("show");
 
-<h2>💼 Jobs</h2>
+clearTimeout(
+window.tt
+);
 
-<div class="limit">
-💼 Heute gearbeitet:
-<strong>${player.workToday}/8</strong>
-</div>
+window.tt =
+setTimeout(
+() =>
+$("toast")
+.classList.remove("show"),
+2400
+);
 
-<p class="muted">
-Jeder Job hat einen eigenen Cooldown. Außerdem kannst du insgesamt nur 8 Jobs pro Tag machen.
-</p>
+}
 
-`;
+async function api(
+url,
+body={}
+){
 
-    jobList.forEach((job,index)=>{
+const r =
+await fetch(
+url,
+{
+method:"POST",
+headers:{
+"Content-Type":
+"application/json",
 
-        const last=player.jobs[index]||0;
+...(token
+?{
+Authorization:
+"Bearer "+token
+}
+:{})
+},
 
-        const remaining=Math.max(
-            0,
-            job.cooldown-(Date.now()-last)
-        );
+body:
+JSON.stringify(body)
+}
+);
 
-        const energyCost=getJobEnergy(job);
+let d={};
 
-        const canWork=
-            remaining<=0 &&
-            player.workToday<8 &&
-            player.energy>=energyCost;
+try{
+d=await r.json();
+}
+catch{}
 
-        let buttonText="Arbeiten";
+if(
+!r.ok ||
+d.success===false
+){
+throw Error(
+d.error ||
+"Fehler"
+);
+}
 
-        if(remaining>0)
-            buttonText="⏳ "+formatTime(remaining);
+return d;
+}
 
-        else if(player.workToday>=8)
-            buttonText="📅 Tageslimit erreicht";
+function setPlayer(x){
 
-        else if(player.energy<energyCost)
-            buttonText="⚡ Zu wenig Energie";
+p=x;
 
-        html+=`
+$("username")
+.textContent=
+p.username;
+
+$("coins")
+.textContent=
+p.coins
+.toLocaleString("de-DE");
+
+$("level")
+.textContent=
+p.level;
+
+$("xp")
+.textContent=
+p.xp;
+
+$("energy")
+.textContent=
+Math.round(
+p.energy
+);
+
+$("energyBar")
+.style
+.width=
+p.energy+"%";
+
+}
+
+async function sync(){
+
+if(!token){
+loginScreen();
+return;
+}
+
+try{
+
+let d =
+await api(
+"/api/state"
+);
+
+setPlayer(
+d.player
+);
+
+home();
+
+}
+
+catch{
+
+localStorage
+.removeItem(
+"cubixToken"
+);
+
+token=null;
+
+loginScreen();
+
+}
+
+}
+
+function loginScreen(){
+
+$("content")
+.innerHTML=`
+
+<h2>👤 Willkommen</h2>
 
 <div class="card">
 
-<h3>${job.name}</h3>
-
 <p>
-💰 +${job.reward} Coins<br>
-⭐ +${job.xp} XP<br>
-⚡ -${energyCost} Energie<br>
-😊 -${job.happiness} Glück
+Wähle einen eindeutigen Username.
+Erlaubt sind 3–16 Zeichen:
+A-Z, 0-9 und _.
 </p>
 
-${remaining>0?
-`<div class="cooldown">⏳ Bereit in ${formatTime(remaining)}</div>`
-:""}
+<input
+id="userInput"
+maxlength="16"
+placeholder="z.B. CubixPlayer">
+
+<div class="row">
 
 <button
 class="action"
-onclick="work(${index})"
-${canWork?"":"disabled"}>
+onclick="register()">
 
-${buttonText}
+✨ Registrieren
 
 </button>
-
-</div>
-
-`;
-
-    });
-
-    document.getElementById("content").innerHTML=html;
-}
-
-
-function work(index){
-
-    checkNewDay();
-
-    const job=jobList[index];
-
-    if(!job)
-        return;
-
-    if(player.workToday>=8){
-
-        toast(
-            "📅 Du hast heute bereits 8 Jobs gemacht.",
-            "error"
-        );
-
-        jobs();
-        return;
-    }
-
-    const last=player.jobs[index]||0;
-
-    const remaining=
-        job.cooldown-(Date.now()-last);
-
-    if(remaining>0){
-
-        toast(
-            "⏳ Dieser Job ist noch "+formatTime(remaining)+" gesperrt.",
-            "error"
-        );
-
-        jobs();
-        return;
-    }
-
-    const energyCost=getJobEnergy(job);
-
-    if(player.energy<energyCost){
-
-        toast(
-            "⚡ Du brauchst mindestens "+energyCost+" Energie.",
-            "error"
-        );
-
-        jobs();
-        return;
-    }
-
-    let reward=job.reward;
-
-    const headphones=hasEquipped("🎧 Kopfhörer");
-    const bike=hasEquipped("🚲 Fahrrad");
-    const shoes=hasEquipped("👟 Arbeitsschuhe");
-
-    if(headphones)
-        reward=Math.round(reward*1.10);
-
-    player.jobs[index]=Date.now();
-
-    player.workToday++;
-
-    player.energy-=energyCost;
-
-    player.happiness=
-        Math.max(
-            0,
-            player.happiness-job.happiness
-        );
-
-    player.coins+=reward;
-
-    player.xp+=job.xp;
-
-    if(headphones)
-        consumeItem("🎧 Kopfhörer");
-
-    if(bike)
-        consumeItem("🚲 Fahrrad");
-
-    if(shoes)
-        consumeItem("👟 Arbeitsschuhe");
-
-    levelCheck();
-
-    save();
-
-    toast(
-        `💼 ${job.name} erledigt! +${reward} Coins · +${job.xp} XP`,
-        "success"
-    );
-
-    jobs();
-}
-
-
-/* =====================================================
-   LEVEL
-===================================================== */
-
-function levelCheck(){
-
-    let leveled=false;
-
-    while(player.xp>=xpNeeded()){
-
-        player.xp-=xpNeeded();
-        player.level++;
-        leveled=true;
-
-    }
-
-    if(leveled){
-
-        toast(
-            "🔥 Level Up! Level "+player.level+" erreicht!",
-            "success"
-        );
-
-    }
-}
-
-
-/* =====================================================
-   AUSRUHEN
-===================================================== */
-
-function rest(){
-
-    checkNewDay();
-
-    if(player.restsToday>=3){
-
-        document.getElementById("content").innerHTML=`
-
-<h2>😴 Ausruhen</h2>
-
-<div class="card">
-
-<p class="danger">
-🚫 Du hast heute bereits 3 Ruhepausen benutzt.
-</p>
-
-<p class="muted">
-Morgen werden die Ruhepausen zurückgesetzt.
-</p>
-
-</div>
-
-`;
-
-        return;
-    }
-
-    if(player.energy>=100){
-
-        document.getElementById("content").innerHTML=`
-
-<h2>😴 Ausruhen</h2>
-
-<div class="card">
-
-<p>
-⚡ Du bist bereits vollständig erholt.
-</p>
-
-<p class="muted">
-Eine Ruhepause lohnt sich erst, wenn deine Energie unter 100 liegt.
-</p>
-
-</div>
-
-`;
-
-        return;
-    }
-
-    let amount=30;
-
-    const apartment=hasEquipped("🏠 Kleine Wohnung");
-    const bed=hasEquipped("🛏️ Bequemes Bett");
-
-    if(apartment)
-        amount+=15;
-
-    if(bed)
-        amount+=10;
-
-    amount=Math.min(
-        amount,
-        100-player.energy
-    );
-
-    player.energy+=amount;
-
-    player.happiness=
-        Math.min(
-            100,
-            player.happiness+3
-        );
-
-    player.restsToday++;
-
-    if(apartment)
-        consumeItem("🏠 Kleine Wohnung");
-
-    if(bed)
-        consumeItem("🛏️ Bequemes Bett");
-
-    save();
-
-    document.getElementById("content").innerHTML=`
-
-<h2>😴 Ruhepause</h2>
-
-<div class="card">
-
-<p class="success">
-⚡ +${amount} Energie
-</p>
-
-<p>
-😊 +3 Glück
-</p>
-
-<p>
-📅 Ruhepausen heute:
-${player.restsToday}/3
-</p>
-
-</div>
-
-`;
-
-}
-
-
-/* =====================================================
-   FREIZEIT
-===================================================== */
-
-function freeTime(){
-
-    checkNewDay();
-
-    if(player.freeTimeToday>=5){
-
-        document.getElementById("content").innerHTML=`
-
-<h2>🎮 Freizeit</h2>
-
-<div class="card">
-
-<p class="danger">
-🚫 Dein Freizeitlimit von 5 Aktionen ist heute erreicht.
-</p>
-
-<p>
-Morgen stehen dir wieder 5 Aktionen zur Verfügung.
-</p>
-
-</div>
-
-`;
-
-        return;
-    }
-
-    const energyCost=15;
-
-    if(player.energy<energyCost){
-
-        document.getElementById("content").innerHTML=`
-
-<h2>🎮 Freizeit</h2>
-
-<div class="card">
-
-<p class="warning">
-⚡ Nicht genug Energie.
-</p>
-
-<p>
-Du brauchst mindestens ${energyCost} Energie für eine Freizeitaktion.
-</p>
-
-</div>
-
-`;
-
-        return;
-    }
-
-    let happiness=12;
-
-    const controller=hasEquipped("🎮 Controller");
-    const pc=hasEquipped("💻 Gaming PC");
-    const phone=hasEquipped("📱 Smartphone");
-
-    if(controller)
-        happiness+=15;
-
-    if(pc)
-        happiness+=20;
-
-    if(phone)
-        happiness+=8;
-
-    player.energy-=energyCost;
-
-    player.happiness=
-        Math.min(
-            100,
-            player.happiness+happiness
-        );
-
-    player.freeTimeToday++;
-
-    player.xp+=5;
-
-    if(controller)
-        consumeItem("🎮 Controller");
-
-    if(pc)
-        consumeItem("💻 Gaming PC");
-
-    if(phone)
-        consumeItem("📱 Smartphone");
-
-    levelCheck();
-
-    save();
-
-    document.getElementById("content").innerHTML=`
-
-<h2>🎮 Freizeit</h2>
-
-<div class="card">
-
-<p class="success">
-😊 +${happiness} Glück
-</p>
-
-<p>
-⚡ -15 Energie
-</p>
-
-<p>
-⭐ +5 XP
-</p>
-
-<p>
-📅 Freizeit heute:
-${player.freeTimeToday}/5
-</p>
-
-</div>
-
-`;
-
-}
-
-
-/* =====================================================
-   DAILY
-===================================================== */
-
-function daily(){
-
-    checkNewDay();
-
-    const today=todayKey();
-
-    if(player.lastDaily===today){
-
-        document.getElementById("content").innerHTML=`
-
-<h2>🎁 Daily</h2>
-
-<div class="card">
-
-<p>
-😴 Deine Daily wurde heute bereits abgeholt.
-</p>
-
-<p>
-🔥 Streak: ${player.streak}
-</p>
-
-</div>
-
-`;
-
-        return;
-    }
-
-    const yesterday=
-        new Date(Date.now()-86400000)
-        .toISOString()
-        .slice(0,10);
-
-    if(
-        player.lastDaily &&
-        player.lastDaily!==yesterday
-    ){
-
-        player.streak=0;
-
-    }
-
-    player.streak++;
-
-    player.lastDaily=today;
-
-    const reward=
-        100+
-        Math.min(
-            100,
-            (player.streak-1)*10
-        );
-
-    player.coins+=reward;
-    player.xp+=20;
-
-    levelCheck();
-
-    save();
-
-    document.getElementById("content").innerHTML=`
-
-<h2>🎁 Daily Reward</h2>
-
-<div class="card">
-
-<h3 class="success">
-🎉 Belohnung erhalten!
-</h3>
-
-<p>💰 +${reward} Coins</p>
-<p>⭐ +20 XP</p>
-<p>🔥 Streak: ${player.streak}</p>
-
-</div>
-
-`;
-
-}
-
-
-/* =====================================================
-   SHOP
-===================================================== */
-
-function shop(){
-
-    let html=`
-
-<h2>🏪 CUBIX SHOP</h2>
-
-<p class="muted">
-Items haben begrenzte Nutzungen. Kaufe sie nur, wenn du sie wirklich brauchst.
-</p>
-
-`;
-
-    Object.keys(items).forEach(name=>{
-
-        const item=items[name];
-
-        html+=`
-
-<div class="card">
-
-<h3>${name}</h3>
-
-<p>${item.text}</p>
-
-<p>
-💰 <strong>${item.price}</strong> Coins
-</p>
-
-<p>
-🔋 ${item.uses} Nutzungen
-</p>
-
-<button
-class="action"
-onclick="buy(${JSON.stringify(name)})"
-${player.coins<item.price?"disabled":""}>
-
-${player.coins<item.price?
-"💸 Nicht genug Coins":
-"🛒 Kaufen"}
-
-</button>
-
-</div>
-
-`;
-
-    });
-
-    document.getElementById("content").innerHTML=html;
-}
-
-
-function buy(name){
-
-    const item=items[name];
-
-    if(!item)
-        return;
-
-    if(player.coins<item.price){
-
-        toast(
-            "💸 Nicht genug Coins.",
-            "error"
-        );
-
-        return;
-    }
-
-    player.coins-=item.price;
-
-    player.inventory.push({
-        name:name,
-        uses:item.uses
-    });
-
-    save();
-
-    toast(
-        "🛍️ "+name+" gekauft!",
-        "success"
-    );
-
-    shop();
-}
-
-
-/* =====================================================
-   INVENTAR
-===================================================== */
-
-function inventory(){
-
-    if(player.inventory.length===0){
-
-        document.getElementById("content").innerHTML=`
-
-<h2>🎒 Inventar</h2>
-
-<div class="card">
-
-<p>
-Dein Inventar ist leer.
-</p>
-
-<button
-class="action"
-onclick="shop()">
-
-🏪 Zum Shop
-
-</button>
-
-</div>
-
-`;
-
-        return;
-    }
-
-    let html=`
-
-<h2>🎒 Inventar</h2>
-
-<p class="muted">
-Verbrauchs-Items werden direkt benutzt. Ausrüstungs-Items werden für ihre passende Aktion ausgerüstet.
-</p>
-
-`;
-
-    player.inventory.forEach((item,index)=>{
-
-        const data=items[item.name];
-
-        if(!data)
-            return;
-
-        const equipped=hasEquipped(item.name);
-
-        html+=`
-
-<div class="item ${equipped?"equipped":""}">
-
-<h3>${item.name}</h3>
-
-<p>
-🔋 ${item.uses} Nutzungen übrig
-</p>
-
-<p class="muted">
-${data.text}
-</p>
-
-`;
-
-        if(data.type==="consumable"){
-
-            html+=`
-
-<button
-class="action green"
-onclick="useConsumable(${index})"
-${player.energy>=100?"disabled":""}>
-
-⚡ Benutzen
-
-</button>
-
-`;
-
-        }else{
-
-            if(equipped){
-
-                html+=`
-
-<span class="badge">
-✅ Ausgerüstet
-</span>
 
 <button
 class="action gray"
-onclick="unequip(${JSON.stringify(item.name)})">
+onclick="login()">
 
-Ablegen
-
-</button>
-
-`;
-
-            }else{
-
-                html+=`
-
-<button
-class="action"
-onclick="equip(${JSON.stringify(item.name)})">
-
-⚙️ Ausrüsten
+🔑 Einloggen
 
 </button>
 
+</div>
+
+</div>
+
 `;
 
-            }
-
-        }
-
-        html+=`</div>`;
-
-    });
-
-    document.getElementById("content").innerHTML=html;
 }
 
+async function register(){
 
-/* =====================================================
-   AUSRÜSTEN
-===================================================== */
+try{
 
-function equip(name){
+let u =
+$("userInput")
+.value
+.trim();
 
-    const data=items[name];
+let d =
+await api(
+"/api/register",
+{
+username:u
+}
+);
 
-    if(!data || data.type==="consumable")
-        return;
+token =
+d.token;
 
-    const exists=player.inventory.some(
-        item=>item.name===name && item.uses>0
-    );
+localStorage.setItem(
+"cubixToken",
+token
+);
 
-    if(!exists){
+setPlayer(
+d.player
+);
 
-        toast(
-            "❌ Dieses Item ist nicht mehr verfügbar.",
-            "error"
-        );
+home();
 
-        inventory();
-        return;
-    }
+toast(
+"Willkommen in CUBIX CITY!"
+);
 
-    /*
-       Nur ein Item pro Kategorie gleichzeitig.
-    */
-
-    player.equipped=
-        player.equipped.filter(existing=>{
-
-            const existingData=items[existing];
-
-            return !existingData ||
-                existingData.type!==data.type;
-
-        });
-
-    if(!player.equipped.includes(name))
-        player.equipped.push(name);
-
-    save();
-
-    toast(
-        "⚙️ "+name+" ausgerüstet.",
-        "success"
-    );
-
-    inventory();
 }
 
+catch(e){
 
-function unequip(name){
+toast(
+e.message
+);
 
-    player.equipped=
-        player.equipped.filter(
-            x=>x!==name
-        );
-
-    save();
-
-    inventory();
 }
 
-
-/* =====================================================
-   VERBRAUCHS-ITEM BENUTZEN
-===================================================== */
-
-function useConsumable(index){
-
-    const item=player.inventory[index];
-
-    if(!item)
-        return;
-
-    const data=items[item.name];
-
-    if(!data || data.type!=="consumable")
-        return;
-
-    if(data.effect==="energy"){
-
-        if(player.energy>=100){
-
-            toast(
-                "⚡ Deine Energie ist bereits voll.",
-                "error"
-            );
-
-            return;
-        }
-
-        const old=player.energy;
-
-        player.energy=
-            Math.min(
-                100,
-                player.energy+data.value
-            );
-
-        const gained=
-            Math.round(player.energy-old);
-
-        consumeItem(item.name);
-
-        save();
-
-        toast(
-            "🥤 "+item.name+" benutzt: +"+gained+" Energie!",
-            "success"
-        );
-
-        inventory();
-    }
 }
 
+async function login(){
 
-/* =====================================================
-   PROFIL
-===================================================== */
+try{
 
-function profile(){
+let d =
+await api(
+"/api/login",
+{
+username:
+$("userInput")
+.value
+.trim()
+}
+);
 
-    const equipped=
-        player.equipped.length
-        ?player.equipped.map(name=>{
+token =
+d.token;
 
-            const item=player.inventory.find(
-                x=>x.name===name
-            );
+localStorage.setItem(
+"cubixToken",
+token
+);
 
-            return `
-            <p>
-            ⚙️ ${name}
-            <span class="badge">
-            ${item?item.uses:0} Nutzungen
-            </span>
-            </p>
-            `;
+setPlayer(
+d.player
+);
 
-        }).join("")
-        :"Keine Items ausgerüstet.";
+home();
 
-    document.getElementById("content").innerHTML=`
+}
 
-<h2>👤 Profil</h2>
+catch(e){
+
+toast(
+e.message
+);
+
+}
+
+}
+
+function home(){
+
+if(!p)return;
+
+$("content")
+.innerHTML=`
+
+<h2>🏠 CUBIX CITY</h2>
+
+<p class="muted">
+Willkommen,
+<b>${p.username}</b>!
+</p>
+
+<div class="grid">
 
 <div class="card">
+<h3>💰 Coins</h3>
+<b>
+${p.coins.toLocaleString("de-DE")}
+</b>
+</div>
 
-<h3>📊 Statistiken</h3>
+<div class="card">
+<h3>⚡ Energie</h3>
+<b>
+${Math.round(p.energy)}/100
+</b>
+</div>
 
-<p>💰 Coins: ${Math.floor(player.coins)}</p>
-<p>⭐ Level: ${player.level}</p>
-<p>⚡ XP: ${player.xp}/${xpNeeded()}</p>
-<p>⚡ Energie: ${Math.round(player.energy)}/100</p>
-<p>😊 Glück: ${Math.round(player.happiness)}/100</p>
-<p>🔥 Daily Streak: ${player.streak}</p>
+<div class="card">
+<h3>😊 Glück</h3>
+<b>
+${Math.round(p.happiness)}/100
+</b>
+</div>
+
+<div class="card">
+<h3>⛏️ Miner</h3>
+<b>
+${
+p.miner
+?
+`Level ${p.miner.level}`
+:
+"Noch keiner"
+}
+</b>
+</div>
 
 </div>
 
@@ -1834,269 +823,913 @@ function profile(){
 
 <h3>📅 Heute</h3>
 
-<p>💼 Jobs: ${player.workToday}/8</p>
-<p>😴 Ruhepausen: ${player.restsToday}/3</p>
-<p>🎮 Freizeit: ${player.freeTimeToday}/5</p>
+<p>
+💼 Jobs:
+${p.workToday}/8
+</p>
 
-</div>
+<p>
+😴 Ruhepausen:
+${p.restsToday}/3
+</p>
 
-<div class="card">
-
-<h3>⚙️ Ausrüstung</h3>
-
-${equipped}
+<p>
+🎮 Freizeit:
+${p.freeTimeToday}/5
+</p>
 
 </div>
 
 `;
 
-
-/* Admin button nur anzeigen,
-   wenn Admin-Session vorhanden */
-
-    updateAdminButton();
-
 }
 
+function fmt(ms){
 
-/* =====================================================
-   ONLINE SYSTEM
-===================================================== */
-
-const playerId=
-    localStorage.getItem("cubixPlayerId")||
-    crypto.randomUUID();
-
-localStorage.setItem(
-    "cubixPlayerId",
-    playerId
+let s =
+Math.ceil(
+ms/1000
 );
 
-
-async function heartbeat(){
-
-    try{
-
-        const response=
-            await fetch(
-                "/api/heartbeat",
-                {
-                    method:"POST",
-                    headers:{
-                        "Content-Type":"application/json"
-                    },
-                    body:JSON.stringify({
-                        playerId
-                    })
-                }
-            );
-
-        if(!response.ok)
-            return;
-
-        const data=
-            await response.json();
-
-        const element=
-            document.getElementById("onlineCount");
-
-        if(element){
-
-            element.textContent=
-                "🟢 "+data.online+" Spieler online";
-
-        }
-
-    }catch{}
+return s>=60
+?
+Math.floor(s/60)
++"m "
++
+String(
+s%60
+).padStart(2,"0")
++"s"
+:
+s+"s";
 
 }
 
+async function jobs(){
 
-async function updateOnline(){
+let html=`
 
-    try{
-
-        const response=
-            await fetch("/api/online");
-
-        if(!response.ok)
-            return;
-
-        const data=
-            await response.json();
-
-        const element=
-            document.getElementById("onlineCount");
-
-        if(element){
-
-            element.textContent=
-                "🟢 "+data.online+" Spieler online";
-
-        }
-
-    }catch{}
-
-}
-
-
-setInterval(
-    heartbeat,
-    30000
-);
-
-heartbeat();
-
-
-/* =====================================================
-   ADMIN
-===================================================== */
-
-let adminPassword=
-    sessionStorage.getItem("cubixAdmin")||null;
-
-
-function updateAdminButton(){
-
-    const button=
-        document.getElementById("adminButton");
-
-    if(!button)
-        return;
-
-    button.style.display=
-        adminPassword
-        ?"block"
-        :"none";
-}
-
-
-async function adminLogin(){
-
-    const password=
-        prompt("👑 Admin-Passwort:");
-
-    if(!password)
-        return;
-
-    try{
-
-        const response=
-            await fetch(
-                "/api/admin/login",
-                {
-                    method:"POST",
-                    headers:{
-                        "Content-Type":
-                            "application/json"
-                    },
-                    body:JSON.stringify({
-                        password
-                    })
-                }
-            );
-
-        if(!response.ok)
-            throw new Error();
-
-        const data=
-            await response.json();
-
-        if(!data.success)
-            throw new Error();
-
-        adminPassword=password;
-
-        sessionStorage.setItem(
-            "cubixAdmin",
-            password
-        );
-
-        updateAdminButton();
-
-        adminPanel();
-
-    }catch{
-
-        toast(
-            "❌ Falsches Admin-Passwort.",
-            "error"
-        );
-
-    }
-
-}
-
-
-async function adminPanel(){
-
-    if(!adminPassword){
-
-        adminLogin();
-
-        return;
-    }
-
-    try{
-
-        const response=
-            await fetch(
-                "/api/admin/stats",
-                {
-                    method:"POST",
-                    headers:{
-                        "Content-Type":
-                            "application/json"
-                    },
-                    body:JSON.stringify({
-                        password:adminPassword
-                    })
-                }
-            );
-
-        if(!response.ok){
-
-            adminPassword=null;
-
-            sessionStorage.removeItem(
-                "cubixAdmin"
-            );
-
-            updateAdminButton();
-
-            adminLogin();
-
-            return;
-        }
-
-        const data=
-            await response.json();
-
-        document.getElementById("content").innerHTML=`
+<h2>💼 Jobs</h2>
 
 <div class="card">
 
-<h2>👑 CUBIX ADMIN</h2>
+💼 Heute:
+<b>
+${p.workToday}/8
+</b>
 
-<p class="muted">
-Nur für den Administrator.
-</p>
+Jobs.
+
+Jeder Job hat einen eigenen Cooldown.
 
 </div>
 
+`;
+
+jobsData.forEach(j=>{
+
+let last =
+p.jobs?.[j.id] ||
+0;
+
+let rem =
+Math.max(
+0,
+j.cooldown -
+(
+Date.now() -
+last
+)
+);
+
+let e =
+j.energy;
+
+if(
+p.equipped
+.includes(
+"🚲 Fahrrad"
+)
+){
+e-=5;
+}
+
+if(
+p.equipped
+.includes(
+"👟 Arbeitsschuhe"
+)
+){
+e-=3;
+}
+
+e=Math.max(
+5,
+e
+);
+
+html+=`
+
 <div class="card">
 
-<h3>👥 Spieler online</h3>
+<h3>
+${j.name}
+</h3>
 
-<p class="online">
-🟢 ${data.onlinePlayers} Spieler online
+<p>
+
+💰 +${j.reward}
+
+${
+p.boostUntil>Date.now()
+?
+" → BOOST ×2"
+:
+""
+}
+
+<br>
+
+⭐ +${j.xp} XP
+
+<br>
+
+⚡ -${e} Energie
+
+<br>
+
+😊 -${j.happy} Glück
+
+</p>
+
+<p class="muted">
+
+${
+rem
+?
+"⏳ Bereit in "+fmt(rem)
+:
+"🟢 Bereit"
+}
+
 </p>
 
 <button
 class="action"
-onclick="adminPanel()">
+${
+rem ||
+p.workToday>=8 ||
+p.energy<e
+?
+"disabled"
+:
+""
+}
+onclick="work('${j.id}')">
 
-🔄 Aktualisieren
+${
+rem
+?
+"⏳ Cooldown"
+:
+p.workToday>=8
+?
+"📅 Tageslimit"
+:
+p.energy<e
+?
+"⚡ Zu wenig Energie"
+:
+"Arbeiten"
+}
+
+</button>
+
+</div>
+
+`;
+
+});
+
+$("content")
+.innerHTML=
+html;
+
+}
+
+async function work(id){
+
+try{
+
+let d =
+await api(
+"/api/work",
+{id}
+);
+
+setPlayer(
+d.player
+);
+
+toast(
+"💼 Job erledigt! +"
++
+d.reward
++
+" Coins"
+);
+
+jobs();
+
+}
+
+catch(e){
+
+toast(
+e.message
+);
+
+jobs();
+
+}
+
+}
+
+function shopPage(){
+
+let html=`
+
+<h2>🏪 Shop</h2>
+
+<p class="muted">
+Verbrauchs- und Ausrüstungs-Items
+plus zeitlich begrenzte Services.
+</p>
+
+`;
+
+for(
+const [n,d]
+of Object.entries(items)
+){
+
+html+=`
+
+<div class="card">
+
+<h3>${n}</h3>
+
+<p>
+${d.text}
+</p>
+
+<p>
+💰
+${d.price.toLocaleString("de-DE")}
+Coins
+
+·
+
+🔋
+${d.uses}
+Nutzungen
+</p>
+
+<button
+class="action"
+onclick="buy(${JSON.stringify(n)})"
+${p.coins<d.price?"disabled":""}>
+
+🛒 Kaufen
+
+</button>
+
+</div>
+
+`;
+
+}
+
+for(
+const [n,d]
+of Object.entries(
+shopSpecials
+)
+){
+
+html+=`
+
+<div class="card">
+
+<h3>${n}</h3>
+
+<p>
+${d.text}
+</p>
+
+<p>
+💰
+${d.price.toLocaleString("de-DE")}
+Coins
+</p>
+
+<button
+class="action gold"
+onclick="buy(${JSON.stringify(n)})"
+${p.coins<d.price?"disabled":""}>
+
+⚡ Kaufen
+
+</button>
+
+</div>
+
+`;
+
+}
+
+$("content")
+.innerHTML=
+html;
+
+}
+
+async function buy(name){
+
+try{
+
+let d =
+await api(
+"/api/shop/buy",
+{name}
+);
+
+setPlayer(
+d.player
+);
+
+toast(
+name+
+" gekauft!"
+);
+
+shopPage();
+
+}
+
+catch(e){
+
+toast(
+e.message
+);
+
+}
+
+}
+
+function inventory(){
+
+if(
+!p.inventory.length
+){
+
+$("content")
+.innerHTML=`
+
+<h2>🎒 Inventar</h2>
+
+<div class="card">
+
+Leer.
+
+<button
+class="action"
+onclick="shopPage()">
+
+Zum Shop
+
+</button>
+
+</div>
+
+`;
+
+return;
+
+}
+
+let h =
+"<h2>🎒 Inventar</h2>";
+
+p.inventory.forEach(
+(it,i)=>{
+
+let d =
+items[it.name];
+
+let eq =
+p.equipped
+.includes(
+it.name
+);
+
+h+=`
+
+<div
+class="item
+${eq?"equipped":""}">
+
+<h3>
+${it.name}
+</h3>
+
+<p>
+🔋
+${it.uses}
+Nutzungen
+
+·
+
+${d?.text||""}
+</p>
+
+${
+d?.type==="consumable"
+
+?
+
+`
+
+<button
+class="action green"
+onclick="useItem(${i})">
+
+⚡ Benutzen
+
+</button>
+
+`
+
+:
+
+eq
+
+?
+
+`
+
+<span class="badge">
+✅ Ausgerüstet
+</span>
+
+<button
+class="action gray"
+onclick="unequip(${JSON.stringify(it.name)})">
+
+Ablegen
+
+</button>
+
+`
+
+:
+
+`
+
+<button
+class="action"
+onclick="equip(${JSON.stringify(it.name)})">
+
+⚙️ Ausrüsten
+
+</button>
+
+`
+}
+
+<button
+class="action pink"
+onclick="giftItem(${i})">
+
+🎁 Verschenken
+
+</button>
+
+</div>
+
+`;
+
+});
+
+$("content")
+.innerHTML=
+h;
+
+}
+
+async function equip(name){
+
+try{
+
+let d =
+await api(
+"/api/inventory/equip",
+{name}
+);
+
+setPlayer(
+d.player
+);
+
+inventory();
+
+}
+
+catch(e){
+
+toast(
+e.message
+);
+
+}
+
+}
+
+async function unequip(name){
+
+try{
+
+let d =
+await api(
+"/api/inventory/unequip",
+{name}
+);
+
+setPlayer(
+d.player
+);
+
+inventory();
+
+}
+
+catch(e){
+
+toast(
+e.message
+);
+
+}
+
+}
+
+async function useItem(index){
+
+try{
+
+let d =
+await api(
+"/api/inventory/use",
+{index}
+);
+
+setPlayer(
+d.player
+);
+
+toast(
+"⚡ +"
++
+d.gained
++
+" Energie"
+);
+
+inventory();
+
+}
+
+catch(e){
+
+toast(
+e.message
+);
+
+}
+
+}
+
+function giftItem(index){
+
+let u =
+prompt(
+"Username des Freundes:"
+);
+
+if(!u)return;
+
+gift(
+u,
+"item",
+0,
+index
+);
+
+}
+
+async function gift(
+u,
+type,
+amount,
+index
+){
+
+try{
+
+let d =
+await api(
+"/api/gift",
+{
+username:u,
+type,
+amount,
+index
+}
+);
+
+setPlayer(
+d.player
+);
+
+toast(
+"🎁 Geschenk verschickt!"
+);
+
+inventory();
+
+}
+
+catch(e){
+
+toast(
+e.message
+);
+
+}
+
+}
+
+function rest(){
+
+api(
+"/api/rest"
+)
+
+.then(
+d=>{
+
+setPlayer(
+d.player
+);
+
+toast(
+"😴 Ruhepause abgeschlossen."
+);
+
+home();
+
+}
+)
+
+.catch(
+e =>
+toast(
+e.message
+)
+);
+
+}
+
+function freeTime(){
+
+api(
+"/api/freetime"
+)
+
+.then(
+d=>{
+
+setPlayer(
+d.player
+);
+
+toast(
+"🎮 +"
++
+d.happiness
++
+" Glück!"
+);
+
+home();
+
+}
+)
+
+.catch(
+e =>
+toast(
+e.message
+)
+);
+
+}
+
+function daily(){
+
+api(
+"/api/daily"
+)
+
+.then(
+d=>{
+
+setPlayer(
+d.player
+);
+
+toast(
+"🎁 +"
++
+d.reward
++
+" Coins!"
+);
+
+home();
+
+}
+)
+
+.catch(
+e =>
+toast(
+e.message
+)
+);
+
+}
+
+function minerPage(){
+
+if(!p.miner){
+
+$("content")
+.innerHTML=`
+
+<h2>⛏️ Miner</h2>
+
+<div class="card">
+
+<h3>
+Baue deine passive Einnahmequelle auf.
+</h3>
+
+<p>
+Level 1 · 2.000 Coins/h
+· Kaufpreis 10.000 Coins
+</p>
+
+<button
+class="action"
+onclick="minerBuy()">
+
+⛏️ Miner kaufen
+
+</button>
+
+</div>
+
+`;
+
+return;
+
+}
+
+api(
+"/api/miner/state"
+)
+
+.then(
+d=>{
+
+setPlayer(
+d.player
+);
+
+renderMiner();
+
+}
+)
+
+.catch(
+e =>
+toast(
+e.message
+)
+);
+
+}
+
+function renderMiner(){
+
+let m =
+p.miner;
+
+let eff =
+(
+0.70 +
+0.30 *
+m.condition /
+100
+)
+*
+(
+p.boostUntil>Date.now()
+?
+2
+:
+1
+);
+
+let rate =
+Math.floor(
+m.rate *
+eff
+);
+
+$("content")
+.innerHTML=`
+
+<h2>⛏️ Miner</h2>
+
+<div class="card">
+
+<h3>
+🟢 Miner Level ${m.level}
+</h3>
+
+<p>
+💰 Basis:
+${m.rate.toLocaleString("de-DE")}
+Coins/h
+</p>
+
+<p>
+📈 Aktuell:
+<b>
+${rate.toLocaleString("de-DE")}
+Coins/h
+</b>
+
+${
+p.boostUntil>Date.now()
+?
+" · ⚡ BOOST ×2"
+:
+""
+}
+
+</p>
+
+<p>
+📦 Gespeichert:
+<b>
+${m.stored.toLocaleString("de-DE")}
+Coins
+</b>
+</p>
+
+<p>
+🔧 Zustand:
+<b>
+${m.condition.toFixed(1)}%
+</b>
+</p>
+
+<button
+class="action green"
+onclick="collectMiner()">
+
+💰 Einnahmen abholen
+
+</button>
+
+<button
+class="action gray"
+onclick="repairMiner()">
+
+🔧 Reparieren
 
 </button>
 
@@ -2104,39 +1737,847 @@ onclick="adminPanel()">
 
 <div class="card">
 
-<h3>💰 Coins für deinen Charakter</h3>
+<h3>
+⬆️ Nächstes Upgrade
+</h3>
+
+${
+m.upgradeCost===null ||
+!isFinite(m.upgradeCost)
+
+?
+
+"Maximales Level erreicht."
+
+:
+
+`
+
+<p>
+Level ${m.level+1}
+·
+${m.upgradeCost.toLocaleString("de-DE")}
+Coins
+</p>
+
+<button
+class="action"
+onclick="upgradeMiner()">
+
+⬆️ Upgrade
+
+</button>
+
+`
+}
+
+</div>
+
+`;
+
+}
+
+async function minerBuy(){
+
+try{
+
+let d =
+await api(
+"/api/miner/buy"
+);
+
+setPlayer(
+d.player
+);
+
+minerPage();
+
+}
+
+catch(e){
+
+toast(
+e.message
+);
+
+}
+
+}
+
+async function collectMiner(){
+
+try{
+
+let d =
+await api(
+"/api/miner/collect"
+);
+
+setPlayer(
+d.player
+);
+
+toast(
+"💰 "
++
+d.amount.toLocaleString(
+"de-DE"
+)
++
+" Coins abgeholt!"
+);
+
+renderMiner();
+
+}
+
+catch(e){
+
+toast(
+e.message
+);
+
+}
+
+}
+
+async function repairMiner(){
+
+try{
+
+let d =
+await api(
+"/api/miner/repair"
+);
+
+setPlayer(
+d.player
+);
+
+toast(
+"🔧 Miner repariert! -"
++
+d.cost
++
+" Coins"
+);
+
+renderMiner();
+
+}
+
+catch(e){
+
+toast(
+e.message
+);
+
+}
+
+}
+
+async function upgradeMiner(){
+
+try{
+
+let d =
+await api(
+"/api/miner/upgrade"
+);
+
+setPlayer(
+d.player
+);
+
+toast(
+"⬆️ Miner verbessert!"
+);
+
+renderMiner();
+
+}
+
+catch(e){
+
+toast(
+e.message
+);
+
+}
+
+}
+
+function bankPage(){
+
+$("content")
+.innerHTML=`
+
+<h2>🏦 Bank</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>
+💳 Konto
+</h3>
+
+<b>
+${p.bank.toLocaleString("de-DE")}
+Coins
+</b>
+
+</div>
+
+<div class="card">
+
+<h3>
+📈 Börse
+</h3>
+
+<b>
+${p.exchange.toLocaleString("de-DE")}
+Coins
+</b>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>
+💳 Konto verwalten
+</h3>
 
 <input
-id="adminCoins"
+id="ba"
 type="number"
 min="1"
-step="1"
-placeholder="z.B. 10000">
+placeholder="Betrag">
+
+<div class="row">
+
+<button
+class="action"
+onclick="bankMove('deposit')">
+
+💰 Coins → Konto
+
+</button>
+
+<button
+class="action gray"
+onclick="bankMove('withdraw')">
+
+💸 Konto → Coins
+
+</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>
+📈 Konto ↔ Börse
+</h3>
+
+<p>
+Standardgebühr:
+<b>2%</b>.
+
+Mit Gebührenpass:
+<b>0%</b>.
+</p>
+
+<input
+id="ea"
+type="number"
+min="1"
+placeholder="Betrag">
+
+<div class="row">
+
+<button
+class="action"
+onclick="bankMove('toExchange')">
+
+📈 Zur Börse
+
+</button>
+
+<button
+class="action gray"
+onclick="bankMove('toBank')">
+
+💳 Zum Konto
+
+</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>
+🧾 Gebührenpass
+</h3>
+
+<p>
+
+${
+p.feePassUntil>Date.now()
+?
+
+"🔵 Aktiv · noch "
++
+fmt(
+p.feePassUntil-Date.now()
+)
+
+:
+
+"Nicht aktiv"
+}
+
+</p>
+
+<button
+class="action gold"
+onclick="buy('🧾 Gebührenpass')">
+
+🧾 Im Shop kaufen
+
+</button>
+
+</div>
+
+`;
+
+}
+
+async function bankMove(dir){
+
+try{
+
+let amount =
+Number(
+dir==="deposit" ||
+dir==="withdraw"
+?
+$("ba").value
+:
+$("ea").value
+);
+
+let direction =
+dir==="deposit"
+?
+"toBankFromCoins"
+:
+dir==="withdraw"
+?
+"fromBankToCoins"
+:
+dir;
+
+let d =
+await api(
+"/api/bank/transfer",
+{
+direction,
+amount
+}
+);
+
+setPlayer(
+d.player
+);
+
+toast(
+"🏦 Transfer erfolgreich"
++
+(
+d.fee
+?
+" · Gebühr "
++
+d.fee
+:
+""
+)
+);
+
+bankPage();
+
+}
+
+catch(e){
+
+toast(
+e.message
+);
+
+}
+
+}
+
+function leaderboard(){
+
+fetch(
+"/api/leaderboard"
+)
+
+.then(
+r =>
+r.json()
+)
+
+.then(
+d=>{
+
+$("content")
+.innerHTML=`
+
+<h2>
+🏆 Rangliste
+</h2>
+
+<div class="row">
+
+<div class="card">
+
+<h3>
+💰 Coins
+</h3>
+
+<table>
+
+<tr>
+<th>#</th>
+<th>Spieler</th>
+<th>Coins</th>
+</tr>
+
+${
+d.money
+.map(
+x=>
+`
+
+<tr>
+
+<td>
+${x.rank}
+</td>
+
+<td>
+${x.username}
+</td>
+
+<td>
+${x.value.toLocaleString("de-DE")}
+</td>
+
+</tr>
+
+`
+)
+.join("")
+}
+
+</table>
+
+</div>
+
+<div class="card">
+
+<h3>
+⭐ XP / Level
+</h3>
+
+<table>
+
+<tr>
+<th>#</th>
+<th>Spieler</th>
+<th>Level</th>
+<th>XP</th>
+</tr>
+
+${
+d.xp
+.map(
+x=>
+`
+
+<tr>
+
+<td>
+${x.rank}
+</td>
+
+<td>
+${x.username}
+</td>
+
+<td>
+${x.level}
+</td>
+
+<td>
+${x.value}
+</td>
+
+</tr>
+
+`
+)
+.join("")
+}
+
+</table>
+
+</div>
+
+</div>
+
+`;
+
+}
+)
+
+.catch(
+() =>
+toast(
+"Rangliste konnte nicht geladen werden."
+)
+);
+
+}
+
+function socialPage(){
+
+$("content")
+.innerHTML=`
+
+<h2>
+🤝 Freunde
+</h2>
+
+<div class="card">
+
+<h3>
+➕ Freund hinzufügen
+</h3>
+
+<input
+id="friend"
+placeholder="Username">
+
+<button
+class="action"
+onclick="addFriend()">
+
+🤝 Hinzufügen
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>
+Meine Freunde
+</h3>
+
+${
+p.friends.length
+
+?
+
+p.friends
+.map(
+x =>
+`
+<span class="badge">
+${x}
+</span>
+`
+)
+.join("")
+
+:
+
+"Noch keine Freunde."
+}
+
+</div>
+
+<div class="card">
+
+<h3>
+💰 Geld schenken
+</h3>
+
+<input
+id="giftUser"
+placeholder="Freund-Username">
+
+<input
+id="giftAmount"
+type="number"
+min="1"
+placeholder="Coins">
+
+<button
+class="action pink"
+onclick="
+gift(
+$('giftUser').value,
+'coins',
+Number($('giftAmount').value),
+0
+)">
+
+🎁 Coins schenken
+
+</button>
+
+</div>
+
+`;
+
+}
+
+async function addFriend(){
+
+try{
+
+let d =
+await api(
+"/api/friend/add",
+{
+username:
+$("friend")
+.value
+.trim()
+}
+);
+
+setPlayer(
+d.player
+);
+
+toast(
+"🤝 Freund hinzugefügt!"
+);
+
+socialPage();
+
+}
+
+catch(e){
+
+toast(
+e.message
+);
+
+}
+
+}
+
+function profile(){
+
+$("content")
+.innerHTML=`
+
+<h2>
+👤 Profil
+</h2>
+
+<div class="card">
+
+<p>
+👤
+${p.username}
+</p>
+
+<p>
+💰 Coins:
+${p.coins.toLocaleString("de-DE")}
+</p>
+
+<p>
+⭐ Level:
+${p.level}
+·
+XP:
+${p.xp}
+</p>
+
+<p>
+⚡ Energie:
+${Math.round(p.energy)}/100
+</p>
+
+<p>
+😊 Glück:
+${Math.round(p.happiness)}/100
+</p>
+
+<p>
+🔥 Daily Streak:
+${p.streak}
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+⚡ Boost
+</h3>
+
+<p>
+
+${
+p.boostUntil>Date.now()
+
+?
+
+"Aktiv · "+
+fmt(
+p.boostUntil-Date.now()
+)
+
+:
+
+"Nicht aktiv"
+}
+
+</p>
+
+<button
+class="action gold"
+onclick="
+buy('⚡ Einnahmen-Boost')
+">
+
+⚡ Boost im Shop kaufen
+
+</button>
+
+</div>
+
+`;
+
+}
+
+async function adminPage(){
+
+if(!adminPassword){
+
+let x =
+prompt(
+"👑 Admin-Passwort:"
+);
+
+if(!x)return;
+
+try{
+
+await apiAdmin(
+"/api/admin/login",
+x
+);
+
+adminPassword=x;
+
+sessionStorage.setItem(
+"cubixAdmin",
+x
+);
+
+}
+
+catch(e){
+
+toast(
+e.message
+);
+
+return;
+
+}
+
+}
+
+try{
+
+let d =
+await apiAdmin(
+"/api/admin/stats",
+adminPassword
+);
+
+$("content")
+.innerHTML=`
+
+<h2>
+👑 Admin
+</h2>
+
+<div class="card">
+
+<h3>
+👥 Server
+</h3>
+
+<p>
+🟢 Online:
+${d.onlinePlayers}
+</p>
+
+<p>
+👤 Spieler gesamt:
+${d.totalPlayers}
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+💰 Coins / ⭐ XP vergeben
+</h3>
+
+<input
+id="target"
+placeholder="Username">
+
+<input
+id="adminAmount"
+type="number"
+min="1"
+placeholder="Menge">
+
+<div class="row">
 
 <button
 class="action green"
-onclick="adminGiveCoins()">
+onclick="adminGive('coins')">
 
 💰 Coins geben
 
 </button>
 
-</div>
-
-<div class="card">
-
-<h3>⭐ XP für deinen Charakter</h3>
-
-<input
-id="adminXP"
-type="number"
-min="1"
-step="1"
-placeholder="z.B. 5000">
-
 <button
 class="action green"
-onclick="adminGiveXP()">
+onclick="adminGive('xp')">
 
 ⭐ XP geben
 
@@ -2144,169 +2585,211 @@ onclick="adminGiveXP()">
 
 </div>
 
-<div class="card">
+</div>
 
 <button
 class="action gray"
-onclick="home()">
+onclick="
+adminPassword=null;
+sessionStorage.removeItem('cubixAdmin');
+$('adminBtn').style.display='none';
+home()
+">
 
-🏠 Admin verlassen
+Admin verlassen
 
 </button>
 
-</div>
-
 `;
 
-        updateAdminButton();
-
-    }catch{
-
-        toast(
-            "❌ Admin-Bereich konnte nicht geladen werden.",
-            "error"
-        );
-
-    }
+$("adminBtn")
+.style
+.display=
+"block";
 
 }
 
+catch(e){
 
-function adminGiveCoins(){
+adminPassword=null;
 
-    if(!adminPassword)
-        return;
+sessionStorage.removeItem(
+"cubixAdmin"
+);
 
-    const input=
-        document.getElementById("adminCoins");
+toast(
+e.message
+);
 
-    if(!input)
-        return;
-
-    const amount=
-        Number(input.value);
-
-    if(
-        !Number.isFinite(amount)||
-        amount<=0
-    ){
-
-        toast(
-            "❌ Bitte eine gültige Zahl eingeben.",
-            "error"
-        );
-
-        return;
-    }
-
-    player.coins+=Math.floor(amount);
-
-    save();
-
-    toast(
-        "👑 +"+Math.floor(amount)+" Coins",
-        "success"
-    );
-
-    adminPanel();
 }
 
-
-function adminGiveXP(){
-
-    if(!adminPassword)
-        return;
-
-    const input=
-        document.getElementById("adminXP");
-
-    if(!input)
-        return;
-
-    const amount=
-        Number(input.value);
-
-    if(
-        !Number.isFinite(amount)||
-        amount<=0
-    ){
-
-        toast(
-            "❌ Bitte eine gültige Zahl eingeben.",
-            "error"
-        );
-
-        return;
-    }
-
-    player.xp+=Math.floor(amount);
-
-    levelCheck();
-
-    save();
-
-    toast(
-        "👑 +"+Math.floor(amount)+" XP",
-        "success"
-    );
-
-    adminPanel();
 }
 
-
-function adminLogout(){
-
-    adminPassword=null;
-
-    sessionStorage.removeItem(
-        "cubixAdmin"
-    );
-
-    updateAdminButton();
-
-    home();
-}
-
-
-/* =====================================================
-   ADMIN ROUTE
-===================================================== */
-
-if(
-    window.location.pathname.toLowerCase()==="/admin"
+async function apiAdmin(
+url,
+password
 ){
 
-    setTimeout(()=>{
+let r =
+await fetch(
+url,
+{
+method:"POST",
 
-        adminLogin();
+headers:{
+"Content-Type":
+"application/json"
+},
 
-    },300);
-
+body:
+JSON.stringify({
+password
+})
 }
+);
 
-
-/* =====================================================
-   START
-===================================================== */
-
-checkNewDay();
-
-save(false);
-
-updateStats();
-
-updateAdminButton();
+let d =
+await r.json();
 
 if(
-    window.location.pathname.toLowerCase()!="/admin"
+!r.ok ||
+!d.success
 ){
 
-    home();
+throw Error(
+d.error ||
+"Admin-Fehler"
+);
 
 }
+
+return d;
+
+}
+
+async function adminGive(type){
+
+try{
+
+let r =
+await fetch(
+"/api/admin/give",
+{
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:
+JSON.stringify({
+
+password:
+adminPassword,
+
+username:
+$("target")
+.value
+.trim(),
+
+type,
+
+amount:
+Number(
+$("adminAmount")
+.value
+)
+
+})
+}
+);
+
+let d =
+await r.json();
+
+if(
+!r.ok ||
+!d.success
+){
+
+throw Error(
+d.error ||
+"Admin-Fehler"
+);
+
+}
+
+toast(
+"👑 Erfolgreich vergeben!"
+);
+
+adminPage();
+
+}
+
+catch(e){
+
+toast(
+e.message
+);
+
+}
+
+}
+
+setInterval(
+()=>{
+
+if(token){
+
+fetch(
+"/api/heartbeat",
+{
+method:"POST",
+
+headers:{
+Authorization:
+"Bearer "+token
+}
+}
+);
+
+}
+
+},
+30000
+);
+
+setInterval(
+()=>{
+
+if(p){
+
+api(
+"/api/state"
+)
+
+.then(
+d =>
+setPlayer(
+d.player
+)
+)
+
+.catch(
+()=>{}
+);
+
+}
+
+},
+60000
+);
+
+sync();
 
 </script>
 
 </body>
 </html>
-```
